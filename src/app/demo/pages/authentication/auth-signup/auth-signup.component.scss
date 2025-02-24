@@ -1,0 +1,12 @@
+.custom-bg {
+    background: url('../../../../../assets/images/register.jpg') no-repeat center center fixed;
+    background-size: cover;
+  }
+  .small-placeholder::placeholder {
+    font-size: 12px; 
+  }
+  .position-absolute {
+    left: 130px;
+    top: 150px;
+    cursor: pointer;
+   }

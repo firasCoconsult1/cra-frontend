@@ -1,0 +1,38 @@
+<div class="auth-wrapper custom-bg">
+  <div class="auth-content">
+
+    <div class="card">
+      <div class="card-body text-center">
+        <div class="mb-4">
+          <i class="feather icon-unlock auth-icon"></i>
+        </div>
+        <h3 class="mb-4">Login</h3>
+        <div class="input-group mb-3">
+          <input type="email" class="form-control small-placeholder" placeholder="Username" [(ngModel)]="loginData.username" />
+        </div>
+        <div class="input-group mb-4 position-relative">
+          <input type="password" class="form-control small-placeholder" placeholder="Password" id="signin-password" [(ngModel)]="loginData.password"/>
+          <i class="feather icon-eye position-absolute" style="right: 10px; top: 50%; transform: translateY(-50%);"
+            *ngIf="passwordVisible" (click)="togglePasswordVisibility('signin-password')"></i>
+          <i class="feather icon-eye-off position-absolute" style="right: 10px; top: 50%; transform: translateY(-50%);"
+            *ngIf="!passwordVisible" (click)="togglePasswordVisibility('signin-password')"></i>
+        </div>
+        <div class="form-group text-start mb-4">
+          <div class="checkbox checkbox-fill d-inline">
+            <input type="checkbox" name="checkbox-fill-1" id="checkbox-fill-a1" checked="" />
+            <label for="checkbox-fill-a1" class="cr">Save Details</label>
+          </div>
+        </div>
+        <button class="btn btn-primary mb-4" (click)="login()">Login</button>
+        <p class="mb-2 text-muted">
+          Forgot password?
+          <a [routerLink]="['/auth/forgot-password']">Forgot</a>
+        </p>
+        <p class="mb-0 text-muted">
+          Don’t have an account?
+          <a [routerLink]="['/auth/signup']">Sign up</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
