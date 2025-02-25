@@ -47,8 +47,10 @@ export default class AuthSignupComponent {
 
     this.authService.register(this.registerData).subscribe(
       response => {
-        this.router.navigate(['/auth/signin']);
         this.toastr.success('Registration successful', 'Success');
+        this.resetForm();
+        
+        
       },
       error => {
         this.errorMessage = 'Registration failed';
@@ -56,6 +58,14 @@ export default class AuthSignupComponent {
         console.error('Registration failed', error);
       }
     );
+  }
+  resetForm() {
+    this.registerData = {
+      username: '',
+      password: '',
+      confirmPassword: '',
+      fullname: ''
+    };
   }
   togglePasswordVisibility(id: string): void {
     const input = document.getElementById(id) as HTMLInputElement;

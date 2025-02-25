@@ -4,7 +4,7 @@ import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app/app-routing.module';
 import { AppComponent } from './app/app.component';
-import { provideHttpClient } from '@angular/common/http'; 
+import { provideHttpClient, withInterceptors } from '@angular/common/http'; 
 import { provideToastr } from 'ngx-toastr';
 
 if (environment.production) {
@@ -15,7 +15,10 @@ bootstrapApplication(AppComponent, {
   providers: [
     importProvidersFrom(BrowserModule, AppRoutingModule),
     provideAnimations(),
-    provideHttpClient(),
+    provideHttpClient(
+      //withInterceptors([loggingInterceptor, cachingInterceptor]),
+
+    ),
     provideToastr()
   ]
 }).catch((err) => console.error(err));

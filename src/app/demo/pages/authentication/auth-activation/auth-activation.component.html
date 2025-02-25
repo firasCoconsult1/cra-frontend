@@ -1,18 +1,22 @@
 <div class="auth-wrapper custom-bg">
-    <div class="auth-content">
-  
-      <div class="card">
-        <div class="card-body text-center">
-          <div class="mb-4">
-            <i class="feather icon-check-circle auth-icon"></i>
-          </div>
-          <h3 class="mb-4">Compte activation</h3>
-          <p> Welcome to Time Bill</p>
-          <p>Your account is activated</p>
-          
-        <!--  <button class="btn btn-primary mb-4" >Login</button>-->
-          
+  <div class="auth-content">
+
+    <div class="card">
+      <div class="card-body text-center">
+        <div class="mb-4">
+          <i *ngIf="isSuccess" class="feather icon-check-circle auth-icon"></i>
+          <i *ngIf="!isSuccess" class="feather icon-x-circle auth-icon"></i>
         </div>
+        <h3 class="mb-4">Compte activation</h3>
+        <p> Welcome to Time Bill</p>
+
+        <p *ngIf="isSuccess">Your account is activated</p>
+        <button *ngIf="isSuccess" class="btn btn-primary mb-4 shadow-2" [routerLink]="['/auth/signin']">Login</button>
+        <p *ngIf="!isSuccess">Account activation failed</p>
+
+
+
       </div>
     </div>
   </div>
+</div>

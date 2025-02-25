@@ -6,10 +6,11 @@ import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
 
 // project import
 import { SharedModule } from 'src/app/theme/shared/shared.module';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-nav-right',
-  imports: [SharedModule],
+  imports: [SharedModule,RouterModule],
   templateUrl: './nav-right.component.html',
   styleUrls: ['./nav-right.component.scss'],
   providers: [NgbDropdownConfig]

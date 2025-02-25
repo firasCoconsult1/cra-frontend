@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AdminComponent } from './theme/layout/admin/admin.component';
 import { GuestComponent } from './theme/layout/guest/guest.component';
+import { AuthGuard } from './demo/pages/authentication/auth-service/auth-guard.service';
+
 
 const routes: Routes = [
   {
@@ -36,7 +38,14 @@ const routes: Routes = [
       {
         path: 'sample-page',
         loadComponent: () => import('./demo/extra/sample-page/sample-page.component')
+      },
+      {
+        path: 'settings',
+        loadComponent: () => import('./demo/pages/settings/settings.component').then((c) => c.SettingsComponent),
+       
+        
       }
+      
     ]
   },
   {
@@ -47,6 +56,7 @@ const routes: Routes = [
         path: 'auth',
         loadChildren: () => import('./demo/pages/authentication/authentication.module').then((m) => m.AuthenticationModule)
       }
+     
     ]
   }
 ];

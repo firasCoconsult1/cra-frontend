@@ -11,7 +11,7 @@
           <input type="email" class="form-control small-placeholder" placeholder="Username" [(ngModel)]="loginData.username" />
         </div>
         <div class="input-group mb-4 position-relative">
-          <input type="password" class="form-control small-placeholder" placeholder="Password" id="signin-password" [(ngModel)]="loginData.password"/>
+          <input type="password" class="form-control small-placeholder" placeholder="Password" id="signin-password" [(ngModel)]="loginData.password" />
           <i class="feather icon-eye position-absolute" style="right: 10px; top: 50%; transform: translateY(-50%);"
             *ngIf="passwordVisible" (click)="togglePasswordVisibility('signin-password')"></i>
           <i class="feather icon-eye-off position-absolute" style="right: 10px; top: 50%; transform: translateY(-50%);"

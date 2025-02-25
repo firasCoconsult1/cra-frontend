@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { LoginRequest, ResetPasswordRequest } from '../model/auth-model';
 import { LoginResponse } from '../model/auth-model';
 import { RegisterRequest } from '../model/auth-model';
-
 
 
 @Injectable({
@@ -12,8 +11,9 @@ import { RegisterRequest } from '../model/auth-model';
 })
 export class AuthService {
   private apiUrl = 'http://localhost:8080/api/auth';
-  private readonly ACCESS_TOKEN_KEY = 'access_token';
-  private readonly REFRESH_TOKEN_KEY = 'refresh_token';
+  private readonly ACCESS_TOKEN_KEY = 'accessToken';
+  private readonly REFRESH_TOKEN_KEY = 'refreshToken';
+  private  USER_KEY = 'auth-user';
   
   constructor(private http: HttpClient) {}
 
@@ -39,22 +39,72 @@ export class AuthService {
   }
 
   
-
-
-  setToken(token: string,refreshToken:string): void {
-    localStorage.setItem('accessToken', this.ACCESS_TOKEN_KEY);
-    localStorage.setItem('refreshToken', this.REFRESH_TOKEN_KEY);
+  setToken(accessToken: string, refreshToken: string): void {
+    if (!accessToken || !refreshToken) {
+      console.error('Attempted to set invalid tokens', {accessToken, refreshToken });
+      return;
+    }
+    localStorage.setItem(this.ACCESS_TOKEN_KEY, accessToken);
+    localStorage.setItem(this.REFRESH_TOKEN_KEY, refreshToken);
   }
 
   getAccessToken(): string | null {
-    return localStorage.getItem('accessToken');
-  }
-  getRefreshToken(): string | null {
-    return localStorage.getItem('refreshToken');
+    const token = localStorage.getItem(this.ACCESS_TOKEN_KEY);
+    if (!token || token === 'undefined') {
+      return null;
+    }
+    return token;
   }
 
+  getRefreshToken(): string | null {
+    const token = localStorage.getItem(this.REFRESH_TOKEN_KEY);
+    if (!token || token === 'undefined') {
+      return null;
+    }
+    return token;
+  }
+
+  
+
   logout(): void {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
+    localStorage.removeItem(this.ACCESS_TOKEN_KEY);
+    localStorage.removeItem(this.REFRESH_TOKEN_KEY);
+  }
+
+  private loggedIn = new BehaviorSubject<boolean>(this.isUserLoggedIn());
+
+  get isLoggedIn() {
+    return this.loggedIn.asObservable();
+  }
+
+  
+
+  clean(): void {
+    window.localStorage.clear();
+    this.loggedIn.next(false);
+  }
+
+  public saveUser(user: any): void {
+    window.localStorage.removeItem(this.USER_KEY);
+    window.localStorage.setItem(this.USER_KEY, JSON.stringify(user));
+    this.loggedIn.next(true);
+  }
+
+  public getUser(): any {
+    const user = window.localStorage.getItem(this.USER_KEY);
+    if (user) {
+      return JSON.parse(user);
+    }
+
+    return null;
+  }
+
+  public isUserLoggedIn(): boolean {
+    const user = window.localStorage.getItem(this.USER_KEY);
+    if (user) {
+      return true;
+    }
+
+    return false;
   }
 }

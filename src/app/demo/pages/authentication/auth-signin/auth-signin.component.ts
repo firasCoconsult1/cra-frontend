@@ -52,7 +52,7 @@ export default class AuthSigninComponent {
 
     this.authService.login({ username: this.loginData.username, password: this.loginData.password}).subscribe({
       next: (res) => {
-        this.authService.setToken(res.token, res.refreshToken);
+        this.authService.setToken(res.accessToken, res.refreshToken);
         this.toast.success('Login successful', 'Success');
         this.router.navigate(['/dashboard']);
       },
