@@ -1,28 +1,43 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { HttpClient, HttpParams, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { BehaviorSubject, Observable, throwError, of } from 'rxjs';
+import { catchError, tap, map } from 'rxjs/operators';
 import { LoginRequest, ResetPasswordRequest, LoginResponse, RegisterRequest } from '../model/auth-model';
+import { User } from '../../profile/model/user';
+
+interface RefreshTokenResponse {
+  accessToken: string;
+}
 
 @Injectable({
-  providedIn: 'root'  
+  providedIn: 'root'
 })
 export class AuthService {
   private apiUrl = 'http://localhost:8080/api/auth';
   private readonly ACCESS_TOKEN_KEY = 'accessToken';
   private readonly REFRESH_TOKEN_KEY = 'refreshToken';
   private readonly USER_KEY = 'auth-user';
-  
-  constructor(private http: HttpClient) {}
+
+  private loggedIn = new BehaviorSubject<boolean>(this.isUserLoggedIn());
+
+  constructor(private http: HttpClient) { }
 
   login(credentials: LoginRequest): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.apiUrl}/login`, credentials);
+    return this.http.post<LoginResponse>(`${this.apiUrl}/login`, credentials).pipe(
+      tap(response => {
+        if (response.accessToken && response.refreshToken) {
+          this.setToken(response.accessToken, response.refreshToken);
+        }
+      }),
+      catchError(this.handleError)
+    );
   }
 
   register(user: RegisterRequest): Observable<any> {
     return this.http.post(`${this.apiUrl}/register`, user);
   }
 
-  requestPasswordReset(username: string): Observable<string> {    
+  requestPasswordReset(username: string): Observable<string> {
     return this.http.post(`${this.apiUrl}/request-password-reset`, null, {
       params: { username },
       responseType: 'text'
@@ -36,6 +51,32 @@ export class AuthService {
     });
   }
 
+  refreshToken(): Observable<RefreshTokenResponse> {
+    const refreshToken = this.getRefreshToken();
+    
+    if (!refreshToken) {
+      return throwError(() => new Error('No refresh token available'));
+    }
+    
+    // Make sure the request format matches what your backend expects
+    return this.http.post<RefreshTokenResponse>(
+      `${this.apiUrl}/refresh-token`, 
+      { refreshToken }, 
+      { headers: { 'Content-Type': 'application/json' } }
+    ).pipe(
+      tap(response => {
+        if (response.accessToken) {
+          this.setAccessToken(response.accessToken);
+        }
+      }),
+      catchError(error => {
+        console.error('Refresh token failed:', error);
+        this.logout();
+        return throwError(() => error);
+      })
+    );
+  }
+
   setToken(accessToken: string, refreshToken: string): void {
     if (!accessToken || !refreshToken) {
       console.error('Attempted to set invalid tokens', { accessToken, refreshToken });
@@ -43,6 +84,15 @@ export class AuthService {
     }
     localStorage.setItem(this.ACCESS_TOKEN_KEY, accessToken);
     localStorage.setItem(this.REFRESH_TOKEN_KEY, refreshToken);
+    this.loggedIn.next(true);
+  }
+
+  setAccessToken(accessToken: string): void {
+    if (!accessToken) {
+      console.error('Attempted to set invalid access token');
+      return;
+    }
+    localStorage.setItem(this.ACCESS_TOKEN_KEY, accessToken);
   }
 
   getAccessToken(): string | null {
@@ -53,13 +103,12 @@ export class AuthService {
     return localStorage.getItem(this.REFRESH_TOKEN_KEY) ?? null;
   }
 
+
   logout(): void {
     localStorage.removeItem(this.ACCESS_TOKEN_KEY);
     localStorage.removeItem(this.REFRESH_TOKEN_KEY);
     this.clean();
   }
-
-  private loggedIn = new BehaviorSubject<boolean>(this.isUserLoggedIn());
 
   get isLoggedIn() {
     return this.loggedIn.asObservable();
@@ -83,4 +132,45 @@ export class AuthService {
   isUserLoggedIn(): boolean {
     return !!window.localStorage.getItem(this.USER_KEY);
   }
+
+  isTokenExpired(): boolean {
+    const token = this.getAccessToken();
+    if (!token) return true;
+
+    try {
+      const tokenParts = token.split('.');
+      const payload = JSON.parse(atob(tokenParts[1]));
+      const currentTime = Math.floor(Date.now() / 1000);
+      return payload.exp < currentTime;
+    } catch (error) {
+      console.error('Error checking token expiration', error);
+      return true;
+    }
+  }
+
+  ensureValidToken(): Observable<string | null> {
+    if (this.isTokenExpired()) {
+      return this.refreshToken().pipe(
+        tap(response => console.log('Token refreshed successfully')),
+        map(() => this.getAccessToken()),
+        catchError(error => {
+          console.error('Failed to refresh token', error);
+          this.logout();
+          return of(null);
+        })
+      );
+    }
+    return of(this.getAccessToken());
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    console.error('An error occurred:', error);
+    return throwError(() => new Error('Something went wrong; please try again later.'));
+  }
+  getCurrentUser(): Observable<User> {
+    
+    return this.http.get<User>(`${this.apiUrl}/current-user`);
+  }
+
+ 
 }

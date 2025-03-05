@@ -46,7 +46,9 @@ changePassword(): void {
   this.settingService.changePassword(this.changePasswordRequest.oldPassword,this.changePasswordRequest.newPassword,this.changePasswordRequest.confirmNewPassword).subscribe({
     next: (res) => {
       this.toastr.success('Password changed successfully', 'Success');
-      this.router.navigate(['/dashboard']);
+      this.changePasswordRequest.oldPassword = '';
+      this.changePasswordRequest.newPassword = '';
+      this.changePasswordRequest.confirmNewPassword = '';
       
     },
     error: () => {

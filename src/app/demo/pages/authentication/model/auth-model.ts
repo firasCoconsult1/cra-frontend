@@ -23,3 +23,7 @@ export interface LoginRequest {
     newPassword: string;
     confirmNewPassword: string;
   }
+
+  export interface RefreshTokenResponse {
+    accessToken: string;
+  }

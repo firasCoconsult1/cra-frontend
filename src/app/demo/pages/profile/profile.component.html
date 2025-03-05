@@ -1,0 +1,88 @@
+<div class="container-fluid mt--7">
+    <div class="row justify-content-center">
+        <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0" *ngIf="!isEditMode">
+            <div class="card card-profile shadow">
+                <div class="row justify-content-center">
+                    <div class="col-lg-3 order-lg-2">
+                        <div class="card-profile-image">
+                            <a href="javascript:void(0)">
+                                <div class="profile-initials rounded-circle">
+                                    {{ getInitials(user?.fullname || '') }}
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body pt-0 pt-md-4">
+                    <div class="text-center">
+                        <h3>
+                            {{ user.fullname }}<span class="font-weight-light"></span>
+                        </h3>
+                        <div class="h5 mt-4">
+                            <i class="ni business_briefcase-24 mr-2"></i>{{ user.username }}
+                        </div>
+                        <div>
+                            <i class="ni education_hat mr-2"></i>{{ user.numeroTelephone }}
+                        </div>
+                        <hr class="my-4" />
+                        <button class="btn btn-primary mb-4" (click)="toggleEditMode()">Edit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-8 order-xl-1" *ngIf="isEditMode">
+            <div class="card bg-light shadow">
+                <div class="card-header bg-white border-0">
+                    <div class="row align-items-center">
+                        <div class="col-8">
+                            <h3 class="mb-0">Edit Profile</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form>
+                        <h6 class="heading-small text-muted mb-4 color">User informations</h6>
+                        <div class="pl-lg-4">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label color" for="input-username">Username</label>
+                                        <input type="text" id="input-username"
+                                            class="form-control form-control-alternative"
+                                            [(ngModel)]="user.username" name="username">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label color" for="input-email">Fullname</label>
+                                        <input type="email" id="input-email"
+                                            class="form-control form-control-alternative"
+                                            [(ngModel)]="user.fullname" name="fullname">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label color" for="input-first-name">Phone Number</label>
+                                        <input type="text" id="input-first-name"
+                                            class="form-control form-control-alternative" placeholder="+216 99 999 999"
+                                            [(ngModel)]="user.numeroTelephone" name="numeroTelephone">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="my-4 color" />
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary ml-2" (click)="onSave()">Save</button>
+                            <button type="button" class="btn btn-secondary" (click)="toggleEditMode()">Cancel</button>
+                        </div>
+                        
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

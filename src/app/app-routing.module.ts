@@ -42,8 +42,10 @@ const routes: Routes = [
       {
         path: 'settings',
         loadComponent: () => import('./demo/pages/settings/settings.component').then((c) => c.SettingsComponent),
-       
-        
+      },
+      {
+        path: 'profile',
+        loadComponent: () => import('./demo/pages/profile/profile.component').then((c) => c.ProfileComponent),
       }
       
     ]
