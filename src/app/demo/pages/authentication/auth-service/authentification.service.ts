@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { LoginRequest, ResetPasswordRequest } from '../model/auth-model';
-import { LoginResponse } from '../model/auth-model';
-import { RegisterRequest } from '../model/auth-model';
-
+import { LoginRequest, ResetPasswordRequest, LoginResponse, RegisterRequest } from '../model/auth-model';
 
 @Injectable({
   providedIn: 'root'  
@@ -13,20 +10,21 @@ export class AuthService {
   private apiUrl = 'http://localhost:8080/api/auth';
   private readonly ACCESS_TOKEN_KEY = 'accessToken';
   private readonly REFRESH_TOKEN_KEY = 'refreshToken';
-  private  USER_KEY = 'auth-user';
+  private readonly USER_KEY = 'auth-user';
   
   constructor(private http: HttpClient) {}
 
   login(credentials: LoginRequest): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.apiUrl}/login`, credentials);
   }
+
   register(user: RegisterRequest): Observable<any> {
     return this.http.post(`${this.apiUrl}/register`, user);
   }
 
   requestPasswordReset(username: string): Observable<string> {    
     return this.http.post(`${this.apiUrl}/request-password-reset`, null, {
-      params:{username},
+      params: { username },
       responseType: 'text'
     });
   }
@@ -38,10 +36,9 @@ export class AuthService {
     });
   }
 
-  
   setToken(accessToken: string, refreshToken: string): void {
     if (!accessToken || !refreshToken) {
-      console.error('Attempted to set invalid tokens', {accessToken, refreshToken });
+      console.error('Attempted to set invalid tokens', { accessToken, refreshToken });
       return;
     }
     localStorage.setItem(this.ACCESS_TOKEN_KEY, accessToken);
@@ -49,26 +46,17 @@ export class AuthService {
   }
 
   getAccessToken(): string | null {
-    const token = localStorage.getItem(this.ACCESS_TOKEN_KEY);
-    if (!token || token === 'undefined') {
-      return null;
-    }
-    return token;
+    return localStorage.getItem(this.ACCESS_TOKEN_KEY) ?? null;
   }
 
   getRefreshToken(): string | null {
-    const token = localStorage.getItem(this.REFRESH_TOKEN_KEY);
-    if (!token || token === 'undefined') {
-      return null;
-    }
-    return token;
+    return localStorage.getItem(this.REFRESH_TOKEN_KEY) ?? null;
   }
-
-  
 
   logout(): void {
     localStorage.removeItem(this.ACCESS_TOKEN_KEY);
     localStorage.removeItem(this.REFRESH_TOKEN_KEY);
+    this.clean();
   }
 
   private loggedIn = new BehaviorSubject<boolean>(this.isUserLoggedIn());
@@ -77,34 +65,22 @@ export class AuthService {
     return this.loggedIn.asObservable();
   }
 
-  
-
   clean(): void {
     window.localStorage.clear();
     this.loggedIn.next(false);
   }
 
-  public saveUser(user: any): void {
-    window.localStorage.removeItem(this.USER_KEY);
+  saveUser(user: any): void {
     window.localStorage.setItem(this.USER_KEY, JSON.stringify(user));
     this.loggedIn.next(true);
   }
 
-  public getUser(): any {
+  getUser(): any {
     const user = window.localStorage.getItem(this.USER_KEY);
-    if (user) {
-      return JSON.parse(user);
-    }
-
-    return null;
+    return user ? JSON.parse(user) : null;
   }
 
-  public isUserLoggedIn(): boolean {
-    const user = window.localStorage.getItem(this.USER_KEY);
-    if (user) {
-      return true;
-    }
-
-    return false;
+  isUserLoggedIn(): boolean {
+    return !!window.localStorage.getItem(this.USER_KEY);
   }
 }

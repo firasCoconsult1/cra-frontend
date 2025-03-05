@@ -1,11 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {  Component } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { SettingsService } from './settings-service/settings.service';
 import { ChangePasswordRequest } from './model/settings-model';
 import { FormsModule } from '@angular/forms';
-
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-settings',
@@ -29,6 +28,7 @@ export class SettingsComponent {
     
     private settingService: SettingsService,
     private toastr: ToastrService,
+    private router: Router, 
   ) {}
   
 
@@ -42,9 +42,11 @@ changePassword(): void {
     this.toastr.error('Password is short','Error');
     return;
   }
+ 
   this.settingService.changePassword(this.changePasswordRequest.oldPassword,this.changePasswordRequest.newPassword,this.changePasswordRequest.confirmNewPassword).subscribe({
     next: (res) => {
       this.toastr.success('Password changed successfully', 'Success');
+      this.router.navigate(['/dashboard']);
       
     },
     error: () => {

@@ -6,6 +6,7 @@ import { AppRoutingModule } from './app/app-routing.module';
 import { AppComponent } from './app/app.component';
 import { provideHttpClient, withInterceptors } from '@angular/common/http'; 
 import { provideToastr } from 'ngx-toastr';
+import { authInterceptor } from './app/demo/pages/authentication/interceptors/auth.service';
 
 if (environment.production) {
   enableProdMode();
@@ -13,11 +14,12 @@ if (environment.production) {
 
 bootstrapApplication(AppComponent, {
   providers: [
+   
     importProvidersFrom(BrowserModule, AppRoutingModule),
     provideAnimations(),
     provideHttpClient(
-      //withInterceptors([loggingInterceptor, cachingInterceptor]),
-
+      withInterceptors([authInterceptor])
+      
     ),
     provideToastr()
   ]
