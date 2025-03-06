@@ -103,7 +103,9 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
+              "node_modules/ngx-intl-tel-input/assets/css/intlTelInput.css"
             ],
             "scripts": []
           }

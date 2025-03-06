@@ -17,12 +17,7 @@
           <i class="feather icon-eye-off position-absolute" style="right: 10px; top: 50%; transform: translateY(-50%);"
             *ngIf="!passwordVisible" (click)="togglePasswordVisibility('signin-password')"></i>
         </div>
-        <div class="form-group text-start mb-4">
-          <div class="checkbox checkbox-fill d-inline">
-            <input type="checkbox" name="checkbox-fill-1" id="checkbox-fill-a1" checked="" />
-            <label for="checkbox-fill-a1" class="cr">Save Details</label>
-          </div>
-        </div>
+       
         <button class="btn btn-primary mb-4" (click)="login()">Login</button>
         <p class="mb-2 text-muted">
           Forgot password?

@@ -7,6 +7,7 @@ import { AppComponent } from './app/app.component';
 import { provideHttpClient, withInterceptors } from '@angular/common/http'; 
 import { provideToastr } from 'ngx-toastr';
 import { authInterceptor } from './app/demo/pages/authentication/interceptors/auth.service';
+import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
 
 if (environment.production) {
   enableProdMode();
@@ -15,12 +16,13 @@ if (environment.production) {
 bootstrapApplication(AppComponent, {
   providers: [
    
-    importProvidersFrom(BrowserModule, AppRoutingModule),
+    importProvidersFrom(BrowserModule, AppRoutingModule,NgxIntlTelInputModule ),
     provideAnimations(),
     provideHttpClient(
       withInterceptors([authInterceptor])
       
     ),
-    provideToastr()
+    provideToastr(),
+  
   ]
 }).catch((err) => console.error(err));

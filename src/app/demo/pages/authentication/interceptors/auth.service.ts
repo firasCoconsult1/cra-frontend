@@ -10,7 +10,6 @@ let refreshTokenPromise: Promise<string | null> | null = null;
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
 
-  // Ne pas intercepter les requêtes de connexion et d'inscription
   if (req.url.includes('/login') || req.url.includes('/register')) {
     return next(req);
   }
@@ -24,7 +23,6 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
-      // Si le token est expiré et qu'on a un refresh token, tenter le rafraîchissement
       if (error.status === 401 && authService.getRefreshToken() && !req.url.includes('/refresh-token')) {
         
         if (!refreshingToken) {
