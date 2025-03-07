@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable, throwError, of } from 'rxjs';
-import { catchError, tap, map } from 'rxjs/operators';
+import { map, catchError, Observable, BehaviorSubject, throwError, tap, of } from 'rxjs';
+
 import { LoginRequest, ResetPasswordRequest, LoginResponse, RegisterRequest } from '../model/auth-model';
 import { User } from '../../profile/model/user';
+import { Injectable } from '@angular/core';
 
 interface RefreshTokenResponse {
   accessToken: string;
@@ -58,7 +58,6 @@ export class AuthService {
       return throwError(() => new Error('No refresh token available'));
     }
     
-    // Make sure the request format matches what your backend expects
     return this.http.post<RefreshTokenResponse>(
       `${this.apiUrl}/refresh-token`, 
       { refreshToken }, 
