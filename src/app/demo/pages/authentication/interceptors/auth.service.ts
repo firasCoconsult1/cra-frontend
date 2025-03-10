@@ -10,8 +10,8 @@ let refreshTokenPromise: Promise<string | null> | null = null;
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
 
-  // Ne pas intercepter les requêtes de connexion et d'inscription
-  if (req.url.includes('/login') || req.url.includes('/register')) {
+  const excludedUrls = ['/login', '/register', '/refresh-token'];
+  if (excludedUrls.some(url => req.url.includes(url))) {
     return next(req);
   }
 
@@ -24,9 +24,8 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
-      // Si le token est expiré et qu'on a un refresh token, tenter le rafraîchissement
-      if (error.status === 401 && authService.getRefreshToken() && !req.url.includes('/refresh-token')) {
-        
+      if (error.status === 401 && authService.getRefreshToken() ) {
+
         if (!refreshingToken) {
           refreshingToken = true;
           refreshTokenPromise = lastValueFrom(authService.refreshToken())
@@ -34,7 +33,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
               authService.setAccessToken(response.accessToken);
               return response.accessToken;
             })
-            .catch((refreshError) => {
+            .catch(() => {
               console.log('Token refresh failed, logging out');
               authService.logout();
               return null;
@@ -53,7 +52,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
               });
               return next(authReq);
             } else {
-              return throwError(() => error);
+              return throwError(() => new Error("Unauthorized"));
             }
           })
         );

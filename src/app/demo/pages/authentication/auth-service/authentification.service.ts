@@ -9,6 +9,7 @@ interface RefreshTokenResponse {
   accessToken: string;
 }
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -20,7 +21,8 @@ export class AuthService {
 
   private loggedIn = new BehaviorSubject<boolean>(this.isUserLoggedIn());
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient
+) { }
 
   login(credentials: LoginRequest): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.apiUrl}/login`, credentials).pipe(
@@ -171,6 +173,8 @@ export class AuthService {
     
     return this.http.get<User>(`${this.apiUrl}/current-user`);
   }
+
+ 
 
  
 }

@@ -7,6 +7,7 @@ import { AppComponent } from './app/app.component';
 import { provideHttpClient, withInterceptors } from '@angular/common/http'; 
 import { provideToastr } from 'ngx-toastr';
 import { authInterceptor } from './app/demo/pages/authentication/interceptors/auth.service';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 if (environment.production) {
   enableProdMode();
@@ -16,6 +17,7 @@ bootstrapApplication(AppComponent, {
   providers: [
    
     importProvidersFrom(BrowserModule, AppRoutingModule),
+    JwtHelperService,
     provideAnimations(),
     provideHttpClient(
       withInterceptors([authInterceptor])
