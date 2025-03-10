@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 import { AuthService } from '../authentication/auth-service/authentification.service';
 import { User } from '../profile/model/user';
 import { ProfileService } from './profile/profile.service';
@@ -10,11 +10,13 @@ import { ToastrService } from 'ngx-toastr';
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
-  imports: [CommonModule, FormsModule]
+  imports: [CommonModule, FormsModule] ,
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class ProfileComponent implements OnInit {
   user: User | null = null;
   isEditMode: boolean = false;
+ 
 
   toggleEditMode() {
     this.isEditMode = !this.isEditMode;
@@ -59,4 +61,6 @@ export class ProfileComponent implements OnInit {
       console.error('User ID is missing');
     }
   }
+
+  
 }

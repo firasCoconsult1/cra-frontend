@@ -23,6 +23,7 @@ bootstrapApplication(AppComponent, {
       withInterceptors([authInterceptor])
       
     ),
-    provideToastr()
+    provideToastr(),
+  
   ]
 }).catch((err) => console.error(err));
