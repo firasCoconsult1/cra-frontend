@@ -1,26 +1,84 @@
-<div class="container">
-  <h2>Role Management</h2>
- <table > <!--mat-table [dataSource]="dataSource" class="mat-elevation-z8">-->
-    <!-- ID Column -->
-    <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef> ID </th>
-      <td mat-cell *matCellDef="let role"> {{role.id}} </td>
-    </ng-container>
+<div class="card">
+    <p-toast />
 
-    <!-- Name Column -->
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef> Name </th>
-      <td mat-cell *matCellDef="let role"> {{role.name}} </td>
-    </ng-container>
+    <p-toolbar class="flex justify-content-center">
+        <ng-template #start>
+            <div class="flex w-full justify-content-center">
+                <h4 class=" m-0">Role Management</h4>
+            </div>
+        </ng-template>
+    </p-toolbar>
 
-    <!-- Description Column -->
-    <ng-container matColumnDef="description">
-      <th mat-header-cell *matHeaderCellDef> Description </th>
-      <td mat-cell *matCellDef="let role"> {{role.description}} </td>
-    </ng-container>
+    <p-table #dt [value]="roles" [rows]="10" [paginator]="true" paginatorPosition="bottom"
+        [globalFilterFields]="['name']" [tableStyle]="{ 'min-width': '50rem' }" [(selection)]="selectedRoles"
+        [rowHover]="true" dataKey="id" currentPageReportTemplate="Displaying {first} to {last} of {totalRecords} roles"
+        [showCurrentPageReport]="true" class="custom-pagination">
+        <ng-template #caption>
+            <div class="align-right">
+                <p-button label="Add role" icon="pi pi-plus" class="mr-2" (onClick)="openNew()" />
+            </div>
+        </ng-template>
+        <ng-template #header>
+            <tr>
+                <th pSortableColumn="name" style="min-width: 14rem">
+                    Name
+                    <p-sortIcon field="name" />
+                </th>
+                <th style="min-width: 18rem">
+                    Permissions
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
- <!-- <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>-->
+                </th>
+                <th style="min-width: 12rem">Actions</th>
+            </tr>
+        </ng-template>
+        <ng-template #body let-role>
+            <tr>
+                <td>{{ role.name }}</td>
+                <td>
+                    {{ getFormattedPermissions(role.permissions) }}
+
+                </td>
+                <td>
+                    <p-button icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true"
+                        (click)="editRole(role)" />
+                    <span *ngIf="role.name !== 'Admin'">
+                        <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true"
+                            (click)="deleteRole(role)" />
+                    </span>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+    <p-dialog [(visible)]="roleDialog" [style]="{ width: '450px', height: '500px' }" header="Role details"
+        [modal]="true">
+        <ng-template #content>
+            <div class="flex flex-col gap-6">
+                <div>
+                    <label for="name" class="block font-bold mb-3">Name</label><br>
+                    <input type="text" pInputText id="name" [(ngModel)]="role.name" required autofocus
+                        class="v-full" /><br>
+                    <small class="text-red-500" *ngIf="submitted && !role.name">Name is required.</small><br>
+                    <div>
+                        <label for="permissions" class="block font-bold mb-3">Permissions</label>
+                        <div *ngFor="let permission of permissions" class="flex items-center permission-item">
+                            <p-checkbox 
+                              [ngModel]="selectedPermissions.has(permission.id)" 
+                              (ngModelChange)="onPermissionChange($event, permission.id)"
+                              [binary]="true">
+                            </p-checkbox>
+                            <label class="ml-2">{{permission.name}}</label>
+                          </div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template #footer>
+            <p-button label="Cancel" icon="pi pi-times" text (click)="hideDialog()" />
+            <p-button label="Save" icon="pi pi-check" (click)="saveRole()" />
+        </ng-template>
+    </p-dialog>
+
+    <p-confirmDialog [style]="{ width: '450px' }" />
 </div>

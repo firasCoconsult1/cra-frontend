@@ -104,10 +104,14 @@
             ],
             "styles": [
               "src/styles.scss",
+              "node_modules/intl-tel-input/build/css/intlTelInput.css",
               "node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
-              "node_modules/ngx-intl-tel-input/assets/css/intlTelInput.css"
+              "node_modules/ngx-intl-tel-input/build/css/intlTelInput.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/intl-tel-input/build/js/intlTelInput.js",
+              "node_modules/intl-tel-input/build/js/utils.js"
+            ]
           }
         },
         "lint": {

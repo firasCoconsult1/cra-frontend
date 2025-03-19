@@ -1,19 +1,71 @@
 .profile-initials {
-    margin-top: 20px;
-    width: 100px;
-    height: 100px;
-    background-color: #3f4d67;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 36px;
-    font-weight: bold;
-    color: white;
-  }
-  .card.bg-light {
-    background-color: 
-    #3f4d67 !important; /* Couleur de fond plus claire */
-  }
-  .color {
-    color: white !important; /* Couleur de texte */
-  }
+  margin-top: 20px;
+  width: 100px;
+  height: 100px;
+  background-color: #3f4d67;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  font-weight: bold;
+  color: white;
+  position: relative; /* Assurez-vous que le conteneur parent a une position relative */
+}
+
+.card.bg-light {
+  background-color: #3f4d67 !important;
+}
+
+.color {
+  color: white !important;
+}
+
+.profile-image-preview {
+  margin-top: 30px;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f3f3f3;
+  color: #555;
+  position: relative; /* Assurez-vous que le conteneur parent a une position relative */
+}
+
+.upload-icon {
+  position: absolute; /* Position absolue par rapport au conteneur parent */
+  bottom: -7px;
+  right: -8px;
+  border-radius: 50%;
+  padding: 2px;
+  cursor: pointer;
+  background-color: white;
+}
+
+.upload-icon i {
+  font-size: 20px;
+  color: #007bff;
+}
+
+.profile-image-preview {
+  object-fit: cover;
+}
+
+input[disabled] {
+  background-color: #e9ecef !important; 
+  color: #6c757d !important;
+  cursor: not-allowed;
+  opacity: 20; 
+  border: 1px solid #ced4da; 
+}
+.card-profile-image {
+  position: absolute;
+}
+
+.delete-button {
+  position: relative;
+  top: 5px;
+  right: -170px;
+  margin: 0.5rem;
+}
+

@@ -8,6 +8,10 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideToastr } from 'ngx-toastr';
 import { authInterceptor } from './app/demo/pages/authentication/interceptors/auth.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { providePrimeNG } from 'primeng/config';
+import Aura from '@primeng/themes/aura';
+
 
 if (environment.production) {
   enableProdMode();
@@ -15,7 +19,12 @@ if (environment.production) {
 
 bootstrapApplication(AppComponent, {
   providers: [
-   
+    provideAnimationsAsync(),
+    providePrimeNG({
+        theme: {
+            preset: Aura
+        }
+    }),
     importProvidersFrom(BrowserModule, AppRoutingModule),
     JwtHelperService,
     provideAnimations(),
@@ -24,6 +33,7 @@ bootstrapApplication(AppComponent, {
       
     ),
     provideToastr(),
+    
   
   ]
 }).catch((err) => console.error(err));

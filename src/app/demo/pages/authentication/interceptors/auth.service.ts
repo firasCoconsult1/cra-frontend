@@ -16,9 +16,15 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   }
 
   const token = authService.getAccessToken();
+
   if (token) {
+   // const refreshToken = authService.getRefreshToken();
+
     req = req.clone({
-      setHeaders: { Authorization: `Bearer ${token}` },
+      setHeaders: { Authorization: `Bearer ${token}` ,
+      //...(refreshToken && !refreshingToken ? { 'Refresh-Token': `Bearer ${refreshToken}` } : {})
+
+    },
     });
   }
 

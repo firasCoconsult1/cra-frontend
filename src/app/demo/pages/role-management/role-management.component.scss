@@ -1,0 +1,44 @@
+/*:host ::ng-deep .p-dialog .product-image {
+    width: 150px;
+    margin: 0 auto 2rem auto;
+    display: block;
+}
+*/
+.center-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.align-right {
+    display: flex;
+    justify-content: flex-end;
+}
+
+::ng-deep .custom-pagination .p-paginator {
+    justify-content: flex-end !important;
+}
+
+::ng-deep .p-toolbar {
+    display: flex;
+    justify-content: center;
+}
+
+::ng-deep .p-toolbar > div {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+
+  .v-full {
+    width: 100%;
+  }
+  .permission-item {
+    margin-bottom: 0.5rem; 
+  }
+  
+  .permission-item label {
+    margin-left: 0.5rem; 
+}

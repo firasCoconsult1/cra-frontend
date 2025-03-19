@@ -55,29 +55,10 @@ export class AuthService {
 
   refreshToken(): Observable<RefreshTokenResponse> {
     const refreshToken = this.getRefreshToken();
-    
-    if (!refreshToken) {
-      return throwError(() => new Error('No refresh token available'));
-    }
-    
-    return this.http.post<RefreshTokenResponse>(
-      `${this.apiUrl}/refresh-token`, 
-      { refreshToken }, 
-      { headers: { 'Content-Type': 'application/json' } }
-    ).pipe(
-      tap(response => {
-        if (response.accessToken) {
-          this.setAccessToken(response.accessToken);
-        }
-      }),
-      catchError(error => {
-        console.error('Refresh token failed:', error);
-        this.logout();
-        return throwError(() => error);
-      })
+    return this.http.post<RefreshTokenResponse>(`${this.apiUrl}/refresh-token`, 
+      { refreshToken: refreshToken }
     );
   }
-
   setToken(accessToken: string, refreshToken: string): void {
     if (!accessToken || !refreshToken) {
       console.error('Attempted to set invalid tokens', { accessToken, refreshToken });
