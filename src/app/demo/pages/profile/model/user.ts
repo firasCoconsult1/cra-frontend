@@ -7,6 +7,7 @@ export interface User{
     numeroTelephone: string;
     imageUrl: string;
     description: string;
+    enabled: boolean;
     roles : Role [
        
     ];

@@ -1,0 +1,85 @@
+<p-toast></p-toast>
+
+<p-toolbar >
+  <div class="p-toolbar-group-start w-full flex justify-content-center">
+    <h4 class="m-0">Resource Management</h4>
+  </div>
+  <div class="p-toolbar-group-end flex w-full justify-content-end align-items-center">
+    <div class="p-inputgroup">
+      <input pInputText type="text" placeholder="Search users..." [(ngModel)]="searchTerm" />
+      <button pButton type="button" icon="pi pi-search" (click)="searchUsers()"></button>
+    </div>
+  </div>
+</p-toolbar>
+
+<br>
+
+<div *ngIf="users && users.length > 0" class="card-grid">
+  <p-card *ngFor="let user of users" [style]="{ width: '20rem', overflow: 'hidden' }">
+    <ng-template #header>
+      <div class="image-container text-center">
+        <img [src]="user.imageUrl" *ngIf="user.imageUrl" alt="User image" class="rounded-image" />
+      </div>
+    </ng-template>
+    <ng-template #title>
+      <div class="text-center">{{ user.username }}</div>
+    </ng-template>
+    <ng-template #subtitle>
+      <div class="text-center">{{ user.roles.length > 0 ? user.roles[0].name : 'No Role Assigned' }}</div>
+    </ng-template>
+    <hr>
+
+    <ng-template #footer>
+      <div class="flex justify-content-center gap-4 mt-1">
+        <div class="flex flex-column align-items-center">
+          <p-button severity="info" icon="pi pi-eye" title="View profile" (click)="openUserDialog(user)"></p-button>
+        </div>
+
+        <div class="vertical-line"></div>
+
+        <div class="flex flex-column align-items-center">
+          <p-button severity="warn" icon="pi pi-lock" title="Assign role" (click)="openRoleDialog(user)"></p-button>
+        </div>
+
+        <div class="vertical-line"></div>
+
+        <div class="position flex flex-column align-items-center">
+          <p-inputSwitch severity="success" [(ngModel)]="user.enabled" title="enable/disable user"  (onChange)="toggleUserStatus(user)"></p-inputSwitch>
+        </div>
+      </div>
+    </ng-template>
+  </p-card>
+</div>
+
+<!-- Boîte de dialogue pour afficher les détails de l'utilisateur -->
+<p-dialog header="User Details" [(visible)]="displayUserDialog" [modal]="true" [style]="{width: '30rem'}">
+  <div *ngIf="selectedUser">
+    <p><strong class="titre">Fullname:</strong> {{ selectedUser.fullname }}</p>
+    <p><strong class="titre">Email:</strong> {{ selectedUser.username }}</p>
+    <p><strong class="titre">Téléphone:</strong> {{ selectedUser.numeroTelephone }}</p>
+  </div>
+  <ng-template #footer>
+    <p-button label="Close" icon="pi pi-times" severity="secondary" 
+      (click)="displayUserDialog = false"></p-button>
+  </ng-template>
+</p-dialog>
+
+<!-- Boîte de dialogue pour assigner un rôle -->
+<p-dialog header="Assign Role" [(visible)]="displayRoleDialog" [modal]="true"
+  [style]="{width: '25rem',height: '25rem'}">
+  <div *ngIf="selectedUser">
+
+    <p-dropdown class="w-full" [options]="roles" [(ngModel)]="selectedRole" optionLabel="name" optionValue="id"
+      placeholder="Select a role">
+    </p-dropdown>
+  </div>
+
+  <ng-template #footer>
+    <p-button  label="Assign Role" icon="pi pi-check" (click)="assignRole()"></p-button>
+    <p-button label="Cancel" icon="pi pi-times" severity="secondary" 
+      (click)="displayRoleDialog = false"></p-button>
+  </ng-template>
+
+</p-dialog>
+<p-paginator class="custom-pagination" [rows]="itemsPerPage" [totalRecords]="users.length" (onPageChange)="onPageChange($event)">
+</p-paginator>

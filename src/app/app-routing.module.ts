@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AdminComponent } from './theme/layout/admin/admin.component';
 import { GuestComponent } from './theme/layout/guest/guest.component';
-import { AuthGuard } from './demo/pages/authentication/auth-service/auth-guard.service';
 
 
 const routes: Routes = [
@@ -50,6 +49,10 @@ const routes: Routes = [
       {
         path:'role',
         loadComponent: () => import('./demo/pages/role-management/role-management.component').then((c) => c.RoleManagementComponent),
+      },
+      {
+        path:'resource',
+        loadComponent: () => import('./demo/pages/resource-management/resource-management.component').then((c) => c.ResourceManagementComponent),
       }
       
     ]

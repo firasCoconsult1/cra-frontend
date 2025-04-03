@@ -1,0 +1,76 @@
+
+
+::ng-deep .p-toolbar > div {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+  
+  .card-grid p-card {
+    margin-bottom: 1rem;
+  }
+
+  .image-container {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 120px; /* Ajustez la hauteur selon vos besoins */
+  }
+  
+  .rounded-image {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  .justify-content-center {
+    display: flex;
+    justify-content: center;
+  }
+  .text-center {
+    text-align: center;
+  }
+
+  .vertical-line {
+    width: 2px;
+    height: 40px;
+    background-color: #ccc;
+    margin: 0 10px;
+  }
+  
+  .custom-badge {
+    background: #ff4081;
+    color: white;
+    border-radius: 50%;
+    padding: 5px 10px;
+    font-size: 14px;
+    margin-bottom: 5px;
+  } 
+  .titre{
+    font-size: 15px;
+    font-weight: bold;
+  }
+.w-full{
+  width: 100%;
+}
+ 
+::ng-deep .custom-pagination .p-paginator {
+  justify-content: flex-end !important;
+  background: transparent !important;
+}
+::ng-deep .p-toolbar {
+  background: transparent !important; /* Supprime le fond blanc */
+  border: none !important; /* Supprime les bordures */
+  box-shadow: none !important; /* Supprime l'ombre */
+}
+.position{
+  margin-top: 5px;
+}
