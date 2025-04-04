@@ -1,15 +1,21 @@
 <div class="card">
     <p-toast />
 
-    <p-toolbar class="flex justify-content-center">
+   <!-- <p-toolbar class="flex justify-content-center">
         <ng-template #start>
             <div class="flex w-full justify-content-center">
                 <h4 class=" m-0">Role Management</h4>
             </div>
         </ng-template>
-    </p-toolbar>
+    </p-toolbar>-->
+    <p-table #dt 
+    [value]="roles" 
+    [rows]="10" 
+    [paginator]="true" 
+    [rowsPerPageOptions]="[5, 10, 20]" 
+    [dropdown]="true"
+    paginatorPosition="bottom"
 
-    <p-table #dt [value]="roles" [rows]="10" [paginator]="true" paginatorPosition="bottom"
         [globalFilterFields]="['name']" [tableStyle]="{ 'min-width': '50rem' }" [(selection)]="selectedRoles"
         [rowHover]="true" dataKey="id" currentPageReportTemplate="Displaying {first} to {last} of {totalRecords} roles"
         [showCurrentPageReport]="true" class="custom-pagination">
@@ -40,11 +46,12 @@
                 </td>
                 <td>
                     <p-button icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true"
-                        (click)="editRole(role)" />
-                    <span *ngIf="role.name !== 'Admin'">
+                        (click)="editRole(role)" [disabled]="role.name === 'Admin'" />
+                       
+                   
                         <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true"
-                            (click)="deleteRole(role)" />
-                    </span>
+                            (click)="deleteRole(role)" [disabled]="role.name === 'Admin'" />
+                   
                 </td>
             </tr>
         </ng-template>
@@ -57,7 +64,7 @@
                 <div>
                     <label for="name" class="block font-bold mb-3">Name</label><br>
                     <input type="text" pInputText id="name" [(ngModel)]="role.name" required autofocus
-                    class="w-full" /><br>
+                    class="v-full" /><br>
                     <small class="text-red-500" *ngIf="submitted && !role.name">Name is required.</small><br>
                     <div>
                         <label for="permissions" class="block font-bold mb-3">Permissions</label>
@@ -75,7 +82,7 @@
         </ng-template>
 
         <ng-template #footer>
-            <p-button label="Cancel" icon="pi pi-times" text (click)="hideDialog()" />
+            <p-button severity="secondary"  label="Cancel" icon="pi pi-times" text (click)="hideDialog()" />
             <p-button label="Save" icon="pi pi-check" (click)="saveRole()" />
         </ng-template>
     </p-dialog>

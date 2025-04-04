@@ -26,10 +26,7 @@ const routes: Routes = [
         path: 'forms',
         loadChildren: () => import('./demo/pages/form-elements/form-elements.module').then((m) => m.FormElementsModule)
       },
-      {
-        path: 'tables',
-        loadChildren: () => import('./demo/pages/tables/tables.module').then((m) => m.TablesModule)
-      },
+    
       {
         path: 'apexchart',
         loadComponent: () => import('./demo/pages/core-chart/apex-chart/apex-chart.component')

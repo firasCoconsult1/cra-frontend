@@ -1,7 +1,8 @@
 // angular import
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { Card } from 'primeng/card';
+import { ButtonModule } from 'primeng/button';
 // project import
 import { SharedModule } from 'src/app/theme/shared/shared.module';
 
@@ -22,7 +23,7 @@ import mapColor from 'src/fake-data/map-color-data.json';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule, SharedModule],
+  imports: [CommonModule, SharedModule, Card, ButtonModule],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })

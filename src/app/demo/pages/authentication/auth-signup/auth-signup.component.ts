@@ -49,6 +49,8 @@ export default class AuthSignupComponent {
       response => {
         this.toastr.success('Registration successful', 'Success');
         this.resetForm();
+        this.router.navigate(['/auth/signin']);
+        
         
         
       },
@@ -57,7 +59,9 @@ export default class AuthSignupComponent {
         this.toastr.error(this.errorMessage, 'Error');
         console.error('Registration failed', error);
       }
+      
     );
+    
   }
   resetForm() {
     this.registerData = {

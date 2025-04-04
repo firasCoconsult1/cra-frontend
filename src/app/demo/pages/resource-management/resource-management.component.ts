@@ -19,13 +19,14 @@ import { RoleServiceService } from '../role-management/role/role-service.service
 
 import { InputTextModule } from 'primeng/inputtext';
 import { PaginatorModule } from 'primeng/paginator';
+import { Page } from '../role-management/model/page';
 
 
 
 
 @Component({
   selector: 'app-resource-management',
-  imports: [ PaginatorModule,DropdownModule, Dialog, Card, InputTextModule, ButtonModule, ToolbarModule, ToastModule, CommonModule, RadioButtonModule, FormsModule, InputGroupModule, InputIconModule, InputSwitchModule],
+  imports: [PaginatorModule, DropdownModule, Dialog, Card, InputTextModule, ButtonModule, ToolbarModule, ToastModule, CommonModule, RadioButtonModule, FormsModule, InputGroupModule, InputIconModule, InputSwitchModule],
   providers: [MessageService, ConfirmationService],
   templateUrl: './resource-management.component.html',
   styleUrl: './resource-management.component.scss'
@@ -52,14 +53,22 @@ export class ResourceManagementComponent implements OnInit {
     this.getAllRoles();
   }
   getAllRoles(): void {
-    this.roleService.getRoles().subscribe(
-      (data: Role[]) => {
-        this.roles = data; // Stocker les rôles récupérés
+    const page = 0;
+    const size = 10;
+    const sortBy = 'id';
+    const direction = 'asc';
+
+    this.roleService.getAllRoles(page, size, sortBy, direction).subscribe(
+      (response: Page<Role>) => {
+        this.roles = response.content;
       },
       (error) => {
         console.error('Error fetching roles', error);
       }
     );
+  }
+  getInitials(fullName: string): string {
+    return fullName.charAt(0).toUpperCase();
   }
 
   getAllUsers(): void {
@@ -75,9 +84,16 @@ export class ResourceManagementComponent implements OnInit {
       }
     );
   }
-  openRoleDialog(user: User) {
+  openRoleDialog(user: any): void {
     this.selectedUser = user;
-    this.selectedRole = user.roles.length > 0 ? user.roles[0].name : ''; // Sélectionne le rôle actuel
+
+    
+    if (user.roles && user.roles.length > 0) {
+      this.selectedRole = user.roles[0].id; 
+    } else {
+      this.selectedRole = null; 
+    }
+
     this.displayRoleDialog = true;
   }
 
@@ -87,7 +103,7 @@ export class ResourceManagementComponent implements OnInit {
       this.resourceService.assignRoleToUser(this.selectedUser.id, roleId).subscribe(
         () => {
           this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Role assigned successfully' });
-          this.getAllUsers(); 
+          this.getAllUsers();
           this.displayRoleDialog = false;
         },
         error => {
@@ -158,7 +174,7 @@ export class ResourceManagementComponent implements OnInit {
     const start = this.currentPage * this.itemsPerPage;
     return this.users.slice(start, start + this.itemsPerPage);
   }
-  
+
   onPageChange(event: any) {
     this.currentPage = event.page;
   }

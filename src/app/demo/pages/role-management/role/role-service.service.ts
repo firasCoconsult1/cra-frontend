@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Permission, Role, RoleDto } from '../model/role';
 import { Observable } from 'rxjs';
+import { Page } from '../model/page';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +14,14 @@ export class RoleServiceService {
 
   constructor(private httpClient:HttpClient) { }
 
-  getRoles(){
-    return this.httpClient.get<Role[]>(`${this.apiUrl}/all`);
+  getAllRoles(page: number, size: number, sortBy: string, direction: string): Observable<Page<Role>> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString())
+      .set('sortBy', sortBy)
+      .set('direction', direction);
+
+    return this.httpClient.get<Page<Role>>(`${this.apiUrl}/all`, { params });
   }
   addRole(roleDto: RoleDto): Observable<Role> {
     return this.httpClient.post<Role>(`${this.apiUrl}/create`, roleDto);
@@ -31,5 +38,9 @@ export class RoleServiceService {
   getPermissions(){
     return this.httpClient.get<Permission[]>(`${this.permissionUrl}/all`);
   }
+  
+  /*deleteAllPermissionsByRole(roleId: number): Observable<void> {
+    return this.httpClient.delete<void>(`${this.permissionUrl}/delete-all/${roleId}`);
+  }*/
 }
 

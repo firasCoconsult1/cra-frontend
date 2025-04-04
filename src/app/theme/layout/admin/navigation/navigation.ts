@@ -74,7 +74,7 @@ export const NavigationItems: NavigationItem[] = [
         type: 'item',
         url: '/role',
         classes: 'nav-item',
-        icon: 'feather icon-user-check'
+        icon: 'feather icon-briefcase'
       },
       {
         id: 'resource',
@@ -105,7 +105,8 @@ export const NavigationItems: NavigationItem[] = [
             type: 'item',
             url: '/auth/signup',
             target: true,
-            breadcrumbs: false
+            breadcrumbs: false,
+            icon: 'feather icon-user-plus'
           },
           {
             id: 'signin',
@@ -113,7 +114,8 @@ export const NavigationItems: NavigationItem[] = [
             type: 'item',
             url: '/auth/signin',
             target: true,
-            breadcrumbs: false
+            breadcrumbs: false,
+            icon: 'feather icon-unlock'
           }
         ]
       },

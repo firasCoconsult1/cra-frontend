@@ -67,10 +67,23 @@
   background: transparent !important;
 }
 ::ng-deep .p-toolbar {
-  background: transparent !important; /* Supprime le fond blanc */
-  border: none !important; /* Supprime les bordures */
-  box-shadow: none !important; /* Supprime l'ombre */
+  background: transparent !important; 
+  border: none !important; 
+  box-shadow: none !important; 
 }
 .position{
   margin-top: 5px;
+}
+.profile-initials {
+  margin-top: 10px;
+  width: 120px;
+  height: 120px;
+  background-color: #3f4d67;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  font-weight: bold;
+  color: white;
+  position: relative; 
 }

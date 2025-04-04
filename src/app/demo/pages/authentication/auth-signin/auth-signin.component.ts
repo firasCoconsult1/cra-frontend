@@ -6,6 +6,8 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from '../auth-service/authentification.service';
 import { LoginRequest } from '../model/auth-model';
 import { ToastrService } from 'ngx-toastr';
+import { User } from '../../profile/model/user';
+import { ResourceManagementService } from '../../resource-management/service/resource-management.service';
 
 @Component({
   selector: 'app-auth-signin',
@@ -26,10 +28,11 @@ export default class AuthSigninComponent {
     password: ''
   };
   errorMessage = '';
+  user:User;
 
 
 
-  constructor(private authService: AuthService, private router: Router, private toast:ToastrService) {}
+  constructor(private userService : ResourceManagementService, private authService: AuthService, private router: Router, private toast:ToastrService) {}
 
   
 
@@ -46,9 +49,12 @@ export default class AuthSigninComponent {
 
   login(): void {
     if (!this.loginData.username|| !this.loginData.password) {
-      this.errorMessage = 'Veuillez remplir tous les champs.';
+      this.errorMessage = 'Please fill in all the fields.';
       return;
     }
+ 
+   
+    
 
     this.authService.login({ username: this.loginData.username, password: this.loginData.password}).subscribe({
       next: (res) => {
@@ -57,9 +63,11 @@ export default class AuthSigninComponent {
         this.router.navigate(['/dashboard']);
       },
       error: () => {
+       
         this.toast.error('Login failed', 'Error');
       }
     });
   }
+  
 }
 

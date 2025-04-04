@@ -32,4 +32,7 @@ export class ResourceManagementService {
 searchUsers(searchTerm: string): Observable<any> {
   return this.http.get(`${this.baseUrl}/search?term=${searchTerm}`);
 }
+getByUername(username: string): Observable<any> {
+  return this.http.get(`${this.baseUrl}/username/${username}`);
+}
 }

@@ -4,7 +4,7 @@ import { Permission, Role, RoleDto } from './model/role';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Table, TableModule } from 'primeng/table';
+import { TableModule } from 'primeng/table';
 import { Dialog } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
@@ -21,6 +21,7 @@ import { DropdownModule } from 'primeng/dropdown';
 
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
+import { Page } from './model/page';
 
 @Component({
   selector: 'app-role-management',
@@ -54,7 +55,6 @@ export class RoleManagementComponent implements OnInit {
 
 
 
-  @ViewChild('dt') dt!: Table;
 
 
   constructor(private roleService: RoleServiceService, private messageService: MessageService, private confirmationService: ConfirmationService) { }
@@ -65,13 +65,20 @@ export class RoleManagementComponent implements OnInit {
   }
 
   loadRoles() {
-    this.roleService.getRoles().subscribe((roles: Role[]) => {
-      this.roles = roles.map(role => ({
-        ...role,
-        permissions: role.permissions || []
-      }));
-    });
+    const page = 0;
+    const size = 10;
+    const sortBy = 'id';
+    const direction = 'asc';
+
+    this.roleService.getAllRoles(page, size, sortBy, direction)
+      .subscribe((response: Page<Role>) => {
+        this.roles = response.content.map(role => ({
+          ...role,
+          permissions: role.permissions || []
+        }));
+      });
   }
+
 
   openNew() {
     this.role = { id: 0, name: '' };
@@ -81,17 +88,17 @@ export class RoleManagementComponent implements OnInit {
 
   editRole(role: Role) {
     this.role = { ...role };
-    
+
     this.selectedPermissions.clear();
-    
+
     if (role.permissions && role.permissions.length > 0) {
       role.permissions.forEach(p => this.selectedPermissions.add(p.id));
     }
-    
+
     this.roleDialog = true;
   }
-  
-  
+
+
 
   onPermissionChange(checked: boolean, permissionId: number) {
     if (checked) {
@@ -123,16 +130,16 @@ export class RoleManagementComponent implements OnInit {
 
   saveRole() {
     this.submitted = true;
-  
+
     if (this.role.name.trim()) {
       const roleDto: RoleDto = {
         name: this.role.name,
-        permissions: Array.from(this.selectedPermissions)  
+        permissions: Array.from(this.selectedPermissions)
       };
-  
+
       if (this.role.id) {
         this.roleService.updateRole(roleDto, this.role.id).subscribe(() => {
-          this.loadRoles();  
+          this.loadRoles();
           this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Role updated', life: 3000 });
         });
       } else {
@@ -141,21 +148,18 @@ export class RoleManagementComponent implements OnInit {
           this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Role added', life: 3000 });
         });
       }
-  
+
       this.roleDialog = false;
-      this.role = { id: 0, name: '', permissions: [] }; 
-      this.selectedPermissions.clear();  
+      this.role = { id: 0, name: '', permissions: [] };
+      this.selectedPermissions.clear();
     }
   }
-  
+
   hideDialog() {
     this.roleDialog = false;
     this.submitted = false;
   }
-  applyFilter(event: Event) {
-    const inputElement = event.target as HTMLInputElement;
-    this.dt.filterGlobal(inputElement.value, 'contains');
-  }
+
   getPermissions(): void {
     this.roleService.getPermissions().subscribe((data: any[]) => {
       this.permissions = data;
@@ -163,10 +167,11 @@ export class RoleManagementComponent implements OnInit {
   }
   getFormattedPermissions(permissions: any[]): string {
     if (!permissions || permissions.length === 0) {
-     
-      return 'No permissions'; 
+
+      return 'No permissions';
     }
     return permissions.map(permission => permission.name).join(' / ');
   }
+
 
 }
