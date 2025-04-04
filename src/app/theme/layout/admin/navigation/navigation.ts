@@ -32,97 +32,61 @@ export const NavigationItems: NavigationItem[] = [
     ]
   },
   {
-    id: 'ui-element',
-    title: 'UI ELEMENT',
+    id: 'account',
+    title: 'User Panel',
     type: 'group',
     icon: 'icon-ui',
     children: [
       {
         id: 'basic',
-        title: 'Component',
+        title: 'Account',
         type: 'collapse',
-        icon: 'feather icon-box',
+        icon: 'feather icon-user',
         children: [
           {
-            id: 'button',
-            title: 'Button',
+            id: 'profile',
+            title: 'Profile',
             type: 'item',
-            url: '/basic/button'
+            url: '/profile',
+            icon: 'feather icon-user'
           },
           {
-            id: 'badges',
-            title: 'Badges',
+            id: 'settings',
+            title: 'Settings',
             type: 'item',
-            url: '/basic/badges'
+            url: '/settings',
+            icon: 'feather icon-settings'
           },
-          {
-            id: 'breadcrumb-pagination',
-            title: 'Breadcrumb & Pagination',
-            type: 'item',
-            url: '/basic/breadcrumb-paging'
-          },
-          {
-            id: 'collapse',
-            title: 'Collapse',
-            type: 'item',
-            url: '/basic/collapse'
-          },
-          {
-            id: 'tabs-pills',
-            title: 'Tabs & Pills',
-            type: 'item',
-            url: '/basic/tabs-pills'
-          },
-          {
-            id: 'typography',
-            title: 'Typography',
-            type: 'item',
-            url: '/basic/typography'
-          }
+          
         ]
       }
     ]
   },
   {
-    id: 'forms',
-    title: 'Forms & Tables',
+    id: 'Admin-panel',
+    title: 'Admin Panel',
     type: 'group',
     icon: 'icon-group',
     children: [
       {
-        id: 'forms-element',
-        title: 'Form Elements',
+        id: 'role',
+        title: 'Role Management',
         type: 'item',
-        url: '/forms/basic',
+        url: '/role',
         classes: 'nav-item',
-        icon: 'feather icon-file-text'
+        icon: 'feather icon-user-check'
       },
       {
-        id: 'tables',
-        title: 'Tables',
+        id: 'resource',
+        title: 'Resource Management',
         type: 'item',
-        url: '/tables/bootstrap',
+        url: '/resource',
         classes: 'nav-item',
-        icon: 'feather icon-server'
+        icon: 'feather icon-users'
       }
     ]
   },
-  {
-    id: 'chart-maps',
-    title: 'Chart',
-    type: 'group',
-    icon: 'icon-charts',
-    children: [
-      {
-        id: 'apexChart',
-        title: 'ApexChart',
-        type: 'item',
-        url: 'apexchart',
-        classes: 'nav-item',
-        icon: 'feather icon-pie-chart'
-      }
-    ]
-  },
+  
   {
     id: 'pages',
     title: 'Pages',
@@ -153,33 +117,7 @@ export const NavigationItems: NavigationItem[] = [
           }
         ]
       },
-      {
-        id: 'sample-page',
-        title: 'Sample Page',
-        type: 'item',
-        url: '/sample-page',
-        classes: 'nav-item',
-        icon: 'feather icon-sidebar'
-      },
-      {
-        id: 'disabled-menu',
-        title: 'Disabled Menu',
-        type: 'item',
-        url: 'javascript:',
-        classes: 'nav-item disabled',
-        icon: 'feather icon-power',
-        external: true
-      },
-      {
-        id: 'buy_now',
-        title: 'Buy Now',
-        type: 'item',
-        icon: 'feather icon-book',
-        classes: 'nav-item',
-        url: 'https://codedthemes.com/item/datta-able-angular/',
-        target: true,
-        external: true
-      }
+     
     ]
   }
 ];
