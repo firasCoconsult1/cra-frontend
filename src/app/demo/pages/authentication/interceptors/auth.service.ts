@@ -10,7 +10,7 @@ let refreshTokenPromise: Promise<string | null> | null = null;
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
 
-  const excludedUrls = ['/login', '/register', '/refresh-token'];
+  const excludedUrls = ['/login', '/register', '/refresh-token','/create-account'];
   if (excludedUrls.some(url => req.url.includes(url))) {
     return next(req);
   }

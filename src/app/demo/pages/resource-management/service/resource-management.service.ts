@@ -1,6 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Page } from '../../role-management/model/page';
+import { User } from '../../profile/model/user';
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +12,15 @@ export class ResourceManagementService {
 
   constructor(private http: HttpClient) { }
 
-  getAllUsers(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/all`);
+
+  getAllUsers(page: number, size: number, sortBy: string, direction: string): Observable<Page<User>> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString())
+      .set('sortBy', sortBy)
+      .set('direction', direction);
+
+    return this.http.get<Page<User>>(`${this.baseUrl}/all`, { params });
   }
 
   getUserById(id: number): Observable<any> {
@@ -21,18 +30,28 @@ export class ResourceManagementService {
   activateUserAccount(id: number): Observable<any> {
     return this.http.put(`${this.baseUrl}/activate/${id}`, {});
   }
- 
+
   deactivateUserAccount(id: number): Observable<any> {
     return this.http.put(`${this.baseUrl}/deactivate/${id}`, {});
   }
 
   assignRoleToUser(id: number, roleId: number): Observable<any> {
     return this.http.put(`${this.baseUrl}/assign-role/${id}?role=${roleId}`, {});
-}
-searchUsers(searchTerm: string): Observable<any> {
-  return this.http.get(`${this.baseUrl}/search?term=${searchTerm}`);
-}
-getByUername(username: string): Observable<any> {
-  return this.http.get(`${this.baseUrl}/username/${username}`);
-}
+  }
+  searchUsers(searchTerm: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/search?term=${searchTerm}`);
+  }
+ 
+  // Dans resource-management.service.ts
+  inviteUsers(emails: string[]): Observable<any> {
+    // Utilisez URLSearchParams pour envoyer un tableau comme paramètre GET
+    let params = new HttpParams();
+
+    // Ajouter chaque email en tant que paramètre séparé avec la même clé
+    emails.forEach(email => {
+      params = params.append('emails', email);
+    });
+
+    return this.http.post(`${this.baseUrl}/invite`, null, { params });
+  }
 }

@@ -87,3 +87,18 @@
   color: white;
   position: relative; 
 }
+.v-full{
+  width: 100%;
+}
+.pagination-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.custom-pagination {
+  flex-grow: 1; 
+}
+
+

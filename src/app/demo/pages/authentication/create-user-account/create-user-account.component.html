@@ -1,0 +1,44 @@
+<div class="auth-wrapper custom-bg">
+  <div class="auth-content">
+
+    <div class="card">
+      <div class="card-body text-center">
+        <div class="mb-4">
+          <i class="feather icon-user-plus auth-icon"></i>
+        </div>
+        <h3 class="mb-4">Create account</h3>
+        <div class="input-group mb-3">
+          <div class="col">
+            <input type="text" class="form-control small-placeholder" placeholder="Username" id="username" [(ngModel)]="data.username" [disabled]="true" />
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <div class="col position-relative">
+            <input type="password" class="form-control small-placeholder" placeholder="Password" id="password"
+              [(ngModel)]="data.password" />
+            <i class="feather icon-eye position-absolute" style="right: 10px; top: 50%; transform: translateY(-50%);"
+              *ngIf="passwordVisible" (click)="togglePasswordVisibility('password')"></i>
+            <i class="feather icon-eye-off position-absolute"
+              style="right: 10px; top: 50%; transform: translateY(-50%);" *ngIf="!passwordVisible"
+              (click)="togglePasswordVisibility('password')"></i>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <div class="col position-relative">
+            <input type="password" class="form-control small-placeholder" placeholder="Confirm Password"
+              id="confirm-password" [(ngModel)]="data.confirmPassword" />
+            <i class="feather icon-eye position-absolute" style="right: 10px; top: 50%; transform: translateY(-50%);"
+              *ngIf="confirmPasswordVisible" (click)="togglePasswordVisibility('confirm-password')"></i>
+            <i class="feather icon-eye-off position-absolute"
+              style="right: 10px; top: 50%; transform: translateY(-50%);" *ngIf="!confirmPasswordVisible"
+              (click)="togglePasswordVisibility('confirm-password')"></i>
+          </div>
+        </div>
+
+
+        <button class="btn btn-primary mb-4" (click)="onSubmit()">Save</button>
+
+      </div>
+    </div>
+  </div>
+</div>

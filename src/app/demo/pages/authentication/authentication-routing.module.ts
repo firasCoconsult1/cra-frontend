@@ -25,6 +25,10 @@ const routes: Routes = [
       {
         path: 'activation',
         loadComponent: () => import('./auth-activation/auth-activation.component').then((c) => c.AuthActivationComponent)
+      },
+      {
+        path: 'create-account',
+        loadComponent: () => import('./create-user-account/create-user-account.component').then((c) => c.CreateUserAccountComponent)
       }
      
     ]

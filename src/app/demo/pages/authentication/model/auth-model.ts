@@ -27,3 +27,9 @@ export interface LoginRequest {
   export interface RefreshTokenResponse {
     accessToken: string;
   }
+
+  export interface CreateAccountRequest {
+    username : string;
+    password: string;
+    confirmPassword: string;
+  }

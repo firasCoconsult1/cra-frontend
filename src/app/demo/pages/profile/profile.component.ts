@@ -53,8 +53,8 @@ export class ProfileComponent implements OnInit {
     );
   }
 
-  getInitials(fullName: string): string {
-    return fullName.charAt(0).toUpperCase();
+  getInitials(username: string): string {
+    return username.charAt(0).toUpperCase();
   }
 
   onSave() {

@@ -22,7 +22,7 @@ export class AuthService {
   private loggedIn = new BehaviorSubject<boolean>(this.isUserLoggedIn());
 
   constructor(private http: HttpClient
-) { }
+  ) { }
 
   login(credentials: LoginRequest): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.apiUrl}/login`, credentials).pipe(
@@ -55,7 +55,7 @@ export class AuthService {
 
   refreshToken(): Observable<RefreshTokenResponse> {
     const refreshToken = this.getRefreshToken();
-    return this.http.post<RefreshTokenResponse>(`${this.apiUrl}/refresh-token`, 
+    return this.http.post<RefreshTokenResponse>(`${this.apiUrl}/refresh-token`,
       { refreshToken: refreshToken }
     );
   }
@@ -150,11 +150,33 @@ export class AuthService {
     return throwError(() => new Error('Something went wrong; please try again later.'));
   }
   getCurrentUser(): Observable<User> {
-    
+
     return this.http.get<User>(`${this.apiUrl}/current-user`);
   }
 
- 
+  getByUsername(username: string): Observable<User> {
+    return this.http.get<User>(`${this.apiUrl}/username`, { params: { username } });
+  }
 
- 
+  getEmailFromToken(token: string): Observable<string> {
+    return this.http.get(`${this.apiUrl}/get-email-from-token`, {
+      params: { token },
+      responseType: 'text'
+      
+    });
+    
+  }
+
+  createAccount(username: string, password: string, confirmPassword: string, token?: string): Observable<any> {
+    const data = {
+      username: username,
+      password: password,
+      confirmPassword: confirmPassword
+    };
+    
+    return this.http.post(`${this.apiUrl}/create-account?token=${token}`, data);
+  }
+
+
+
 }

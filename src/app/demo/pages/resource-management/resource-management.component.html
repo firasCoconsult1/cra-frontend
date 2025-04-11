@@ -1,25 +1,40 @@
 <p-toast></p-toast>
 
-<p-toolbar >
- <!-- <div class="p-toolbar-group-start w-full flex justify-content-center">
-    <h4 class="m-0">Resource Management</h4>
-  </div>-->
-  <div class="p-toolbar-group-end flex w-full justify-content-end align-items-center">
-    <div class="p-inputgroup" >
-      <input pInputText type="text" placeholder="Search users..." [(ngModel)]="searchTerm" style="width: 300px;"/>
+<p-toolbar>
+
+  <div class=" justify-content-end p-toolbar-group-end ">
+    <p-button icon="pi pi-user-plus" label="Invite user" (click)="openInvitationDialog()"
+      class="justify-content-end p-toolbar-group-end"></p-button>
+  </div>
+
+  <div class="flex justify-content-between w-full align-items-center">
+
+    <!-- Partie gauche : Dropdown -->
+    <div class="flex align-items-center">
+      <p-dropdown [options]="filterOptions" [(ngModel)]="selectedFilter" (onChange)="filterUsers()"></p-dropdown>
+    </div>
+
+
+
+    <!-- Partie droite : Barre de recherche -->
+    <div class="p-inputgroup">
+
+      <input pInputText type="text" placeholder="Search users..." [(ngModel)]="searchTerm" style="width: 300px;" />
       <button pButton type="button" icon="pi pi-search" (click)="searchUsers()"></button>
     </div>
+
   </div>
+
 </p-toolbar>
 
 <br>
 
-<div *ngIf="users && users.length > 0" class="card-grid">
-  <p-card *ngFor="let user of users" [style]="{ width: '20rem', overflow: 'hidden' }">
+<div *ngIf="filteredUsersE && filteredUsersE.length > 0" class="card-grid">
+  <p-card *ngFor="let user of filteredUsersE" [style]="{ width: '20rem', overflow: 'hidden' }">
     <ng-template #header>
       <div class="image-container text-center">
         <div class="profile-initials rounded-circle" *ngIf="!user.imageUrl">
-          {{ getInitials(user?.fullname || '') }}
+          {{ getInitials(user?.username || '') }}
         </div>
         <img [src]="user.imageUrl" *ngIf="user.imageUrl" alt="User image" class="rounded-image" />
       </div>
@@ -31,23 +46,20 @@
       <div class="text-center">{{ user.roles.length > 0 ? user.roles[0].name : 'No Role Assigned' }}</div>
     </ng-template>
     <hr>
-
     <ng-template #footer>
       <div class="flex justify-content-center gap-4 mt-1">
         <div class="flex flex-column align-items-center">
-          <p-button severity="info" icon="pi pi-eye" title="View profile" (click)="openUserDialog(user)"></p-button>
+          <p-button severity="info" icon="pi pi-eye" [pTooltip]="'View profile'" 
+          tooltipPosition="top" (click)="openUserDialog(user)"></p-button>
         </div>
-
         <div class="vertical-line"></div>
-
         <div class="flex flex-column align-items-center">
-          <p-button severity="warn" icon="pi pi-lock" title="Assign role" (click)="openRoleDialog(user)"></p-button>
+          <p-button severity="warn" icon="pi pi-lock" pTooltip="Assign role" (click)="openRoleDialog(user)" tooltipPosition="top"></p-button>
         </div>
-
         <div class="vertical-line"></div>
-
         <div class="position flex flex-column align-items-center">
-          <p-inputSwitch severity="success" [(ngModel)]="user.enabled" title="enable/disable user"  (onChange)="toggleUserStatus(user)"></p-inputSwitch>
+          <p-inputSwitch severity="success" [(ngModel)]="user.enabled" pTooltip="enable/disable user"tooltipPosition="top"
+            (onChange)="toggleUserStatus(user)"></p-inputSwitch>
         </div>
       </div>
     </ng-template>
@@ -59,11 +71,11 @@
   <div *ngIf="selectedUser">
     <p><strong class="titre">FullName:</strong> {{ selectedUser.fullname }}</p>
     <p><strong class="titre">Email:</strong> {{ selectedUser.username }}</p>
-    <p *ngIf="selectedUser?.numeroTelephone"><strong class="titre" >Phone Number:</strong> {{ selectedUser.numeroTelephone }}</p>
+    <p *ngIf="selectedUser?.numeroTelephone"><strong class="titre">Phone Number:</strong> {{
+      selectedUser.numeroTelephone }}</p>
   </div>
   <ng-template #footer>
-    <p-button label="Close" icon="pi pi-times" severity="secondary" 
-      (click)="displayUserDialog = false"></p-button>
+    <p-button label="Close" icon="pi pi-times" severity="secondary" (click)="displayUserDialog = false"></p-button>
   </ng-template>
 </p-dialog>
 
@@ -78,11 +90,48 @@
   </div>
 
   <ng-template #footer>
-    <p-button  label="Assign Role" icon="pi pi-check" (click)="assignRole()"></p-button>
-    <p-button label="Cancel" icon="pi pi-times" severity="secondary" 
-      (click)="displayRoleDialog = false"></p-button>
+    <p-button label="Assign Role" icon="pi pi-check" (click)="assignRole()"></p-button>
+    <p-button label="Cancel" icon="pi pi-times" severity="secondary" (click)="displayRoleDialog = false"></p-button>
   </ng-template>
 
 </p-dialog>
-<p-paginator class="custom-pagination" [rows]="itemsPerPage" [totalRecords]="users.length" (onPageChange)="onPageChange($event)">
-</p-paginator>
+<!-- Boîte de dialogue pour inviter un utilisateur -->
+<p-dialog header="Invite user" [(visible)]="displayInvitationDialog" [modal]="true" [style]="{width: '30rem'}">
+  <div>
+    <label class="block font-bold mb-3">Username</label><br>
+    <div class="p-inputgroup mb-3">
+      <input pInputText 
+             type="email" 
+             required 
+             placeholder="Enter a valid email" 
+             class="w-full" 
+             [(ngModel)]="emailInput" 
+             (keydown.enter)="addEmail($event)"/>
+    </div>
+    
+    <!-- Affichage des emails sous forme de chips -->
+    <div class="email-chips">
+      <p-chip *ngFor="let email of emails" [label]="email" [removable]="true" ></p-chip>
+    </div>
+  </div>
+  
+  
+  
+  
+
+  <ng-template #footer>
+    <p-button label="Send" icon="pi pi-check" severity="primary" (onClick)="inviteUser()"></p-button>
+    <p-button label="Close" icon="pi pi-times" severity="secondary" (click)="displayInvitationDialog = false"></p-button>
+  </ng-template>
+</p-dialog>
+<div class="pagination-container">
+  <p-paginator class="custom-pagination" [rows]="itemsPerPage" [totalRecords]="totalUsers"
+    [first]="currentPage * itemsPerPage" [showCurrentPageReport]="true" [showPageLinks]="true"
+    currentPageReportTemplate="Displaying {first} to {last} of {totalRecords} users"
+    (onPageChange)="onPageChange($event)">
+  </p-paginator>
+
+  <p-dropdown [options]="pageSizeOptions" [(ngModel)]="itemsPerPage" placeholder="Items per page"
+    (onChange)="onPageSizeChange($event)">
+  </p-dropdown>
+</div>

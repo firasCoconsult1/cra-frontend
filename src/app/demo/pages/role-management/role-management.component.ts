@@ -8,6 +8,7 @@ import { TableModule } from 'primeng/table';
 import { Dialog } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
+import { TooltipModule } from 'primeng/tooltip';
 
 
 import { ToastModule } from 'primeng/toast';
@@ -31,7 +32,7 @@ import { Page } from './model/page';
     ToolbarModule, ConfirmDialog, InputTextModule,
     TextareaModule, CommonModule, DropdownModule,
     InputTextModule, FormsModule, ButtonModule,
-    IconFieldModule, InputIconModule, CheckboxModule],
+    IconFieldModule, InputIconModule, CheckboxModule,TooltipModule],
   providers: [MessageService, ConfirmationService],
   styles: [
     `:host ::ng-deep .p-dialog .product-image {

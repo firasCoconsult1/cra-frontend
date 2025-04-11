@@ -47,27 +47,37 @@ export default class AuthSigninComponent {
     }
   }
 
-  login(): void {
-    if (!this.loginData.username|| !this.loginData.password) {
-      this.errorMessage = 'Please fill in all the fields.';
-      return;
-    }
- 
-   
-    
-
-    this.authService.login({ username: this.loginData.username, password: this.loginData.password}).subscribe({
-      next: (res) => {
-        this.authService.setToken(res.accessToken, res.refreshToken);
-        this.toast.success('Login successful', 'Success');
-        this.router.navigate(['/dashboard']);
-      },
-      error: () => {
-       
-        this.toast.error('Login failed', 'Error');
+        login(): void {
+      if (!this.loginData.username || !this.loginData.password) {
+        this.errorMessage = 'Please fill in all the fields.';
+        return;
       }
-    });
-  }
+    
+      // Vérifier si le compte est activé avant de tenter la connexion
+      this.authService.getByUsername(this.loginData.username).subscribe({
+        next: (user) => {
+          if (!user.enabled) {
+            this.toast.error('Your account is disabled. Please contact the administrator.', 'Error');
+            return;
+          }
+    
+          // Si le compte est activé, procéder à la connexion
+          this.authService.login({ username: this.loginData.username, password: this.loginData.password }).subscribe({
+            next: (res) => {
+              this.authService.setToken(res.accessToken, res.refreshToken);
+              this.toast.success('Login successful', 'Success');
+              this.router.navigate(['/dashboard']);
+            },
+            error: () => {
+              this.toast.error('Login failed', 'Error');
+            }
+          });
+        },
+        error: () => {
+          this.toast.error('Failed to verify account status.', 'Error');
+        }
+      });
+    }
   
 }
 

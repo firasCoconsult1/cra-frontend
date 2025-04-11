@@ -7,39 +7,39 @@
 
   <!-- Navigation rapide -->
   <div class="quick-navigation">
-    <p-card class="nav-card" [style]="{ width: '18rem' }">
+    <p-card class="nav-card" [style]="{ width: '18rem', height: '18rem' }">
       <ng-template #header>
         <i class="pi pi-users nav-icon"></i>
       </ng-template>
       <ng-template #title>Manage Resources</ng-template>
       <ng-template #content>
-        <p>View, edit, and manage all registered users.</p>
+        <p>View, edit, and manage all users.</p>
       </ng-template>
       <ng-template #footer>
         <p-button label="Go" icon="pi pi-arrow-right" class="p-button-primary" routerLink="/resource"></p-button>
       </ng-template>
     </p-card>
 
-    <p-card class="nav-card" [style]="{ width: '18rem' }">
+    <p-card class="nav-card" [style]="{ width: '18rem', height: '18rem' }">
       <ng-template #header>
-        <i class="pi pi-key nav-icon"></i>
+        <i class="pi pi-briefcase nav-icon"></i>
       </ng-template>
       <ng-template #title>Manage Roles</ng-template>
       <ng-template #content>
-        <p>Assign and manage roles for users.</p>
+        <p>View, edit, and manage all roles.</p>
       </ng-template>
       <ng-template #footer>
-        <p-button label="Go" icon="pi pi-arrow-right" class="p-button-primary" routerLink="/roles"></p-button>
+        <p-button label="Go" icon="pi pi-arrow-right" class="p-button-primary" routerLink="/role"></p-button>
       </ng-template>
     </p-card>
 
-    <p-card class="nav-card" [style]="{ width: '18rem' }">
+    <p-card class="nav-card" [style]="{ width: '18rem', height: '18rem' }">
       <ng-template #header>
-        <i class="pi pi-cog nav-icon"></i>
+        <i class="pi pi-file nav-icon"></i>
       </ng-template>
-      <ng-template #title>Manage Resources</ng-template>
+      <ng-template #title>Manage Cra</ng-template>
       <ng-template #content>
-        <p>View and manage application resources.</p>
+        <p>View, edit and manage all cra.</p>
       </ng-template>
       <ng-template #footer>
         <p-button label="Go" icon="pi pi-arrow-right" class="p-button-primary" routerLink="/resources"></p-button>

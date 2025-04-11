@@ -11,7 +11,7 @@
                             <a href="javascript:void(0)">
                                 
                                 <div class="profile-initials rounded-circle" *ngIf="!user.imageUrl">
-                                    {{ getInitials(user?.fullname || '') }}
+                                    {{ getInitials(user?.username || '') }}
                                 </div>
                                 <img *ngIf="user.imageUrl" [src]="user.imageUrl"
                                     class="rounded-circle profile-image-preview" />
