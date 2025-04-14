@@ -1,0 +1,18 @@
+.language-dropdown-container {
+    position: fixed;
+    top: 10px;
+    right: 50px;
+    z-index: 10000; /* valeur plus haute pour garantir qu’elle reste au-dessus */
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
+  
+  /* Style pour les éléments du menu */
+  .language-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  body {
+    position: relative; /* S'assurer que les éléments fixes se comportent comme prévu */
+  }

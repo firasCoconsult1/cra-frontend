@@ -1,49 +1,47 @@
 <div class="home-container">
-  <!-- En-tête -->
   <header class="header">
-    <h1>Welcome to Time Bill</h1>
-    <p>Manage resources, roles, and cra efficiently.</p>
+    <h1>{{ 'HOME.TITLE' | translate }}</h1>
+    <p>{{ 'HOME.SUBTITLE' | translate }}</p>
   </header>
 
-  <!-- Navigation rapide -->
   <div class="quick-navigation">
-    <p-card class="nav-card" [style]="{ width: '18rem', height: '18rem' }">
+    <p-card class="nav-card" [style]="{ width: '18rem', height: '15rem' }">
       <ng-template #header>
         <i class="pi pi-users nav-icon"></i>
       </ng-template>
-      <ng-template #title>Manage Resources</ng-template>
+      <ng-template #title>{{ 'HOME.MANAGE_RESOURCES' | translate }}</ng-template>
       <ng-template #content>
-        <p>View, edit, and manage all users.</p>
+        <p>{{ 'HOME.RESOURCES_DESC' | translate }}</p>
       </ng-template>
-      <ng-template #footer>
+     <!-- <ng-template #footer>
         <p-button label="Go" icon="pi pi-arrow-right" class="p-button-primary" routerLink="/resource"></p-button>
-      </ng-template>
+      </ng-template>-->
     </p-card>
 
-    <p-card class="nav-card" [style]="{ width: '18rem', height: '18rem' }">
+    <p-card class="nav-card" [style]="{ width: '18rem', height: '15rem' }">
       <ng-template #header>
         <i class="pi pi-briefcase nav-icon"></i>
       </ng-template>
-      <ng-template #title>Manage Roles</ng-template>
+      <ng-template #title>{{ 'HOME.MANAGE_ROLES' | translate }}</ng-template>
       <ng-template #content>
-        <p>View, edit, and manage all roles.</p>
+        <p>{{ 'HOME.ROLES_DESC' | translate }}</p>
       </ng-template>
-      <ng-template #footer>
+     <!-- <ng-template #footer>
         <p-button label="Go" icon="pi pi-arrow-right" class="p-button-primary" routerLink="/role"></p-button>
-      </ng-template>
+      </ng-template>-->
     </p-card>
 
-    <p-card class="nav-card" [style]="{ width: '18rem', height: '18rem' }">
+    <p-card class="nav-card" [style]="{ width: '18rem', height: '15rem' }">
       <ng-template #header>
         <i class="pi pi-file nav-icon"></i>
       </ng-template>
-      <ng-template #title>Manage Cra</ng-template>
+      <ng-template #title>{{ 'HOME.MANAGE_CRA' | translate }}</ng-template>
       <ng-template #content>
-        <p>View, edit and manage all cra.</p>
+        <p>{{ 'HOME.CRA_DESC' | translate }}</p>
       </ng-template>
-      <ng-template #footer>
+     <!-- <ng-template #footer>
         <p-button label="Go" icon="pi pi-arrow-right" class="p-button-primary" routerLink="/resources"></p-button>
-      </ng-template>
+      </ng-template>-->
     </p-card>
   </div>
 

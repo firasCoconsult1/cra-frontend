@@ -3,7 +3,7 @@ import { Component, input } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-
+import { TranslateModule } from '@ngx-translate/core';
 // project import
 import { NavigationItem } from '../../navigation';
 import { SharedModule } from 'src/app/theme/shared/shared.module';
@@ -11,7 +11,7 @@ import { NavItemComponent } from '../nav-item/nav-item.component';
 
 @Component({
   selector: 'app-nav-collapse',
-  imports: [SharedModule, NavItemComponent, RouterModule, CommonModule],
+  imports: [SharedModule, NavItemComponent, RouterModule, CommonModule, TranslateModule],
   templateUrl: './nav-collapse.component.html',
   styleUrls: ['./nav-collapse.component.scss'],
   animations: [

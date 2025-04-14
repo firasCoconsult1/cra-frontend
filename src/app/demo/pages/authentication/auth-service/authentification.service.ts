@@ -164,4 +164,5 @@ export class AuthService {
     const data = { username, password, confirmPassword };
     return this.http.post(`${this.apiUrl}/create-account?token=${token}`, data);
   }
+  
 }

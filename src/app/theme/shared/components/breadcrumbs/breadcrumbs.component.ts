@@ -7,6 +7,7 @@ import { Title } from '@angular/platform-browser';
 // project import
 import { NavigationItem, NavigationItems } from 'src/app/theme/layout/admin/navigation/navigation';
 import { SharedModule } from '../../shared.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 interface titleType {
   // eslint-disable-next-line
@@ -14,11 +15,12 @@ interface titleType {
   title: string;
   breadcrumbs: unknown;
   type: string;
+  translate?: string;
 }
 
 @Component({
   selector: 'app-breadcrumb',
-  imports: [CommonModule, RouterModule, SharedModule],
+  imports: [CommonModule, RouterModule, SharedModule, TranslateModule],
   templateUrl: './breadcrumbs.component.html',
   styleUrls: ['./breadcrumbs.component.scss']
 })
@@ -61,7 +63,8 @@ export class BreadcrumbsComponent {
             url: 'url' in navItem ? navItem.url : false,
             title: navItem.title,
             breadcrumbs: 'breadcrumbs' in navItem ? navItem.breadcrumbs : true,
-            type: navItem.type
+            type: navItem.type,
+            translate: 'translate' in navItem ? navItem.translate : undefined
           }
         ];
       }
@@ -72,7 +75,8 @@ export class BreadcrumbsComponent {
             url: 'url' in navItem ? navItem.url : false,
             title: navItem.title,
             breadcrumbs: 'breadcrumbs' in navItem ? navItem.breadcrumbs : true,
-            type: navItem.type
+            type: navItem.type,
+            translate: 'translate' in navItem ? navItem.translate : undefined
           });
           return breadcrumbList;
         }

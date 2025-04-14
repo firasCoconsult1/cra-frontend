@@ -1,0 +1,196 @@
+{
+    "LOGIN": "Connexion",
+    "USERNAME": "Nom d'utilisateur",
+    "PASSWORD": "Mot de passe",
+    "FORGOT_PASSWORD": "Mot de passe oublié ?",
+    "FORGOT": "Oublié",
+    "NO_ACCOUNT": "Vous n'avez pas de compte ?",
+    "SIGN_UP": "S'inscrire",
+    "FULLNAME": "Nom complet",
+    "CONFIRM_PASSWORD": "Confirmer le mot de passe",
+    "ALREADY_HAVE_ACCOUNT": "Vous avez déjà un compte ?",
+    "LOG_IN": "Se connecter",
+    "Create_account": "Créer un compte",
+    "SAVE": "Enregistrer",
+    "Forgot password": "Mot de passe oublié",
+    "SEND": "Envoyer",
+    "RESET": "Réinitialiser",
+    "Reset password": "Réinitialiser le mot de passe",
+    "HOME": {
+        "TITLE": "Bienvenue sur Time Bill",
+        "SUBTITLE": "Gérez efficacement les ressources, les rôles et les CRA.",
+        "MANAGE_RESOURCES": "Gérer les ressources",
+        "RESOURCES_DESC": "Consultez, modifiez et gérez tous les utilisateurs.",
+        "MANAGE_ROLES": "Gérer les rôles",
+        "ROLES_DESC": "Consultez, modifiez et gérez tous les rôles.",
+        "MANAGE_CRA": "Gérer les CRA",
+        "CRA_DESC": "Consultez, modifiez et gérez tous les CRA."
+    },
+    "PROFILE": {
+        "UPDATE_TITLE": "Mettre à jour le profil",
+        "SECTION_TITLE": "Informations personnelles",
+        "USERNAME": "Nom d'utilisateur",
+        "ACCOUNT_TYPE": "Type de compte",
+        "FULLNAME": "Nom complet",
+        "PHONE": "Numéro de téléphone",
+        "DESCRIPTION": "Description",
+        "SAVE": "Enregistrer",
+        "CANCEL": "Annuler",
+        "DELETE_IMAGE": "Supprimer l'image"
+    },
+    "TOOLBAR": {
+        "INVITE_USER": "Inviter un utilisateur",
+        "SEARCH_PLACEHOLDER": "Rechercher des utilisateurs..."
+    },
+    "FILTER": {
+        "PLACEHOLDER": "Filtrer les utilisateurs"
+    },
+    "USER_CARD": {
+        "NO_ROLE": "Aucun rôle assigné",
+        "VIEW_PROFILE": "Voir le profil",
+        "ASSIGN_ROLE": "Assigner un rôle",
+        "TOGGLE_USER": "Activer/désactiver l'utilisateur"
+    },
+    "DIALOG": {
+        "DETAILS_HEADER": "Détails de l'utilisateur",
+        "DETAILS": {
+            "FULLNAME": "Nom complet",
+            "EMAIL": "Email",
+            "PHONE": "Numéro de téléphone"
+        },
+        "ROLE_HEADER": "Assigner un rôle",
+        "ROLE_PLACEHOLDER": "Sélectionner un rôle",
+        "INVITE_HEADER": "Inviter un utilisateur",
+        "EMAIL_LABEL": "Nom d'utilisateur",
+        "EMAIL_PLACEHOLDER": "Entrer un email valide",
+        "SEND": "Envoyer",
+        "CLOSE": "Fermer",
+        "ASSIGN": "Assigner un rôle",
+        "CANCEL": "Annuler"
+    },
+    "PAGINATION": {
+        "REPORT": "Affichage de {first} à {last} sur {totalRecords} utilisateurs",
+        "ITEMS_PER_PAGE": "Éléments par page"
+    },
+    "ADD_ROLE": "Ajouter un rôle",
+    "NAME": "Nom",
+    "PERMISSIONS": "Permissions",
+    "ACTIONS": "Actions",
+    "ROLE_DETAILS": "Détails du rôle",
+    "NAME_REQUIRED": "Le nom est requis.",
+    "CANCEL": "Annuler",
+    "REPORT": "Affichage de {first} à {last} sur {totalRecords} rôles",
+    "SETTINGS": "Paramètres",
+    "CHANGE_PASSWORD": "Changer le mot de passe",
+    "CURRENT_PASSWORD": "Mot de passe actuel",
+    "NEW_PASSWORD": "Nouveau mot de passe",
+    "CONFIRM_NEW_PASSWORD": "Confirmer le nouveau mot de passe",
+    "CANNOT_EDIT_ADMIN": "Impossible de modifier le rôle Admin",
+    "EDIT_ROLE": "Modifier le rôle",
+    "CANNOT_DELETE_ADMIN": "Impossible de supprimer le rôle Admin",
+    "DELETE_ROLE": "Supprimer le rôle",
+    "LOGIN_SUCCESS": "Connexion réussie",
+    "LOGIN_FAILED": "Échec de la connexion",
+    "ACCOUNT_DISABLED": "Votre compte est désactivé. Veuillez contacter l'administrateur.",
+    "ACCOUNT_VERIFICATION_FAILED": "Échec de la vérification du statut du compte.",
+    "FILL_IN_FIELDS": "Veuillez remplir tous les champs.",
+    "register": {
+        "passwordsDoNotMatch": "Les mots de passe ne correspondent pas",
+        "passwordTooShort": "Le mot de passe est trop court",
+        "error": "Erreur",
+        "success": "Inscription réussie",
+        "successTitle": "Succès",
+        "failed": "Échec de l'inscription"
+    },
+    "create": {
+        "passwordsDoNotMatch": "Les mots de passe ne correspondent pas",
+        "passwordTooShort": "Le mot de passe est trop court",
+        "success": "Utilisateur créé avec succès",
+        "successTitle": "Succès",
+        "errorTitle": "Erreur",
+        "userExists": "L'utilisateur existe déjà"
+    },
+    "forgot": {
+        "success": "Demande de réinitialisation du mot de passe envoyée",
+        "successTitle": "Succès",
+        "error": "Échec de la demande de réinitialisation du mot de passe",
+        "errorTitle": "Erreur"
+    },
+    "breadcrumb": {
+        "home": "Accueil",
+        "dashboard": "Tableau de bord",
+        "users": "Utilisateurs",
+        "settings": "Paramètres"
+    },
+    "nav": {
+        "navigation": "Navigation",
+        "dashboard": "Tableau de bord",
+        "userPanel": "Panneau utilisateur",
+        "account": "Compte",
+        "profile": "Profil",
+        "settings": "Paramètres",
+        "adminPanel": "Panneau Admin",
+        "role": "Gestion des rôles",
+        "resource": "Gestion des ressources",
+        "pages": "Pages",
+        "auth": "Authentification",
+        "signup": "S'inscrire",
+        "signin": "Se connecter"
+    },
+    "reset": {
+        "tokenMissing": "Token manquant",
+        "fillAllFields": "Veuillez remplir tous les champs",
+        "passwordsNotMatch": "Les mots de passe ne correspondent pas",
+        "success": "Mot de passe réinitialisé avec succès",
+        "failed": "La réinitialisation du mot de passe a échoué"
+    },
+    "error": {
+        "title": "Erreur"
+    },
+    "success": {
+        "title": "Succès"
+    },
+    "profile": {
+        "userUpdated": "Utilisateur mis à jour avec succès",
+        "updateError": "Erreur lors de la mise à jour de l'utilisateur",
+        "imageUploaded": "Image téléchargée avec succès",
+        "imageUploadError": "Erreur lors du téléchargement de l'image",
+        "imageDeleted": "Image supprimée avec succès",
+        "imageDeleteError": "Erreur lors de la suppression de l'image"
+    },
+    "warning": "Attention",
+    "role_assigned_successfully": "Rôle attribué avec succès",
+    "role_assignment_failed": "Échec de l'attribution du rôle",
+    "user_account_activated": "Compte utilisateur activé",
+    "user_account_deactivated": "Compte utilisateur désactivé",
+    "failed_to_activate": "Échec de l'activation du compte",
+    "failed_to_deactivate": "Échec de la désactivation du compte",
+    "search_results": "Résultats de recherche",
+    "found_users": "Trouvé {{count}} utilisateur(s)",
+    "search_failed": "Échec de la recherche des utilisateurs",
+    "invalid_email": "Email invalide",
+    "enter_valid_email": "Veuillez entrer une adresse email valide.",
+    "enter_at_least_one_email": "Veuillez saisir au moins une adresse email",
+    "invitations_sent": "Invitation(s) envoyée(s) avec succès",
+    "invitations_failed": "Échec de l'envoi des invitations",
+    "email_required": "L'email est requis",
+    "duplicate_email": "Email en double",
+    "email_already_added": "Cette adresse email a déjà été ajoutée",
+    "all": "Tous",
+    "enabled": "Activés",
+    "disabled": "Désactivés",
+    "delete_role_message": "Voulez-vous supprimer le rôle",
+  "confirm": "Confirmation",
+  "yes": "Oui",
+  "no": "Non",
+  "role_deleted": "Rôle supprimé",
+  "role_updated": "Rôle mis à jour",
+  "role_added": "Rôle ajouté",
+  "no_permissions": "Aucune permission",
+  "settings": {
+    "passwords_do_not_match": "Les mots de passe ne correspondent pas",
+    "password_too_short": "Le mot de passe est trop court (minimum 8 caractères)",
+    "password_changed_successfully": "Mot de passe modifié avec succès",
+    "password_change_failed": "Échec du changement de mot de passe"
+  }
+}

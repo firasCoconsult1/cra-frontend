@@ -18,31 +18,31 @@ const routes: Routes = [
       {
         path: 'dashboard',
         loadComponent: () => import('./demo/dashboard/dashboard.component').then((c) => c.DashboardComponent),
-        canActivate: [AuthGuard],
+        //canActivate: [AuthGuard],
       },
       
       {
         path: 'settings',
         loadComponent: () => import('./demo/pages/settings/settings.component').then((c) => c.SettingsComponent),
-        canActivate: [AuthGuard],
+        //canActivate: [AuthGuard],
 
       },
       {
         path: 'profile',
         loadComponent: () => import('./demo/pages/profile/profile.component').then((c) => c.ProfileComponent),
-        canActivate: [AuthGuard],
+       // canActivate: [AuthGuard],
 
       },
       {
         path:'role',
         loadComponent: () => import('./demo/pages/role-management/role-management.component').then((c) => c.RoleManagementComponent),
-        canActivate: [AuthGuard],
+      //  canActivate: [AuthGuard],
 
       },
       {
         path:'resource',
         loadComponent: () => import('./demo/pages/resource-management/resource-management.component').then((c) => c.ResourceManagementComponent),
-        canActivate: [AuthGuard],
+     //   canActivate: [AuthGuard],
 
       }
       

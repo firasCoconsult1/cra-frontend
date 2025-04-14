@@ -6,7 +6,7 @@
         <div class="mb-4">
           <i class="feather icon-user-plus auth-icon"></i>
         </div>
-        <h3 class="mb-4">Create account</h3>
+        <h3 class="mb-4">{{ 'Create_account' | translate }}</h3>
         <div class="input-group mb-3">
           <div class="col">
             <input type="text" class="form-control small-placeholder" placeholder="Username" id="username" [(ngModel)]="data.username" [disabled]="true" />
@@ -14,7 +14,7 @@
         </div>
         <div class="input-group mb-3">
           <div class="col position-relative">
-            <input type="password" class="form-control small-placeholder" placeholder="Password" id="password"
+            <input type="password" class="form-control small-placeholder" placeholder="{{ 'PASSWORD' | translate }}" id="password"
               [(ngModel)]="data.password" />
             <i class="feather icon-eye position-absolute" style="right: 10px; top: 50%; transform: translateY(-50%);"
               *ngIf="passwordVisible" (click)="togglePasswordVisibility('password')"></i>
@@ -25,7 +25,7 @@
         </div>
         <div class="input-group mb-3">
           <div class="col position-relative">
-            <input type="password" class="form-control small-placeholder" placeholder="Confirm Password"
+            <input type="password" class="form-control small-placeholder" placeholder="{{ 'CONFIRM_PASSWORD' | translate }}"
               id="confirm-password" [(ngModel)]="data.confirmPassword" />
             <i class="feather icon-eye position-absolute" style="right: 10px; top: 50%; transform: translateY(-50%);"
               *ngIf="confirmPasswordVisible" (click)="togglePasswordVisibility('confirm-password')"></i>
@@ -36,7 +36,7 @@
         </div>
 
 
-        <button class="btn btn-primary mb-4" (click)="onSubmit()">Save</button>
+        <button class="btn btn-primary mb-4" (click)="onSubmit()">{{ 'SAVE' | translate }}</button>
 
       </div>
     </div>

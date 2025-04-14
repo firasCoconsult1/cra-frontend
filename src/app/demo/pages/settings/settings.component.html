@@ -6,23 +6,22 @@
                     <div class="row align-items-center justify-content-center">
                         <div class="col-8 text-center">
                             
-                            <h3 class="mb-0">Settings</h3>
+                            <h3 class="mb-0">{{ 'SETTINGS' | translate }}</h3>
                         </div>
                     </div>
                 </div>
                 <div class="card-body">
                     <form>
-                        <h4 class="heading-small text-muted mb-4 text-center color">Change Password</h4>
+                        <h4 class="heading-small text-muted mb-4 text-center color">{{ 'CHANGE_PASSWORD' | translate }}</h4>
                         <div class="pl-lg-4">
                             <div class="row justify-content-center">
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <label class="form-control-label color" for="input-currentPassword">Current
-                                            Password</label>
+                                        <label class="form-control-label color" for="input-currentPassword">{{ 'CURRENT_PASSWORD' | translate }}</label>
                                         <div class="col position-relative">
                                             <input type="password" id="currentPassword"
                                                 class="form-control form-control-alternative"
-                                                placeholder="Current Password"
+                                                placeholder="{{ 'CURRENT_PASSWORD' | translate }}"
                                                 [(ngModel)]="changePasswordRequest.oldPassword">
                                             <i class="feather icon-eye position-absolute"
                                                 style="right: 10px; top: 50%; transform: translateY(-50%);"
@@ -39,11 +38,10 @@
                             <div class="row justify-content-center">
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <label class="form-control-label color" for="input-newPassword">New
-                                            Password</label>
+                                        <label class="form-control-label color" for="input-newPassword">{{ 'NEW_PASSWORD' | translate }}</label>
                                         <div class="col position-relative">
                                             <input type="password" id="newPassword"
-                                                class="form-control form-control-alternative" placeholder="New Password"
+                                                class="form-control form-control-alternative" placeholder="{{ 'NEW_PASSWORD' | translate }}"
                                                 [(ngModel)]="changePasswordRequest.newPassword">
                                             <i class="feather icon-eye position-absolute"
                                                 style="right: 10px; top: 50%; transform: translateY(-50%);"
@@ -60,12 +58,11 @@
                             <div class="row justify-content-center">
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <label class="form-control-label color" for="input-confirmPassword">Confirm New
-                                            Password</label>
+                                        <label class="form-control-label color" for="input-confirmPassword">{{ 'CONFIRM_NEW_PASSWORD' | translate }}</label>
                                         <div class="col position-relative">
                                             <input type="password" id="confirmPassword"
                                                 class="form-control form-control-alternative"
-                                                placeholder="Confirm New Password"
+                                                placeholder="{{ 'CONFIRM_NEW_PASSWORD' | translate }}"
                                                 [(ngModel)]="changePasswordRequest.confirmNewPassword">
 
                                             <i class="feather icon-eye position-absolute"
@@ -87,7 +84,7 @@
                             <div class="col-lg-6 text-center">
                                 <div class="form-group">
                                     <button class="btn btn-primary" type="button"
-                                        (click)="changePassword()">Save</button>
+                                        (click)="changePassword()">{{ 'SAVE' | translate }}</button>
                                 </div>
                             </div>
                         </div>

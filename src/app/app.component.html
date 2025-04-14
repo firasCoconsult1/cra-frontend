@@ -1,1 +1,19 @@
+<div class="language-dropdown-container">
+  <p-dropdown [options]="languages" [(ngModel)]="selectedLanguage" (onChange)="switchLanguage($event)"
+    [style]="{ width: '80px' }" [showClear]="false" [filter]="false">
+    <!-- Élément sélectionné : affiche uniquement le drapeau -->
+    <ng-template let-lang pTemplate="selectedItem">
+      <img *ngIf="lang" [src]="lang.icon" width="25" height="18" alt="{{lang.label}}" />
+    </ng-template>
+
+    <!-- Liste déroulante : affiche drapeau  -->
+    <ng-template let-lang pTemplate="item">
+      <div class="language-item">
+        <img [src]="lang.icon" width="25" height="18" alt="{{lang.label}}" />
+
+      </div>
+    </ng-template>
+  </p-dropdown>
+</div>
+
 <router-outlet><app-spinner></app-spinner></router-outlet>

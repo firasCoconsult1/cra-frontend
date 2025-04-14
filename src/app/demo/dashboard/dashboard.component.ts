@@ -6,6 +6,8 @@ import { ButtonModule } from 'primeng/button';
 // project import
 import { SharedModule } from 'src/app/theme/shared/shared.module';
 import { RouterModule } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core'; 
+
 
 declare const AmCharts;
 
@@ -24,7 +26,7 @@ import mapColor from 'src/fake-data/map-color-data.json';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule, SharedModule, Card, ButtonModule,RouterModule],
+  imports: [CommonModule, SharedModule, Card, ButtonModule,RouterModule, TranslateModule],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })

@@ -5,6 +5,7 @@ import { RegisterRequest } from '../model/auth-model';
 import { AuthService } from '../auth-service/authentification.service';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 
 
@@ -15,7 +16,7 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-auth-signup',
   standalone: true,
-  imports: [RouterModule, CommonModule, FormsModule],
+  imports: [RouterModule, CommonModule, FormsModule, TranslateModule],
   templateUrl: './auth-signup.component.html',
   styleUrls: ['./auth-signup.component.scss']
 })
@@ -30,39 +31,45 @@ export default class AuthSignupComponent {
     fullname: ''
   };
   errorMessage = '';
-  constructor(private authService: AuthService, private router: Router, private toastr:ToastrService ) {}
+  constructor(private translate: TranslateService,
+    private authService: AuthService, private router: Router, private toastr: ToastrService) { }
 
-  register() {
-    if (this.registerData.password !== this.registerData.confirmPassword) {
-      this.toastr.error('Passwords do not match', 'Error');
-      return;
-      
-    }
-    if (this.registerData.password.length<8){
-      this.toastr.error('Password is short','Error');
-      return;
-    }
-    
-  
-
-    this.authService.register(this.registerData).subscribe(
-      response => {
-        this.toastr.success('Registration successful', 'Success');
-        this.resetForm();
-        this.router.navigate(['/auth/signin']);
-        
-        
-        
-      },
-      error => {
-        this.errorMessage = 'Registration failed';
-        this.toastr.error(this.errorMessage, 'Error');
-        console.error('Registration failed', error);
+    register() {
+      if (this.registerData.password !== this.registerData.confirmPassword) {
+        this.toastr.error(
+          this.translate.instant('register.passwordsDoNotMatch'),
+          this.translate.instant('register.error')
+        );
+        return;
       }
-      
-    );
     
-  }
+      if (this.registerData.password.length < 8) {
+        this.toastr.error(
+          this.translate.instant('register.passwordTooShort'),
+          this.translate.instant('register.error')
+        );
+        return;
+      }
+    
+      this.authService.register(this.registerData).subscribe(
+        response => {
+          this.toastr.success(
+            this.translate.instant('register.success'),
+            this.translate.instant('register.successTitle')
+          );
+          this.resetForm();
+          this.router.navigate(['/auth/signin']);
+        },
+        error => {
+          this.toastr.error(
+            this.translate.instant('register.failed'),
+            this.translate.instant('register.error')
+          );
+          console.error('Registration failed', error);
+        }
+      );
+    }
+    
   resetForm() {
     this.registerData = {
       username: '',
@@ -89,5 +96,5 @@ export default class AuthSignupComponent {
       }
     }
   }
-  
+
 }

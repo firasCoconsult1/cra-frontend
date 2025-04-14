@@ -10,7 +10,7 @@ import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { TooltipModule } from 'primeng/tooltip';
 
-
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { ConfirmDialog } from 'primeng/confirmdialog';
@@ -32,7 +32,7 @@ import { Page } from './model/page';
     ToolbarModule, ConfirmDialog, InputTextModule,
     TextareaModule, CommonModule, DropdownModule,
     InputTextModule, FormsModule, ButtonModule,
-    IconFieldModule, InputIconModule, CheckboxModule,TooltipModule],
+    IconFieldModule, InputIconModule, CheckboxModule,TooltipModule, TranslateModule],
   providers: [MessageService, ConfirmationService],
   styles: [
     `:host ::ng-deep .p-dialog .product-image {
@@ -58,7 +58,8 @@ export class RoleManagementComponent implements OnInit {
 
 
 
-  constructor(private roleService: RoleServiceService, private messageService: MessageService, private confirmationService: ConfirmationService) { }
+  constructor(    private translate: TranslateService,
+    private roleService: RoleServiceService, private messageService: MessageService, private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
     this.loadRoles();
@@ -109,27 +110,31 @@ export class RoleManagementComponent implements OnInit {
     }
   }
 
-  deleteRole(role: Role) {
+  deleteRole(role: Role): void {
     this.confirmationService.confirm({
-      message: `Do you want to delete the role ${role.name}?`,
-      header: 'Confirm',
+      message: `${this.translate.instant('delete_role_message')} ${role.name} ?`,
+      header: this.translate.instant('confirm'),
       icon: 'pi pi-exclamation-triangle',
-      acceptLabel: 'Yes',
-      rejectLabel: 'No',
+      acceptLabel: this.translate.instant('yes'),
+      rejectLabel: this.translate.instant('no'),
       acceptButtonStyleClass: 'p-button-success',
       rejectButtonStyleClass: 'p-button-danger',
       accept: () => {
         this.roleService.deleteRole(role.id).subscribe(() => {
           this.roles = this.roles.filter(val => val.id !== role.id);
           this.role = { id: 0, name: '' };
-          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Role deleted', life: 3000 });
+          this.messageService.add({
+            severity: 'success',
+            summary: this.translate.instant('success.title'),
+            detail: this.translate.instant('role_deleted'),
+            life: 3000
+          });
         });
       }
     });
   }
 
-
-  saveRole() {
+  saveRole(): void {
     this.submitted = true;
 
     if (this.role.name.trim()) {
@@ -141,12 +146,22 @@ export class RoleManagementComponent implements OnInit {
       if (this.role.id) {
         this.roleService.updateRole(roleDto, this.role.id).subscribe(() => {
           this.loadRoles();
-          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Role updated', life: 3000 });
+          this.messageService.add({
+            severity: 'success',
+            summary: this.translate.instant('success.title'),
+            detail: this.translate.instant('role_updated'),
+            life: 3000
+          });
         });
       } else {
         this.roleService.addRole(roleDto).subscribe(() => {
           this.loadRoles();
-          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Role added', life: 3000 });
+          this.messageService.add({
+            severity: 'success',
+            summary: this.translate.instant('success.title'),
+            detail: this.translate.instant('role_added'),
+            life: 3000
+          });
         });
       }
 
@@ -155,6 +170,8 @@ export class RoleManagementComponent implements OnInit {
       this.selectedPermissions.clear();
     }
   }
+
+  
 
   hideDialog() {
     this.roleDialog = false;
@@ -169,7 +186,7 @@ export class RoleManagementComponent implements OnInit {
   getFormattedPermissions(permissions: any[]): string {
     if (!permissions || permissions.length === 0) {
 
-      return 'No permissions';
+      return this.translate.instant('no_permissions');
     }
     return permissions.map(permission => permission.name).join(' / ');
   }

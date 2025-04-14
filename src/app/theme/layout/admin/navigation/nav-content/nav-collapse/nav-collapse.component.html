@@ -17,7 +17,7 @@
       </span>
     }
     <span class="pcoded-mtext">
-      {{ item().title }}
+      {{ item().translate ? (item().translate | translate) : item().title }}
     </span>
   </ng-template>
   <ng-template #subMenuContent>

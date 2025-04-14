@@ -5,24 +5,24 @@
     <p-table #dt [value]="roles" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[5, 10, 20]" [dropdown]="true"
         paginatorPosition="bottom" [globalFilterFields]="['name']" [tableStyle]="{ 'min-width': '50rem' }"
         [(selection)]="selectedRoles" [rowHover]="true" dataKey="id"
-        currentPageReportTemplate="Displaying {first} to {last} of {totalRecords} roles" [showCurrentPageReport]="true"
+        currentPageReportTemplate="{{ 'REPORT' | translate }}" [showCurrentPageReport]="true"
         class="custom-pagination">
         <ng-template #caption>
             <div class="align-right">
-                <p-button label="Add role" icon="pi pi-plus" class="mr-2" (onClick)="openNew()" />
+                <p-button label="{{ 'ADD_ROLE' | translate }}" icon="pi pi-plus" class="mr-2" (onClick)="openNew()" />
             </div>
         </ng-template>
         <ng-template #header>
             <tr>
                 <th pSortableColumn="name" style="min-width: 14rem">
-                    Name
+                    {{ 'NAME' | translate }}
                     <p-sortIcon field="name" />
                 </th>
                 <th style="min-width: 18rem">
-                    Permissions
+                    {{ 'PERMISSIONS' | translate }}
 
                 </th>
-                <th style="min-width: 12rem">Actions</th>
+                <th style="min-width: 12rem">{{ 'ACTIONS' | translate }}</th>
             </tr>
         </ng-template>
         <ng-template #body let-role>
@@ -35,12 +35,12 @@
                 <td>
                     <p-button icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true"
                         (click)="editRole(role)" [disabled]="role.name === 'Admin'"
-                        [pTooltip]="role.name === 'Admin' ? 'Cannot edit Admin role' : 'Edit role'"
+                        [pTooltip]="role.name === 'Admin' ? ('CANNOT_EDIT_ADMIN' | translate) : ('EDIT_ROLE' | translate)"
                         tooltipPosition="top" />
 
                     <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true"
                         (click)="deleteRole(role)" [disabled]="role.name === 'Admin'"
-                        [pTooltip]="role.name === 'Admin' ? 'Cannot delete Admin role' : 'Delete role'"
+                        [pTooltip]="role.name === 'Admin' ? ('CANNOT_DELETE_ADMIN' | translate) : ('DELETE_ROLE' | translate)"
                         tooltipPosition="top" />
                 </td>
 
@@ -53,12 +53,12 @@
         <ng-template #content>
             <div class="flex flex-col gap-6">
                 <div>
-                    <label for="name" class="block font-bold mb-3">Name</label><br>
+                    <label for="name" class="block font-bold mb-3">{{ 'NAME' | translate }}</label><br>
                     <input type="text" pInputText id="name" [(ngModel)]="role.name" required autofocus
                         class="v-full" /><br>
-                    <small class="text-red-500" *ngIf="submitted && !role.name">Name is required.</small><br>
+                    <small class="text-red-500" *ngIf="submitted && !role.name">{{ 'NAME_REQUIRED' | translate }}</small><br>
                     <div>
-                        <label for="permissions" class="block font-bold mb-3">Permissions</label>
+                        <label for="permissions" class="block font-bold mb-3">{{ 'PERMISSIONS' | translate }}</label>
                         <div *ngFor="let permission of permissions" class="flex items-center permission-item">
                             <p-checkbox [ngModel]="selectedPermissions.has(permission.id)"
                                 (ngModelChange)="onPermissionChange($event, permission.id)" [binary]="true">
@@ -71,8 +71,8 @@
         </ng-template>
 
         <ng-template #footer>
-            <p-button severity="secondary" label="Cancel" icon="pi pi-times" text (click)="hideDialog()" />
-            <p-button label="Save" icon="pi pi-check" (click)="saveRole()" />
+            <p-button severity="secondary" label="{{ 'CANCEL' | translate }}" icon="pi pi-times" text (click)="hideDialog()" />
+            <p-button label="{{ 'SAVE' | translate }}" icon="pi pi-check" (click)="saveRole()" />
         </ng-template>
     </p-dialog>
 

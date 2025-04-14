@@ -8,7 +8,8 @@
               @for (breadcrumb of navigationList; track breadcrumb; let last = $last) {
                 @if (last) {
                   <h5 class="m-b-10">
-                    {{ breadcrumb.title }}
+                   {{ breadcrumb.translate ? (breadcrumb.translate | translate) : breadcrumb.title }}
+
                   </h5>
                 }
               }
@@ -16,21 +17,32 @@
             <ul class="breadcrumb">
               <li class="breadcrumb-item">
                 @if (type === 'theme2') {
-                  <a [routerLink]="['/dashboard/default/']"><i class="feather icon-home"></i></a>
+                  <a [routerLink]="['/dashboard/default/']">
+                    <i class="feather icon-home"></i>
+                  </a>
                 }
                 @if (type === 'theme1') {
-                  <a [routerLink]="['/dashboard/default/']">{{ 'Home' }}</a>
+                  <a [routerLink]="['/dashboard/default/']">
+                    {{ 'breadcrumb.home' | translate }}
+                  </a>
                 }
               </li>
+
               @for (breadcrumb of navigationList; track breadcrumb) {
                 @if (breadcrumb.url !== false) {
                   <li class="breadcrumb-item">
-                    <a [routerLink]="breadcrumb.url">{{ breadcrumb.title }}</a>
+                    <a [routerLink]="breadcrumb.url">
+                     {{ breadcrumb.translate ? (breadcrumb.translate | translate) : breadcrumb.title }}
+
+                    </a>
                   </li>
                 }
                 @if (breadcrumb.url === false && breadcrumb.type !== 'group') {
                   <li class="breadcrumb-item">
-                    <a href="javascript:">{{ breadcrumb.title }}</a>
+                    <a href="javascript:">
+                     {{ breadcrumb.translate ? (breadcrumb.translate | translate) : breadcrumb.title }}
+
+                    </a>
                   </li>
                 }
               }

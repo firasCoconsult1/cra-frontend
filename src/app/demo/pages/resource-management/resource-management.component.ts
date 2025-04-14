@@ -22,15 +22,14 @@ import { InputTextModule } from 'primeng/inputtext';
 import { PaginatorModule } from 'primeng/paginator';
 import { Page } from '../role-management/model/page';
 import { TooltipModule } from 'primeng/tooltip';
-import { HttpParams } from '@angular/common/http';
-
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 
 
 
 @Component({
   selector: 'app-resource-management',
-  imports: [ChipModule,TooltipModule,PaginatorModule, DropdownModule, Dialog, Card, InputTextModule, ButtonModule, ToolbarModule, ToastModule, CommonModule, RadioButtonModule, FormsModule, InputGroupModule, InputIconModule, InputSwitchModule],
+  imports: [TranslateModule, ChipModule, TooltipModule, PaginatorModule, DropdownModule, Dialog, Card, InputTextModule, ButtonModule, ToolbarModule, ToastModule, CommonModule, RadioButtonModule, FormsModule, InputGroupModule, InputIconModule, InputSwitchModule],
   providers: [MessageService, ConfirmationService],
   templateUrl: './resource-management.component.html',
   styleUrl: './resource-management.component.scss'
@@ -49,27 +48,39 @@ export class ResourceManagementComponent implements OnInit {
   user: User;
   users: User[] = [];
   currentPage: number = 0;
-  filterOptions = [
-    { label: 'All', value: 'all' },
-    { label: 'Enabled', value: true },
-    { label: 'Disabled', value: false }
-  ];
+  filterOptions: any[] = [];
+
+
 
   pageSizeOptions = [
     { label: '5', value: 5 },
     { label: '10', value: 10 },
     { label: '20', value: 20 },
   ];
-  
-  totalUsers: number = 0; 
-  itemsPerPage: number = 5; 
-  selectedFilter: string | boolean = 'all'; 
-  filteredUsersE: any[] = []; 
 
-  constructor(private roleService: RoleServiceService, private resourceService: ResourceManagementService, private messageService: MessageService, private confirmationService: ConfirmationService) { }
+  totalUsers: number = 0;
+  itemsPerPage: number = 5;
+  selectedFilter: string | boolean = 'all';
+  filteredUsersE: any[] = [];
+
+  constructor(private translate: TranslateService, private roleService: RoleServiceService, private resourceService: ResourceManagementService, private messageService: MessageService, private confirmationService: ConfirmationService) { }
   ngOnInit(): void {
+    this.loadFilterOptions();
+
     this.getAllUsers();
     this.getAllRoles();
+    this.translate.onLangChange.subscribe(() => {
+      this.loadFilterOptions();
+    });
+  }
+  loadFilterOptions(): void {
+    this.translate.get(['all', 'enabled', 'disabled']).subscribe(translations => {
+      this.filterOptions = [
+        { label: translations['all'], value: 'all' },
+        { label: translations['enabled'], value: true },
+        { label: translations['disabled'], value: false }
+      ];
+    });
   }
   getAllRoles(): void {
     const page = 0;
@@ -100,12 +111,12 @@ export class ResourceManagementComponent implements OnInit {
       (response: any) => {
         console.log('Pagination data received:', response);
         this.users = response.content;
-        
+
         this.totalUsers = response.page.totalElements;
-        
+
         this.filteredUsersE = [...this.users];
-        
-        
+
+
       },
       error => {
         console.error('Error fetching users', error);
@@ -114,11 +125,11 @@ export class ResourceManagementComponent implements OnInit {
   }
 
 
-  
+
   onPageSizeChange(event: any): void {
     this.itemsPerPage = event.value;
-    this.currentPage = 0; 
-    this.getAllUsers(); 
+    this.currentPage = 0;
+    this.getAllUsers();
   }
   openRoleDialog(user: any): void {
     this.selectedUser = user;
@@ -133,17 +144,25 @@ export class ResourceManagementComponent implements OnInit {
     this.displayRoleDialog = true;
   }
 
-  assignRole() {
+  assignRole(): void {
     if (this.selectedUser && this.selectedRole) {
       const roleId = typeof this.selectedRole === 'object' ? (this.selectedRole as any)?.id : this.selectedRole;
       this.resourceService.assignRoleToUser(this.selectedUser.id, roleId).subscribe(
         () => {
-          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Role assigned successfully' });
+          this.messageService.add({
+            severity: 'success',
+            summary: this.translate.instant('success.title'),
+            detail: this.translate.instant('role_assigned_successfully')
+          });
           this.getAllUsers();
           this.displayRoleDialog = false;
         },
         error => {
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to assign role' });
+          this.messageService.add({
+            severity: 'error',
+            summary: this.translate.instant('error.title'),
+            detail: this.translate.instant('role_assignment_failed')
+          });
           console.error('Error assigning role:', error);
         }
       );
@@ -158,33 +177,30 @@ export class ResourceManagementComponent implements OnInit {
     this.displayInvitationDialog = true;
   }
   toggleUserStatus(user: User): void {
-    if (user.enabled) {
-      this.resourceService.activateUserAccount(user.id).subscribe(
-        (updatedUser) => {
-          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'User account activated' });
-        },
-        (error) => {
-          user.enabled = false;
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to activate user account' });
-          console.error('Error activating user account:', error);
-        }
-      );
-    } else {
-      this.resourceService.deactivateUserAccount(user.id).subscribe(
-        (updatedUser) => {
-          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'User account deactivated' });
-        },
-        (error) => {
-          user.enabled = true;
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to deactivate user account' });
-          console.error('Error deactivating user account:', error);
-        }
-      );
-    }
+    const action = user.enabled
+      ? this.resourceService.activateUserAccount(user.id)
+      : this.resourceService.deactivateUserAccount(user.id);
+
+    action.subscribe(
+      () => {
+        const message = user.enabled
+          ? this.translate.instant('user_account_activated')
+          : this.translate.instant('user_account_deactivated');
+        this.messageService.add({ severity: 'success', summary: this.translate.instant('success.title'), detail: message });
+      },
+      (error) => {
+        user.enabled = !user.enabled;
+        const errorMsg = user.enabled
+          ? this.translate.instant('failed_to_activate')
+          : this.translate.instant('failed_to_deactivate');
+        this.messageService.add({ severity: 'error', summary: this.translate.instant('error.title'), detail: errorMsg });
+        console.error('Error toggling user account:', error);
+      }
+    );
   }
   searchUsers(): void {
-    if (!this.searchTerm || this.searchTerm.trim() === '') {
-      this.getAllUsers(); 
+    if (!this.searchTerm.trim()) {
+      this.getAllUsers();
       return;
     }
 
@@ -193,16 +209,16 @@ export class ResourceManagementComponent implements OnInit {
         this.users = data;
         this.messageService.add({
           severity: 'info',
-          summary: 'Search Results',
-          detail: `Found ${data.length} users`
+          summary: this.translate.instant('search_results'),
+          detail: this.translate.instant('found_users', { count: data.length })
         });
       },
       error => {
         console.error('Error searching users', error);
         this.messageService.add({
           severity: 'error',
-          summary: 'Error',
-          detail: 'Failed to search users'
+          summary: this.translate.instant('error.title'),
+          detail: this.translate.instant('search_failed')
         });
       }
     );
@@ -219,60 +235,93 @@ export class ResourceManagementComponent implements OnInit {
   }
   filterUsers(): void {
     if (this.selectedFilter === 'all') {
-      this.filteredUsersE = [...this.users]; 
+      this.filteredUsersE = [...this.users];
     } else {
       const isEnabled = this.selectedFilter === true;
       this.filteredUsersE = this.users.filter(user => user.enabled === isEnabled);
     }
   }
-  emailInput: string = ''; 
-  emails: string[] = [];   
+  emailInput: string = '';
+  emails: string[] = [];
   addEmail(event: any): void {
-    if (this.emailInput && this.isValidEmail(this.emailInput)) {
-      this.emails.push(this.emailInput);
-      this.emailInput = '';  
-    } else {
-      this.messageService.add({ severity: 'error', summary: 'Invalid Email', detail: 'Please enter a valid email address.' });  
+    if (!this.emailInput || this.emailInput.trim() === '') {
+      this.messageService.add({
+        severity: 'error',
+        summary: this.translate.instant('invalid_email'),
+        detail: this.translate.instant('email_required')
+      });
+      return;
     }
-  }
-
   
+    if (!this.isValidEmail(this.emailInput)) {
+      this.messageService.add({
+        severity: 'error',
+        summary: this.translate.instant('invalid_email'),
+        detail: this.translate.instant('enter_valid_email')
+      });
+      return;
+    }
+  
+    if (this.emails.includes(this.emailInput)) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: this.translate.instant('duplicate_email'),
+        detail: this.translate.instant('email_already_added')
+      });
+      return;
+    }
+  
+    this.emails.push(this.emailInput);
+    this.emailInput = '';
+  }
+  
+
   isValidEmail(email: string): boolean {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return emailRegex.test(email);
   }
 
 
-inviteUser(): void {
-  if (this.emails.length === 0) {
-    this.messageService.add({
-      severity: 'warn',
-      summary: 'Warning',
-      detail: 'Please enter at least one email address'
-    });
-    return;
-  }
-
-  this.resourceService.inviteUsers(this.emails).subscribe(
-    () => {
+  inviteUser(): void {
+    if (this.emails.length === 0) {
       this.messageService.add({
-        severity: 'success',
-        summary: 'Success',
-        detail: 'Invitation(s) sent successfully'
+        severity: 'warn',
+        summary: this.translate.instant('warning'),
+        detail: this.translate.instant('enter_at_least_one_email')
       });
-      this.emails = []; 
-      this.displayInvitationDialog = false;
-    },
-    error => {
-      console.error('Error sending invitation email', error);
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: 'Failed to send invitation(s)'
-      });
+      return;
     }
-  );
-}
+
+    this.resourceService.inviteUsers(this.emails).subscribe(
+      () => {
+        this.messageService.add({
+          severity: 'success',
+          summary: this.translate.instant('success.title'),
+          detail: this.translate.instant('invitations_sent')
+        });
+        this.emails = [];
+        this.displayInvitationDialog = false;
+      },
+      error => {
+        console.error('Error sending invitation email', error);
+        this.messageService.add({
+          severity: 'error.title',
+          summary: this.translate.instant('error.title'),
+          detail: this.translate.instant('invitations_failed')
+        });
+      }
+    );
+  }
+  removeEmail(email: string): void {
+    const index = this.emails.indexOf(email);
+    if (index > -1) {
+      this.emails.splice(index, 1); 
+    }
+
+    if (this.emails.length === 0) {
+      this.emails = []; 
+    }
+  }
 }
 
 

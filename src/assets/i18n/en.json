@@ -1,0 +1,196 @@
+{
+    "LOGIN": "Login",
+    "USERNAME": "Username",
+    "PASSWORD": "Password",
+    "FORGOT_PASSWORD": "Forgot password?",
+    "FORGOT": "Forgot",
+    "NO_ACCOUNT": "Don’t have an account?",
+    "SIGN_UP": "Sign up",
+    "FULLNAME": "Fullname",
+    "CONFIRM_PASSWORD": "Confirm Password",
+    "ALREADY_HAVE_ACCOUNT": "Already have an account?",
+    "LOG_IN": "Log in",
+    "Create_account": "Create account",
+    "SAVE": "Save",
+    "Forgot password": "Forgot password",
+    "SEND": "Send",
+    "RESET": "Reset",
+    "Reset password": "Reset Password",
+    "HOME": {
+        "TITLE": "Welcome to Time Bill",
+        "SUBTITLE": "Manage resources, roles, and timesheets efficiently.",
+        "MANAGE_RESOURCES": "Manage Resources",
+        "RESOURCES_DESC": "View, edit, and manage all users.",
+        "MANAGE_ROLES": "Manage Roles",
+        "ROLES_DESC": "View, edit, and manage all roles.",
+        "MANAGE_CRA": "Manage Timesheets",
+        "CRA_DESC": "View, edit and manage all timesheets."
+    },
+    "PROFILE": {
+        "UPDATE_TITLE": "Update Profile",
+        "SECTION_TITLE": "Personal informations",
+        "USERNAME": "Username",
+        "ACCOUNT_TYPE": "Account type",
+        "FULLNAME": "Fullname",
+        "PHONE": "Phone Number",
+        "DESCRIPTION": "Description",
+        "SAVE": "Save",
+        "CANCEL": "Cancel",
+        "DELETE_IMAGE": "Delete image"
+    },
+    "TOOLBAR": {
+        "INVITE_USER": "Invite user",
+        "SEARCH_PLACEHOLDER": "Search users..."
+    },
+    "FILTER": {
+        "PLACEHOLDER": "Filter users"
+    },
+    "USER_CARD": {
+        "NO_ROLE": "No Role Assigned",
+        "VIEW_PROFILE": "View profile",
+        "ASSIGN_ROLE": "Assign role",
+        "TOGGLE_USER": "Enable/disable user"
+    },
+    "DIALOG": {
+        "DETAILS_HEADER": "User Details",
+        "DETAILS": {
+            "FULLNAME": "Full Name",
+            "EMAIL": "Email",
+            "PHONE": "Phone Number"
+        },
+        "ROLE_HEADER": "Assign Role",
+        "ROLE_PLACEHOLDER": "Select a role",
+        "INVITE_HEADER": "Invite user",
+        "EMAIL_LABEL": "Username",
+        "EMAIL_PLACEHOLDER": "Enter a valid email",
+        "SEND": "Send",
+        "CLOSE": "Close",
+        "ASSIGN": "Assign Role",
+        "CANCEL": "Cancel"
+    },
+    "PAGINATION": {
+        "REPORT": "Displaying {first} to {last} of {totalRecords} users",
+        "ITEMS_PER_PAGE": "Items per page"
+    },
+    "ADD_ROLE": "Add role",
+    "NAME": "Name",
+    "PERMISSIONS": "Permissions",
+    "ACTIONS": "Actions",
+    "ROLE_DETAILS": "Role details",
+    "NAME_REQUIRED": "Name is required.",
+    "CANCEL": "Cancel",
+    "REPORT": "Displaying {first} to {last} of {totalRecords} roles",
+    "SETTINGS": "Settings",
+    "CHANGE_PASSWORD": "Change Password",
+    "CURRENT_PASSWORD": "Current Password",
+    "NEW_PASSWORD": "New Password",
+    "CONFIRM_NEW_PASSWORD": "Confirm New Password",
+    "CANNOT_EDIT_ADMIN": "Cannot edit Admin role",
+    "EDIT_ROLE": "Edit role",
+    "CANNOT_DELETE_ADMIN": "Cannot delete Admin role",
+    "DELETE_ROLE": "Delete role",
+    "LOGIN_SUCCESS": "Login successful",
+    "LOGIN_FAILED": "Login failed",
+    "ACCOUNT_DISABLED": "Your account is disabled. Please contact the administrator.",
+    "ACCOUNT_VERIFICATION_FAILED": "Failed to verify account status.",
+    "FILL_IN_FIELDS": "Please fill in all the fields.",
+    "register": {
+        "passwordsDoNotMatch": "Passwords do not match",
+        "passwordTooShort": "Password is too short",
+        "error": "Error",
+        "success": "Registration successful",
+        "successTitle": "Success",
+        "failed": "Registration failed"
+    },
+    "create": {
+        "passwordsDoNotMatch": "Passwords do not match",
+        "passwordTooShort": "Password is too short",
+        "success": "User created successfully",
+        "successTitle": "Success",
+        "errorTitle": "Error",
+        "userExists": "User already exists"
+    },
+    "forgot": {
+        "success": "Password reset request sent",
+        "successTitle": "Success",
+        "error": "Password reset request failed",
+        "errorTitle": "Error"
+    },
+    "breadcrumb": {
+        "home": "Home",
+        "dashboard": "Dashboard",
+        "users": "Users",
+        "settings": "Settings"
+    },
+    "nav": {
+        "navigation": "Navigation",
+        "dashboard": "Dashboard",
+        "userPanel": "User Panel",
+        "account": "Account",
+        "profile": "Profile",
+        "settings": "Settings",
+        "adminPanel": "Admin Panel",
+        "role": "Role Management",
+        "resource": "Resource Management",
+        "pages": "Pages",
+        "auth": "Authentication",
+        "signup": "Sign up",
+        "signin": "Sign in"
+    },
+    "reset": {
+        "tokenMissing": "Missing token",
+        "fillAllFields": "Please fill in all the fields",
+        "passwordsNotMatch": "Passwords do not match",
+        "success": "Password reset successfully",
+        "failed": "Password reset failed"
+    },
+    "error": {
+        "title": "Error"
+    },
+    "success": {
+        "title": "Success"
+    },
+    "profile": {
+        "userUpdated": "User updated successfully",
+        "updateError": "Error updating user",
+        "imageUploaded": "Image uploaded successfully",
+        "imageUploadError": "Error uploading image",
+        "imageDeleted": "Image deleted successfully",
+        "imageDeleteError": "Error deleting image"
+    },
+    "warning": "Warning",
+    "role_assigned_successfully": "Role assigned successfully",
+    "role_assignment_failed": "Failed to assign role",
+    "user_account_activated": "User account activated",
+    "user_account_deactivated": "User account deactivated",
+    "failed_to_activate": "Failed to activate user account",
+    "failed_to_deactivate": "Failed to deactivate user account",
+    "search_results": "Search Results",
+    "found_users": "Found {{count}} user(s)",
+    "search_failed": "Failed to search users",
+    "invalid_email": "Invalid Email",
+    "enter_valid_email": "Please enter a valid email address.",
+    "enter_at_least_one_email": "Please enter at least one email address",
+    "invitations_sent": "Invitation(s) sent successfully",
+    "invitations_failed": "Failed to send invitation(s)",
+    "email_required": "Email is required",
+    "duplicate_email": "Duplicate email",
+    "email_already_added": "This email address has already been added",
+    "all": "All",
+    "enabled": "Enabled",
+    "disabled": "Disabled",
+    "delete_role_message": "Do you want to delete the role",
+    "confirm": "Confirm",
+    "yes": "Yes",
+    "no": "No",
+    "role_deleted": "Role deleted",
+    "role_updated": "Role updated",
+    "role_added": "Role added",
+    "no_permissions": "No permissions",
+    "settings": {
+    "passwords_do_not_match": "Passwords do not match",
+    "password_too_short": "Password is too short (minimum 8 characters)",
+    "password_changed_successfully": "Password changed successfully",
+    "password_change_failed": "Password change failed"
+  }
+}

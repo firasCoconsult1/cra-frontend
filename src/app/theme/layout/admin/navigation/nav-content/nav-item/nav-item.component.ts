@@ -2,14 +2,14 @@
 import { Component, inject, input } from '@angular/core';
 import { Location } from '@angular/common';
 import { RouterModule } from '@angular/router';
-
+import { TranslateModule } from '@ngx-translate/core';
 // project import
 import { NavigationItem } from '../../navigation';
 import { SharedModule } from 'src/app/theme/shared/shared.module';
 
 @Component({
   selector: 'app-nav-item',
-  imports: [SharedModule, RouterModule],
+  imports: [SharedModule, RouterModule, TranslateModule],
   templateUrl: './nav-item.component.html',
   styleUrls: ['./nav-item.component.scss']
 })

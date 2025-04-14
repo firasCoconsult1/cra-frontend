@@ -1,7 +1,7 @@
 // angular import
 import { Component, OnInit, inject, input } from '@angular/core';
 import { Location } from '@angular/common';
-
+import { TranslateModule } from '@ngx-translate/core';
 // project import
 import { NavigationItem } from '../../navigation';
 import { SharedModule } from 'src/app/theme/shared/shared.module';
@@ -10,7 +10,7 @@ import { NavCollapseComponent } from '../nav-collapse/nav-collapse.component';
 
 @Component({
   selector: 'app-nav-group',
-  imports: [SharedModule, NavItemComponent, NavCollapseComponent],
+  imports: [SharedModule, NavItemComponent, NavCollapseComponent, TranslateModule],
   templateUrl: './nav-group.component.html',
   styleUrls: ['./nav-group.component.scss']
 })

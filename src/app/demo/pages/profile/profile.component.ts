@@ -8,15 +8,23 @@ import { ToastrService } from 'ngx-toastr';
 import { TextareaModule } from 'primeng/textarea';
 import { IconFieldModule } from 'primeng/iconfield';
 import { ButtonModule } from 'primeng/button';
-
-
-
+import { TooltipModule } from 'primeng/tooltip';
+import { TranslateService, TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
-  imports: [CommonModule, FormsModule, TextareaModule, ReactiveFormsModule, IconFieldModule, ButtonModule],
+  imports: [
+    TranslateModule,
+    TooltipModule,
+    CommonModule,
+    FormsModule,
+    TextareaModule,
+    ReactiveFormsModule,
+    IconFieldModule,
+    ButtonModule
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class ProfileComponent implements OnInit {
@@ -25,13 +33,12 @@ export class ProfileComponent implements OnInit {
   profileImage: string | ArrayBuffer | null = null;
   imageFile: File | null = null;
 
-
-
   constructor(
     private authService: AuthService,
     private profileService: ProfileService,
-    private toastr: ToastrService
-  ) { }
+    private toastr: ToastrService,
+    private translate: TranslateService
+  ) {}
 
   ngOnInit(): void {
     this.authService.getCurrentUser().subscribe(
@@ -64,12 +71,17 @@ export class ProfileComponent implements OnInit {
       }
       this.profileService.updateUser(this.user.id, this.user).subscribe({
         next: (updatedUser: User) => {
-          this.toastr.success('User updated successfully', 'Success');
+          this.toastr.success(
+            this.translate.instant('profile.userUpdated'),
+            this.translate.instant('success.title')
+          );
           this.initialUserState = { ...updatedUser };
-
         },
         error: (error) => {
-          this.toastr.error('Error updating user', 'Error');
+          this.toastr.error(
+            this.translate.instant('profile.updateError'),
+            this.translate.instant('error.title')
+          );
         },
       });
     } else {
@@ -87,45 +99,49 @@ export class ProfileComponent implements OnInit {
 
   onImageSelected(event: Event) {
     const file = (event.target as HTMLInputElement).files?.[0];
-    if (file) {
+    if (file && this.user?.id) {
       this.profileService.uploadImage(this.user.id, file).subscribe({
         next: (response) => {
-          this.toastr.success('Image uploaded successfully', 'Success');
-          this.user.imageUrl = response.imageUrl;
+          this.toastr.success(
+            this.translate.instant('profile.imageUploaded'),
+            this.translate.instant('success.title')
+          );
+          this.user!.imageUrl = response.imageUrl;
         },
         error: (error) => {
+          this.toastr.error(
+            this.translate.instant('profile.imageUploadError'),
+            this.translate.instant('error.title')
+          );
           console.error('Error uploading image', error);
         }
       });
     }
   }
 
-
-
-
-
-  
-
   deleteImage(userId: number, fileUrl: string): void {
-    // Extract the file name from the URL
     const fileName = fileUrl.split('/').pop();
     if (!fileName) {
       console.error('Invalid file URL');
       return;
     }
 
-    this.profileService.deleteUserImage(userId, fileName).subscribe(
-      response => {
+    this.profileService.deleteUserImage(userId, fileName).subscribe({
+      next: (response) => {
         console.log('Image deleted successfully', response);
-        this.toastr.success('Image deleted successfully', 'Success');
-      this.ngOnInit();},
-       
-        
-      error => {
+        this.toastr.success(
+          this.translate.instant('profile.imageDeleted'),
+          this.translate.instant('success.title')
+        );
+        this.ngOnInit();
+      },
+      error: (error) => {
+        this.toastr.error(
+          this.translate.instant('profile.imageDeleteError'),
+          this.translate.instant('error.title')
+        );
         console.error('Error deleting image', error);
-        this.toastr.error('Error deleting image', 'Error');}
-    );
+      }
+    });
   }
 }
-
-

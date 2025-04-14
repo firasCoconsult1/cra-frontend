@@ -6,26 +6,26 @@
         <div class="mb-4">
           <i class="feather icon-unlock auth-icon"></i>
         </div>
-        <h3 class="mb-4">Login</h3>
+        <h3 class="mb-4">{{  'LOGIN' | translate }}</h3>
         <div class="input-group mb-3">
-          <input type="email" class="form-control small-placeholder" placeholder="Username" [(ngModel)]="loginData.username" />
+          <input type="email" class="form-control small-placeholder" placeholder="{{ 'USERNAME' | translate }}" [(ngModel)]="loginData.username" />
         </div>
         <div class="input-group mb-4 position-relative">
-          <input type="password" class="form-control small-placeholder" placeholder="Password" id="signin-password" [(ngModel)]="loginData.password" />
+          <input type="password" class="form-control small-placeholder" placeholder="{{ 'PASSWORD' | translate }}" id="signin-password" [(ngModel)]="loginData.password" />
           <i class="feather icon-eye position-absolute" style="right: 10px; top: 50%; transform: translateY(-50%);"
             *ngIf="passwordVisible" (click)="togglePasswordVisibility('signin-password')"></i>
           <i class="feather icon-eye-off position-absolute" style="right: 10px; top: 50%; transform: translateY(-50%);"
             *ngIf="!passwordVisible" (click)="togglePasswordVisibility('signin-password')"></i>
         </div>
         
-        <button class="btn btn-primary mb-4" (click)="login()">Login</button>
+        <button class="btn btn-primary mb-4" (click)="login()">{{  'LOGIN' | translate }}</button>
         <p class="mb-2 text-muted">
-          Forgot password?
-          <a [routerLink]="['/auth/forgot-password']">Forgot</a>
+          {{ 'FORGOT_PASSWORD' | translate }}
+          <a [routerLink]="['/auth/forgot-password']">{{ 'FORGOT' | translate }}</a>
         </p>
         <p class="mb-0 text-muted">
-          Don’t have an account?
-          <a [routerLink]="['/auth/signup']">Sign up</a>
+          {{ 'NO_ACCOUNT' | translate }}
+          <a [routerLink]="['/auth/signup']">{{ 'SIGN_UP' | translate }}</a>
         </p>
       </div>
     </div>

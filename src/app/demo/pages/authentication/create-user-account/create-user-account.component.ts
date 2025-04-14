@@ -5,10 +5,12 @@ import { AuthService } from '../auth-service/authentification.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
+import { TranslateModule, TranslateService } from '@ngx-translate/core'; 
+
 
 @Component({
   selector: 'app-create-user-account',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TranslateModule],
   templateUrl: './create-user-account.component.html',
   styleUrl: './create-user-account.component.scss'
 })
@@ -28,7 +30,8 @@ export class CreateUserAccountComponent {
   };
 
 
-  constructor(private authService: AuthService, private router: Router, private route: ActivatedRoute, private toastr: ToastrService) { }
+  constructor( private translate: TranslateService,
+    private authService: AuthService, private router: Router, private route: ActivatedRoute, private toastr: ToastrService) { }
 
   ngOnInit() {
     this.token = this.route.snapshot.queryParamMap.get('token') || '';
@@ -64,12 +67,18 @@ export class CreateUserAccountComponent {
 
   onSubmit(): void {
     if (this.data.password !== this.data.confirmPassword) {
-      this.toastr.error('Passwords do not match', 'Error');
+      this.toastr.error(
+        this.translate.instant('create.passwordsDoNotMatch'),
+        this.translate.instant('create.errorTitle')
+      );
       return;
     }
-    
+  
     if (this.data.password.length < 8) {
-      this.toastr.error('Password is short', 'Error');
+      this.toastr.error(
+        this.translate.instant('create.passwordTooShort'),
+        this.translate.instant('create.errorTitle')
+      );
       return;
     }
   
@@ -79,19 +88,25 @@ export class CreateUserAccountComponent {
       this.data.confirmPassword,
       this.token
     ).subscribe({
-      next: (response) => {
-        this.successMessage = 'User created successfully';
+      next: () => {
         this.errorMessage = '';
-        this.toastr.success('Compte créé avec succès', 'Succès');
+        this.toastr.success(
+          this.translate.instant('create.success'),
+          this.translate.instant('create.successTitle')
+        );
         this.router.navigate(['/auth/Signin']);
       },
       error: (error) => {
-        this.errorMessage = error.error.message || 'An error occurred';
+        this.errorMessage = error.error.message || this.translate.instant('create.userExists');
         this.successMessage = '';
-        this.toastr.error(this.errorMessage, 'Erreur');
+        this.toastr.error(
+          this.errorMessage,
+          this.translate.instant('create.errorTitle')
+        );
       }
     });
   }
+  
 }
 
 

@@ -1,0 +1,19 @@
+
+/* Conteneur pour le menu déroulant */
+.language-dropdown-container {
+  position: fixed; 
+  top: 20px;
+  left: 20px; 
+  z-index: 1000; 
+  //background-color: rgba(255, 255, 255, 0.8); /* Fond semi-transparent */
+  padding: 5px 10px; /* Espacement interne */
+  border-radius: 5px; /* Coins arrondis */
+  //box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Ombre pour le rendre visible */
+}
+
+/* Style pour les éléments du menu */
+.language-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}

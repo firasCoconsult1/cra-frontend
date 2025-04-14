@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
-
+import { TranslateModule } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../auth-service/authentification.service';
 import { LoginRequest } from '../model/auth-model';
@@ -13,10 +14,11 @@ import { ResourceManagementService } from '../../resource-management/service/res
   selector: 'app-auth-signin',
   standalone: true,
   imports: [
-    RouterModule, 
+    RouterModule,
     CommonModule,
-  
-    FormsModule
+    TranslateModule,
+    FormsModule,
+    TranslateModule,
   ],
   templateUrl: './auth-signin.component.html',
   styleUrls: ['./auth-signin.component.scss']
@@ -28,13 +30,13 @@ export default class AuthSigninComponent {
     password: ''
   };
   errorMessage = '';
-  user:User;
+  user: User;
 
 
 
-  constructor(private userService : ResourceManagementService, private authService: AuthService, private router: Router, private toast:ToastrService) {}
+  constructor(private translate: TranslateService, private userService: ResourceManagementService, private authService: AuthService, private router: Router, private toast: ToastrService) { }
 
-  
+
 
   togglePasswordVisibility(id: string): void {
     const input = document.getElementById(id) as HTMLInputElement;
@@ -47,37 +49,36 @@ export default class AuthSigninComponent {
     }
   }
 
-        login(): void {
-      if (!this.loginData.username || !this.loginData.password) {
-        this.errorMessage = 'Please fill in all the fields.';
-        return;
-      }
-    
-      // Vérifier si le compte est activé avant de tenter la connexion
-      this.authService.getByUsername(this.loginData.username).subscribe({
-        next: (user) => {
-          if (!user.enabled) {
-            this.toast.error('Your account is disabled. Please contact the administrator.', 'Error');
-            return;
-          }
-    
-          // Si le compte est activé, procéder à la connexion
-          this.authService.login({ username: this.loginData.username, password: this.loginData.password }).subscribe({
-            next: (res) => {
-              this.authService.setToken(res.accessToken, res.refreshToken);
-              this.toast.success('Login successful', 'Success');
-              this.router.navigate(['/dashboard']);
-            },
-            error: () => {
-              this.toast.error('Login failed', 'Error');
-            }
-          });
-        },
-        error: () => {
-          this.toast.error('Failed to verify account status.', 'Error');
-        }
-      });
+  login(): void {
+    if (!this.loginData.username || !this.loginData.password) {
+      this.errorMessage = this.translate.instant('FILL_IN_FIELDS');
+      return;
     }
-  
+
+    this.authService.getByUsername(this.loginData.username).subscribe({
+      next: (user) => {
+        if (!user.enabled) {
+          this.toast.error(this.translate.instant('ACCOUNT_DISABLED'), 'Error');
+          return;
+        }
+
+        this.authService.login({ username: this.loginData.username, password: this.loginData.password }).subscribe({
+          next: (res) => {
+            this.authService.setToken(res.accessToken, res.refreshToken);
+            this.toast.success(this.translate.instant('LOGIN_SUCCESS'), 'Success');
+            this.router.navigate(['/dashboard']);
+          },
+          error: () => {
+            this.toast.error(this.translate.instant('LOGIN_FAILED'), 'Error');
+          }
+        });
+      },
+      error: () => {
+        this.toast.error(this.translate.instant('ACCOUNT_VERIFICATION_FAILED'), 'Error');
+      }
+    });
+  }
+
+
 }
 
