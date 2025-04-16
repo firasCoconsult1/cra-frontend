@@ -1,6 +1,6 @@
 // angular import
 import { Component, inject } from '@angular/core';
-
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 // bootstrap import
 import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
 
@@ -14,7 +14,7 @@ import { User } from 'src/app/demo/pages/profile/model/user';
 
 @Component({
   selector: 'app-nav-right',
-  imports: [SharedModule, RouterModule],
+  imports: [SharedModule, RouterModule, TranslateModule],
   templateUrl: './nav-right.component.html',
   styleUrls: ['./nav-right.component.scss'],
   providers: [NgbDropdownConfig]
@@ -23,14 +23,14 @@ export class NavRightComponent {
   // public props
   user: User | null = null;
   // constructor
-  constructor(private auth: AuthService, private router: Router, private toastr: ToastrService, private authService: AuthService, private profileService: ProfileService) {
+  constructor(private translate: TranslateService, private auth: AuthService, private router: Router, private toastr: ToastrService, private authService: AuthService, private profileService: ProfileService) {
     const config = inject(NgbDropdownConfig);
 
     config.placement = 'bottom-right';
   }
   logout() {
     this.auth.logout();
-    this.toastr.success('Logout successful', 'Success');
+    this.toastr.success(this.translate.instant('LOGOUT_SUCCESS'), this.translate.instant('success.title'));
     this.router.navigate(['/auth/signin']);
 
   }
@@ -59,6 +59,6 @@ export class NavRightComponent {
   getInitials(fullName: string): string {
     return fullName.charAt(0).toUpperCase();
   }
-  
+
 }
 

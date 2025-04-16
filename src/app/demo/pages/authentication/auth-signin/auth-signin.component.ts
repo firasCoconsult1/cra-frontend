@@ -34,7 +34,7 @@ export default class AuthSigninComponent {
 
 
 
-  constructor(private translate: TranslateService, private userService: ResourceManagementService, private authService: AuthService, private router: Router, private toast: ToastrService) { }
+  constructor(private translate: TranslateService,private userService: ResourceManagementService, private authService: AuthService, private router: Router, private toast: ToastrService) { }
 
 
 
@@ -58,23 +58,23 @@ export default class AuthSigninComponent {
     this.authService.getByUsername(this.loginData.username).subscribe({
       next: (user) => {
         if (!user.enabled) {
-          this.toast.error(this.translate.instant('ACCOUNT_DISABLED'), 'Error');
+          this.toast.error(this.translate.instant('ACCOUNT_DISABLED'), this.translate.instant('error.title'));
           return;
         }
 
         this.authService.login({ username: this.loginData.username, password: this.loginData.password }).subscribe({
           next: (res) => {
             this.authService.setToken(res.accessToken, res.refreshToken);
-            this.toast.success(this.translate.instant('LOGIN_SUCCESS'), 'Success');
+            this.toast.success(this.translate.instant('LOGIN_SUCCESS'), this.translate.instant('success.title'));
             this.router.navigate(['/dashboard']);
           },
           error: () => {
-            this.toast.error(this.translate.instant('LOGIN_FAILED'), 'Error');
+            this.toast.error(this.translate.instant('LOGIN_FAILED'), this.translate.instant('error.title'));
           }
         });
       },
       error: () => {
-        this.toast.error(this.translate.instant('ACCOUNT_VERIFICATION_FAILED'), 'Error');
+        this.toast.error(this.translate.instant('ACCOUNT_VERIFICATION_FAILED'),  this.translate.instant('error.title'));
       }
     });
   }
