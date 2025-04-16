@@ -16,18 +16,3 @@
     <app-nav-right class="ms-auto"></app-nav-right>
   </div>
 </header>
-<div class="language-dropdown-container">
-  <p-dropdown  [options]="languages" [(ngModel)]="selectedLanguage" (onChange)="switchLanguage($event)"
-    [style]="{ width: '80px' }" [showClear]="false" [filter]="false">
-    <ng-template let-lang pTemplate="selectedItem">
-      <img *ngIf="lang" [src]="lang.icon" width="25" height="18" alt="{{lang.label}}" />
-    </ng-template>
-
-    <ng-template let-lang pTemplate="item">
-      <div class="language-item">
-        <img [src]="lang.icon" width="25" height="18" alt="{{lang.label}}" />
-
-      </div>
-    </ng-template>
-  </p-dropdown>
-</div>

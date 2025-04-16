@@ -22,10 +22,10 @@ export class AppComponent implements OnInit {
   ];
 
   selectedLanguage = this.languages[0].value;
+  isAuthRoute = false;
 
   constructor(private translate: TranslateService, private router: Router) {
     this.translate.setDefaultLang(this.selectedLanguage);
-
   }
 
   switchLanguage(lang: any) {
@@ -33,17 +33,18 @@ export class AppComponent implements OnInit {
     localStorage.setItem('lang', lang.value);
   }
 
-  title = 'datta-able';
-
-  // life cycle hook
   ngOnInit() {
+    this.checkRoute(this.router.url);
+    
     this.router.events.subscribe((evt) => {
-      if (!(evt instanceof NavigationEnd)) {
-        return;
+      if (evt instanceof NavigationEnd) {
+        this.checkRoute(evt.urlAfterRedirects);
+        window.scrollTo(0, 0);
       }
-      window.scrollTo(0, 0);
     });
   }
 
-  
+  private checkRoute(url: string) {
+    this.isAuthRoute = url.includes('/auth');
+  }
 }

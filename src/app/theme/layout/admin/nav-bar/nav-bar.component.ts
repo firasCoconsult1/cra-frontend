@@ -23,12 +23,7 @@ export class NavBarComponent {
   headerStyle: string;
   menuClass: boolean;
   collapseStyle: string;
-  languages = [
-    { label: 'English', value: 'en', icon: 'assets/flags/flag_us.png' },
-    { label: 'Français', value: 'fr', icon: 'assets/flags/flag_fr.jpg' }
-  ];
-
-  selectedLanguage = this.languages[0].value;
+ 
 
 
   // constructor
@@ -37,7 +32,7 @@ export class NavBarComponent {
     this.headerStyle = '';
     this.menuClass = false;
     this.collapseStyle = 'none';
-    this.translate.setDefaultLang(this.selectedLanguage);
+    
 
   }
 
@@ -60,8 +55,5 @@ export class NavBarComponent {
       document.querySelector('app-navigation.pcoded-navbar').classList.remove('mob-open');
     }
   }
-  switchLanguage(lang: any) {
-    this.translate.use(lang.value);
-    localStorage.setItem('lang', lang.value);
-  }
+ 
 }
