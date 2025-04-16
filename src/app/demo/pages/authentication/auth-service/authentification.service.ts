@@ -162,7 +162,7 @@ export class AuthService {
 
   createAccount(username: string, password: string, confirmPassword: string, token?: string): Observable<any> {
     const data = { username, password, confirmPassword };
-    return this.http.post(`${this.apiUrl}/create-account?token=${token}`, data);
+    return this.http.put(`${this.apiUrl}/create-account?token=${token}`, data);
   }
   
 }

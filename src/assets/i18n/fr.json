@@ -105,7 +105,7 @@
     "create": {
         "passwordsDoNotMatch": "Les mots de passe ne correspondent pas",
         "passwordTooShort": "Le mot de passe est trop court",
-        "success": "Utilisateur créé avec succès",
+        "success": "Compte créé avec succès",
         "successTitle": "Succès",
         "errorTitle": "Erreur",
         "userExists": "L'utilisateur existe déjà"
@@ -180,19 +180,19 @@
     "enabled": "Activés",
     "disabled": "Désactivés",
     "delete_role_message": "Voulez-vous supprimer le rôle",
-  "confirm": "Confirmation",
-  "yes": "Oui",
-  "no": "Non",
-  "role_deleted": "Rôle supprimé",
-  "role_updated": "Rôle mis à jour",
-  "role_added": "Rôle ajouté",
-  "no_permissions": "Aucune permission",
-  "settings": {
-    "passwords_do_not_match": "Les mots de passe ne correspondent pas",
-    "password_too_short": "Le mot de passe est trop court (minimum 8 caractères)",
-    "password_changed_successfully": "Mot de passe modifié avec succès",
-    "password_change_failed": "Échec du changement de mot de passe"
-  },
-  "LOGOUT_SUCCESS": "Déconnexion réussie"
-
+    "confirm": "Confirmation",
+    "yes": "Oui",
+    "no": "Non",
+    "role_deleted": "Rôle supprimé",
+    "role_updated": "Rôle mis à jour",
+    "role_added": "Rôle ajouté",
+    "no_permissions": "Aucune permission",
+    "settings": {
+        "passwords_do_not_match": "Les mots de passe ne correspondent pas",
+        "password_too_short": "Le mot de passe est trop court (minimum 8 caractères)",
+        "password_changed_successfully": "Mot de passe modifié avec succès",
+        "password_change_failed": "Échec du changement de mot de passe"
+    },
+    "LOGOUT_SUCCESS": "Déconnexion réussie",
+    "user_already_invited": "L'utilisateur a déjà été invité."
 }

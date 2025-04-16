@@ -69,7 +69,7 @@
 <!-- Boîte de dialogue pour afficher les détails de l'utilisateur -->
 <p-dialog header="{{ 'DIALOG.DETAILS_HEADER' | translate }}"  [(visible)]="displayUserDialog" [modal]="true" [style]="{width: '30rem'}">
   <div *ngIf="selectedUser">
-    <p><strong class="titre">{{ 'DIALOG.DETAILS.FULLNAME' | translate }}:</strong> {{ selectedUser.fullname }}</p>
+    <p *ngIf="selectedUser?.fullname"><strong class="titre">{{ 'DIALOG.DETAILS.FULLNAME' | translate }}:</strong> {{ selectedUser.fullname }}</p>
     <p><strong class="titre">{{ 'DIALOG.DETAILS.EMAIL' | translate }}:</strong> {{ selectedUser.username }}</p>
     <p *ngIf="selectedUser?.numeroTelephone"><strong class="titre">{{ 'DIALOG.DETAILS.PHONE' | translate }}:</strong> {{
       selectedUser.numeroTelephone }}</p>

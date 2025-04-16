@@ -94,7 +94,7 @@ export class CreateUserAccountComponent {
           this.translate.instant('create.success'),
           this.translate.instant('create.successTitle')
         );
-        this.router.navigate(['/auth/Signin']);
+        this.router.navigate(['/auth/signin']);
       },
       error: (error) => {
         this.errorMessage = error.error.message || this.translate.instant('create.userExists');

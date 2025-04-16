@@ -8,6 +8,7 @@ export interface User{
     imageUrl: string;
     description: string;
     enabled: boolean;
+    isInvited: boolean;
     roles : Role [
        
     ];

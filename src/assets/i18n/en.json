@@ -105,7 +105,7 @@
     "create": {
         "passwordsDoNotMatch": "Passwords do not match",
         "passwordTooShort": "Password is too short",
-        "success": "User created successfully",
+        "success": "Account created successfully",
         "successTitle": "Success",
         "errorTitle": "Error",
         "userExists": "User already exists"
@@ -193,6 +193,8 @@
     "password_changed_successfully": "Password changed successfully",
     "password_change_failed": "Password change failed"
   },
-  "LOGOUT_SUCCESS": "Logout successful"
+  "LOGOUT_SUCCESS": "Logout successful",
+  "user_already_invited": "The user has already been invited."
+
 
 }

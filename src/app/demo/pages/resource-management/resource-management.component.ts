@@ -291,7 +291,7 @@ export class ResourceManagementComponent implements OnInit {
       });
       return;
     }
-
+  
     this.resourceService.inviteUsers(this.emails).subscribe(
       () => {
         this.messageService.add({
@@ -304,14 +304,21 @@ export class ResourceManagementComponent implements OnInit {
       },
       error => {
         console.error('Error sending invitation email', error);
+    
+        let detailMessage = this.translate.instant('invitations_failed');
+        if (error.error === 'User already exists.') {
+          detailMessage = this.translate.instant('user_already_invited');
+        }
+    
         this.messageService.add({
-          severity: 'error.title',
+          severity: 'error',
           summary: this.translate.instant('error.title'),
-          detail: this.translate.instant('invitations_failed')
+          detail: detailMessage
         });
       }
     );
-  }
+  }    
+  
   removeEmail(email: string): void {
     const index = this.emails.indexOf(email);
     if (index > -1) {

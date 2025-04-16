@@ -42,16 +42,15 @@ export class ResourceManagementService {
     return this.http.get(`${this.baseUrl}/search?term=${searchTerm}`);
   }
  
-  // Dans resource-management.service.ts
   inviteUsers(emails: string[]): Observable<any> {
-    // Utilisez URLSearchParams pour envoyer un tableau comme paramètre GET
     let params = new HttpParams();
-
-    // Ajouter chaque email en tant que paramètre séparé avec la même clé
+  
     emails.forEach(email => {
       params = params.append('emails', email);
     });
-
-    return this.http.post(`${this.baseUrl}/invite`, null, { params });
+  
+    return this.http.post(`${this.baseUrl}/invite`, null, { params, responseType: 'text' });
   }
-}
+  
+}  
+
