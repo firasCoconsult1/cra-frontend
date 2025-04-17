@@ -179,6 +179,8 @@
     "all": "Tous",
     "enabled": "Activés",
     "disabled": "Désactivés",
+    "invited": "Invités",
+    "not invited": "Non invités",
     "delete_role_message": "Voulez-vous supprimer le rôle",
     "confirm": "Confirmation",
     "yes": "Oui",

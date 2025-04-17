@@ -60,9 +60,10 @@ export class ResourceManagementComponent implements OnInit {
 
   totalUsers: number = 0;
   itemsPerPage: number = 5;
-  selectedFilter: string | boolean = 'all';
+  selectedFilter: { type: string, value: any } = { type: 'all', value: null };
   filteredUsersE: any[] = [];
-
+  emailInput: string = '';
+  emails: string[] = [];
   constructor(private translate: TranslateService, private roleService: RoleServiceService, private resourceService: ResourceManagementService, private messageService: MessageService, private confirmationService: ConfirmationService) { }
   ngOnInit(): void {
     this.loadFilterOptions();
@@ -74,12 +75,15 @@ export class ResourceManagementComponent implements OnInit {
     });
   }
   loadFilterOptions(): void {
-    this.translate.get(['all', 'enabled', 'disabled']).subscribe(translations => {
+    this.translate.get(['all', 'enabled', 'disabled','invited','not invited']).subscribe(translations => {
       this.filterOptions = [
-        { label: translations['all'], value: 'all' },
-        { label: translations['enabled'], value: true },
-        { label: translations['disabled'], value: false }
+        { label: translations['all'], value: { type: 'all', value: null } },
+        { label: translations['enabled'], value: { type: 'status', value: true } },
+        { label: translations['disabled'], value: { type: 'status', value: false } },
+        { label: translations['invited'], value: { type: 'invited', value: true } },
+        { label: translations['not invited'], value: { type: 'invited', value: false } }
       ];
+      
     });
   }
   getAllRoles(): void {
@@ -109,7 +113,7 @@ export class ResourceManagementComponent implements OnInit {
       'asc'
     ).subscribe(
       (response: any) => {
-        console.log('Pagination data received:', response);
+        console.log('Pagination data received:', response.content);
         this.users = response.content;
 
         this.totalUsers = response.page.totalElements;
@@ -234,15 +238,16 @@ export class ResourceManagementComponent implements OnInit {
     this.getAllUsers();
   }
   filterUsers(): void {
-    if (this.selectedFilter === 'all') {
+    if (this.selectedFilter.type === 'all') {
       this.filteredUsersE = [...this.users];
-    } else {
-      const isEnabled = this.selectedFilter === true;
-      this.filteredUsersE = this.users.filter(user => user.enabled === isEnabled);
+    } else if (this.selectedFilter.type === 'status') {
+      this.filteredUsersE = this.users.filter(user => user.enabled === this.selectedFilter.value);
+    } else if (this.selectedFilter.type === 'invited') {
+      this.filteredUsersE = this.users.filter(user => user.invited === this.selectedFilter.value);
     }
   }
-  emailInput: string = '';
-  emails: string[] = [];
+  
+ 
   addEmail(event: any): void {
     if (!this.emailInput || this.emailInput.trim() === '') {
       this.messageService.add({
