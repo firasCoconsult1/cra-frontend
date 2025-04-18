@@ -44,6 +44,10 @@ const routes: Routes = [
         loadComponent: () => import('./demo/pages/resource-management/resource-management.component').then((c) => c.ResourceManagementComponent),
      //   canActivate: [AuthGuard],
 
+      },
+      {
+        path: 'unauthorized',
+        loadComponent: () => import('./demo/unauthorized/unauthorized.component').then((c) => c.UnauthorizedComponent),
       }
       
     ]

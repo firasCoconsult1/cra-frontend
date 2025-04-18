@@ -203,6 +203,11 @@
     "PERMISSION_DELETE_ERROR": "Une erreur s'est produite lors de la suppression des permissions.",
     "CONFIRMATION": "Confirmation",
     "SUCCESS": "Succès",
-    "ERROR": "Erreur"
+    "ERROR": "Erreur",
+    "UNAUTHORIZED": {
+    "TITLE": "Accès Refusé",
+    "MESSAGE": "Vous n'avez pas la permission d'accéder à cette page.",
+    "BACK_HOME": "Retour à l'accueil"
+  }
     
 }

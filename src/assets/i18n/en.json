@@ -203,6 +203,11 @@
     "PERMISSION_DELETE_ERROR": "An error occurred while deleting the permissions.",
     "CONFIRMATION": "Confirmation",
     "SUCCESS": "Success",
-    "ERROR": "Error"
+    "ERROR": "Error",
+    "UNAUTHORIZED": {
+    "TITLE": "Access Denied",
+    "MESSAGE": "You do not have permission to access this page.",
+    "BACK_HOME": "Back to Home"
+  }
     
 }
