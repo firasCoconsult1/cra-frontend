@@ -39,8 +39,8 @@ export class RoleServiceService {
     return this.httpClient.get<Permission[]>(`${this.permissionUrl}/all`);
   }
   
-  /*deleteAllPermissionsByRole(roleId: number): Observable<void> {
+  deleteAllPermissionsByRole(roleId: number): Observable<void> {
     return this.httpClient.delete<void>(`${this.permissionUrl}/delete-all/${roleId}`);
-  }*/
+  }
 }
 

@@ -190,6 +190,45 @@ export class RoleManagementComponent implements OnInit {
     }
     return permissions.map(permission => permission.name).join(' / ');
   }
+  confirmDeletePermissions(roleId: number) {
+    this.confirmationService.confirm({
+      message: this.translate.instant('CONFIRM_DELETE_ALL_PERMISSIONS'),
+      header: this.translate.instant('CONFIRMATION'),
+      icon: 'pi pi-exclamation-triangle',
+      acceptLabel: this.translate.instant('yes'),
+      rejectLabel: this.translate.instant('no'),
+      acceptButtonStyleClass: 'p-button-success',
+      rejectButtonStyleClass: 'p-button-danger',
+      accept: () => {
+        this.roleService.deleteAllPermissionsByRole(roleId).subscribe({
+          next: () => {
+            this.messageService.add({
+              severity: 'success',
+              summary: this.translate.instant('SUCCESS'),
+              detail: this.translate.instant('PERMISSIONS_DELETED')
+            });
+  
+            
+            const roleIndex = this.roles.findIndex(r => r.id === roleId);
+            if (roleIndex !== -1) {
+              this.roles[roleIndex].permissions = [];
+            }
+  
+           
+            this.selectedPermissions.clear();
+          },
+          error: () => {
+            this.messageService.add({
+              severity: 'error',
+              summary: this.translate.instant('ERROR'),
+              detail: this.translate.instant('PERMISSION_DELETE_ERROR')
+            });
+          }
+        });
+      }
+    });
+  }
+  
 
 
 }

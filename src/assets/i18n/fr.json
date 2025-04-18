@@ -196,5 +196,13 @@
         "password_change_failed": "Échec du changement de mot de passe"
     },
     "LOGOUT_SUCCESS": "Déconnexion réussie",
-    "user_already_invited": "L'utilisateur a déjà été invité."
+    "user_already_invited": "L'utilisateur a déjà été invité.",
+    "DELETE_ALL_PERMISSIONS": "Supprimer toutes les permissions",
+    "CONFIRM_DELETE_ALL_PERMISSIONS": "Êtes-vous sûr de vouloir supprimer toutes les permissions de ce rôle ?",
+    "PERMISSIONS_DELETED": "Toutes les permissions ont été supprimées.",
+    "PERMISSION_DELETE_ERROR": "Une erreur s'est produite lors de la suppression des permissions.",
+    "CONFIRMATION": "Confirmation",
+    "SUCCESS": "Succès",
+    "ERROR": "Erreur"
+    
 }
