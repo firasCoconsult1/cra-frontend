@@ -29,7 +29,7 @@ export class AuthService {
         }
       }),
       catchError(this.handleError)
-    ); 
+    );
   }
 
   register(user: RegisterRequest): Observable<any> {
@@ -140,17 +140,24 @@ export class AuthService {
     return of(this.getAccessToken());
   }
 
-  private handleError(error: HttpErrorResponse) {
-    console.error('An error occurred:', error);
-    return throwError(() => new Error('Something went wrong; please try again later.'));
+  private handleError(error: HttpErrorResponse): Observable<never> {
+    if (error.status === 401 || error.status === 404) {
+
+      return throwError(() => new Error('Invalid credentials'));
+    } else {
+
+      return throwError(() => new Error('Something went wrong; please try again later.'));
+    }
   }
+
 
   getCurrentUser(): Observable<User> {
     return this.http.get<User>(`${this.apiUrl}/current-user`);
   }
 
   getByUsername(username: string): Observable<User> {
-    return this.http.get<User>(`${this.apiUrl}/username`, { params: { username } });
+    return this.http.get<User>(`${this.apiUrl}/username`, { params: { username } })
+      .pipe(catchError(this.handleError));
   }
 
   getEmailFromToken(token: string): Observable<string> {
@@ -164,5 +171,5 @@ export class AuthService {
     const data = { username, password, confirmPassword };
     return this.http.put(`${this.apiUrl}/create-account?token=${token}`, data);
   }
-  
+
 }

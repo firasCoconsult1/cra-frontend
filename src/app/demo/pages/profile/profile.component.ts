@@ -47,7 +47,6 @@ export class ProfileComponent implements OnInit {
           (user: User) => {
             this.user = user;
             this.initialUserState = { ...user };
-            console.log('User data', user);
           },
           (error) => {
             console.error('Error fetching user data', error);

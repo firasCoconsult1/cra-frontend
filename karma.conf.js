@@ -1,7 +1,6 @@
-// Karma configuration file, see link for more information
-// https://karma-runner.github.io/1.0/config/configuration-file.html
+const path = require('path');
 
-module.exports = function (config) {
+module.exports = function(config) {
   config.set({
     basePath: '',
     frameworks: ['jasmine', '@angular-devkit/build-angular'],
@@ -10,24 +9,58 @@ module.exports = function (config) {
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
       require('karma-coverage'),
-      require('@angular-devkit/build-angular/plugins/karma')
+      require('@angular-devkit/build-angular/plugins/karma'),
+      require('karma-webpack')
     ],
-    client: {
-      jasmine: {
-        // you can add configuration options for Jasmine here
-        // the possible options are listed at https://jasmine.github.io/api/edge/Configuration.html
-        // for example, you can disable the random execution with `random: false`
-        // or set a specific seed with `seed: 4321`
+    preprocessors: {
+      '**/*.js': ['coverage'],
+    },
+    webpack: {
+      mode: 'development',
+      resolve: {
+        extensions: ['.ts', '.js', '.json', '.mjs'],
+        // Add modules configuration
+        modules: ['node_modules']
       },
-      clearContext: false // leave Jasmine Spec Runner output visible in browser
+      module: {
+        rules: [
+          {
+            test: /\.ts$/,
+            use: ['ts-loader', 'angular2-template-loader'],
+            exclude: /node_modules/
+          },
+          {
+            test: /\.js$/,
+            use: 'babel-loader',
+            exclude: /node_modules/
+          },
+          // Add rule for .mjs files (needed for ES modules)
+          {
+            test: /\.mjs$/,
+            include: /node_modules/,
+            type: 'javascript/auto'
+          }
+        ]
+      },
+      entry: './src/main.ts',
+      output: {
+        filename: 'bundle.js',
+        path: path.resolve(__dirname, 'dist')
+      }
+    },
+    client: {
+      clearContext: false,
+      jasmine: {
+        grep: process.env.npm_config_grep || ''
+      }
     },
     jasmineHtmlReporter: {
-      suppressAll: true // removes the duplicated traces
+      suppressAll: true
     },
     coverageReporter: {
-      dir: require('path').join(__dirname, './coverage/datta-able-free'),
+      dir: require('path').join(__dirname, './coverage'),
       subdir: '.',
-      reporters: [{ type: 'html' }, { type: 'text-summary' }]
+      reporters: ['progress', 'kjhtml', 'coverage']
     },
     reporters: ['progress', 'kjhtml'],
     port: 9876,

@@ -3,7 +3,12 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/app",
-    "types": []
+    "module": "es2020",
+    "target": "es2020",
+    "types": ["jasmine", "node"], // Ensure "jasmine" is included
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
+    
   },
   "files": ["src/main.ts", "src/polyfills.ts"],
   "include": ["src/**/*.d.ts"]

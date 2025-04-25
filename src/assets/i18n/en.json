@@ -176,6 +176,7 @@
     "email_required": "Email is required",
     "duplicate_email": "Duplicate email",
     "email_already_added": "This email address has already been added",
+    "INVALID_CREDENTIALS": "Invalid credentials",
     "all": "All",
     "enabled": "Enabled",
     "disabled": "Disabled",

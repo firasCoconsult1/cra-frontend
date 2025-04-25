@@ -90,6 +90,7 @@
     "CANNOT_DELETE_ADMIN": "Impossible de supprimer le rôle Admin",
     "DELETE_ROLE": "Supprimer le rôle",
     "LOGIN_SUCCESS": "Connexion réussie",
+    "INVALID_CREDENTIALS": "Identifiants invalides",
     "LOGIN_FAILED": "Échec de la connexion",
     "ACCOUNT_DISABLED": "Votre compte est désactivé. Veuillez contacter l'administrateur.",
     "ACCOUNT_VERIFICATION_FAILED": "Échec de la vérification du statut du compte.",
