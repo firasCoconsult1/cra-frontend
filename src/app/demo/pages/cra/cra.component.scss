@@ -1,0 +1,21 @@
+::ng-deep .p-toolbar-group-end {
+  margin-left: auto; 
+  display: flex;
+  justify-content: flex-end;
+ 
+}
+
+.add-cra-button {
+  margin-left: auto; 
+}
+::ng-deep .custom-pagination .p-paginator {
+  justify-content: flex-end !important;
+}
+.cursor-pointer {
+  cursor: pointer;
+  
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    transition: background-color 0.2s;
+  }
+}

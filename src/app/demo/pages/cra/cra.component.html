@@ -1,0 +1,86 @@
+<p-toast></p-toast>
+
+<div class="card">
+  <p-tabs value="0">
+    <p-tablist>
+      <p-tab value="0">{{ 'Mes_CRA' | translate }}</p-tab>
+      <p-tab value="1">{{ 'Validation_List' | translate }}</p-tab>
+    </p-tablist>
+    <p-tabpanels>
+      <p-tabpanel value="0">
+
+
+        <div class="p-toolbar-group-end">
+          <p-button icon="pi pi-plus" label="{{ 'Add_Cra' | translate }}" class="add-cra-button"
+            (click)="showDatepicker = true">
+          </p-button>
+        </div>
+
+
+
+
+        <div *ngIf="showDatepicker" class="datepicker-container">
+          <div class="flex-auto">
+            <label for="buttondisplay" class="font-bold block mb-2"> Date </label> &nbsp;
+            <div class="justify-content-center">
+
+              <p-datepicker [(ngModel)]="selectedDate" view="month" dateFormat="yy-mm" [showIcon]="true"
+                inputId="buttondisplay" [showOnFocus]="false" (onSelect)="onDateSelected()"></p-datepicker>
+            </div>
+          </div>
+        </div>
+        <br><br>
+        <div class="card" *ngIf="cras.length > 0 ">
+          <p-table [value]="cras" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5, 10, 20]"
+            [tableStyle]="{ 'min-width': '50rem' }" selectionMode="single" [(selection)]="selectedCra" dataKey="idCra"
+            class="custom-pagination">
+            <ng-template pTemplate="header">
+              <tr>
+                <th style="width:30%">Month</th>
+                <th style="width:30%">Year</th>
+                <th style="width:30%">Status</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-cra>
+              <tr (click)="goToMyCraDetail(cra)" style="cursor: pointer;">
+                <td>{{ cra.month }}</td>
+                <td>{{ cra.year }}</td>
+                <td>
+                  <p-tag [value]="'status.' + cra.status | translate" [severity]="getSeverity(cra.status)"></p-tag>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+
+      </p-tabpanel>
+
+      <p-tabpanel value="1">
+        <div class="card" *ngIf="validationList.length > 0 ">
+          <p-table [value]="validationList" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5, 10, 20]"
+            [tableStyle]="{ 'min-width': '50rem' }" selectionMode="single" [(selection)]="selectedCraToValidate"
+            dataKey="idCra" class="custom-pagination">
+            <ng-template pTemplate="header">
+              <tr>
+                <th style="width:30%">Month</th>
+                <th style="width:30%">Year</th>
+                <th style="width:30%">Status</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-cra>
+              <tr (click)="goToValidationCraDetail(cra)" style="cursor: pointer;">
+
+
+                <td>{{ cra.month }}</td>
+                <td>{{ cra.year }}</td>
+                <td>
+                  <p-tag [value]="'status.' + cra.status | translate" [severity]="getSeverity(cra.status)"></p-tag>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </p-tabpanel>
+    </p-tabpanels>
+  </p-tabs>
+</div>

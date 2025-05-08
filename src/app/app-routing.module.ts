@@ -20,36 +20,46 @@ const routes: Routes = [
         loadComponent: () => import('./demo/dashboard/dashboard.component').then((c) => c.DashboardComponent),
         //canActivate: [AuthGuard],
       },
-      
+
       {
         path: 'settings',
         loadComponent: () => import('./demo/pages/settings/settings.component').then((c) => c.SettingsComponent),
         //canActivate: [AuthGuard],
-
+      },
+      {
+        path: 'cra',
+        loadComponent: () => import('./demo/pages/cra/cra.component').then((c) => c.CraComponent),
+        //canActivate: [AuthGuard],
       },
       {
         path: 'profile',
         loadComponent: () => import('./demo/pages/profile/profile.component').then((c) => c.ProfileComponent),
-       // canActivate: [AuthGuard],
+        // canActivate: [AuthGuard],
 
       },
       {
-        path:'role',
+        path: 'role',
         loadComponent: () => import('./demo/pages/role-management/role-management.component').then((c) => c.RoleManagementComponent),
-      //  canActivate: [AuthGuard],
+        //  canActivate: [AuthGuard],
 
       },
       {
-        path:'resource',
+        path: 'resource',
         loadComponent: () => import('./demo/pages/resource-management/resource-management.component').then((c) => c.ResourceManagementComponent),
-     //   canActivate: [AuthGuard],
+        //   canActivate: [AuthGuard],
 
       },
       {
         path: 'unauthorized',
         loadComponent: () => import('./demo/unauthorized/unauthorized.component').then((c) => c.UnauthorizedComponent),
+      },
+      {
+        path: 'mes-cras',
+        loadComponent: () => import('./demo/pages/mes-cras/mes-cras.component').then((c) => c.MesCrasComponent),
+        //   canActivate: [AuthGuard],
+
       }
-      
+
     ]
   },
   {
@@ -60,7 +70,7 @@ const routes: Routes = [
         path: 'auth',
         loadChildren: () => import('./demo/pages/authentication/authentication.module').then((m) => m.AuthenticationModule)
       }
-     
+
     ]
   }
 ];
@@ -69,4 +79,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

@@ -1,4 +1,4 @@
-<div class="language-dropdown-wrapper">
+<div class="language-dropdown-wrapper" >
   <div [ngClass]="isAuthRoute ? 'left' : 'right'">
     <p-dropdown [options]="languages" [(ngModel)]="selectedLanguage" (onChange)="switchLanguage($event)"
       [style]="{ width: '80px' }" [showClear]="false" [filter]="false">
@@ -13,6 +13,7 @@
     </p-dropdown>
   </div>
 </div>
+
 
 
 <router-outlet><app-spinner></app-spinner></router-outlet>

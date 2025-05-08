@@ -34,14 +34,14 @@ export const NavigationItems: NavigationItem[] = [
     ]
   },
   {
-    id: 'account',
+    id: 'user panel',
     title: 'User Panel',
     translate: 'nav.userPanel',
     type: 'group',
     icon: 'icon-ui',
     children: [
       {
-        id: 'basic',
+        id: 'account',
         title: 'Account',
         translate: 'nav.account',
         type: 'collapse',
@@ -63,8 +63,40 @@ export const NavigationItems: NavigationItem[] = [
             url: '/settings',
             icon: 'feather icon-settings'
           }
+        ],
+      },
+      {
+        id: 'cra',
+        title: 'Cra management',
+        translate: 'nav.cra',
+        type: 'collapse',
+        icon: 'feather icon-file-text',
+        children: [
+          {
+            id: 'cra',
+            title: 'Cra',
+            type: 'item',
+            url: '/cra',
+            icon: 'feather icon-file-text'
+          },
+          {
+            id: 'absence',
+            title: 'Absence',
+            translate: 'nav.absence',
+            type: 'item',
+            url: '/absence',
+            icon: 'feather icon-user-x'
+          },
+          {
+            id: 'frais',
+            title: 'Frais',
+            translate: 'nav.frais',
+            type: 'item',
+            url: '/frais',
+            icon: 'feather icon-credit-card'
+          }
         ]
-      }
+      },
     ]
   },
   {

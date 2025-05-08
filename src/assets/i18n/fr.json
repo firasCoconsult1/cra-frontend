@@ -18,13 +18,13 @@
     "Reset password": "Réinitialiser le mot de passe",
     "HOME": {
         "TITLE": "Bienvenue sur Time Bill",
-        "SUBTITLE": "Gérez efficacement les ressources, les rôles et les CRA.",
+        "SUBTITLE": "Gérez efficacement les ressources, les rôles et les cra.",
         "MANAGE_RESOURCES": "Gérer les ressources",
         "RESOURCES_DESC": "Consultez, modifiez et gérez tous les utilisateurs.",
         "MANAGE_ROLES": "Gérer les rôles",
         "ROLES_DESC": "Consultez, modifiez et gérez tous les rôles.",
-        "MANAGE_CRA": "Gérer les CRA",
-        "CRA_DESC": "Consultez, modifiez et gérez tous les CRA."
+        "MANAGE_CRA": "Gérer les cra",
+        "CRA_DESC": "Consultez, modifiez et gérez tous les cra."
     },
     "PROFILE": {
         "UPDATE_TITLE": "Mettre à jour le profil",
@@ -136,7 +136,10 @@
         "pages": "Pages",
         "auth": "Authentification",
         "signup": "S'inscrire",
-        "signin": "Se connecter"
+        "signin": "Se connecter",
+        "cra": "Gestion des cra",
+        "absence": "Absence",
+        "frais": "Frais"
     },
     "reset": {
         "tokenMissing": "Token manquant",
@@ -206,9 +209,72 @@
     "SUCCESS": "Succès",
     "ERROR": "Erreur",
     "UNAUTHORIZED": {
-    "TITLE": "Accès Refusé",
-    "MESSAGE": "Vous n'avez pas la permission d'accéder à cette page.",
-    "BACK_HOME": "Retour à l'accueil"
-  }
-    
+        "TITLE": "Accès Refusé",
+        "MESSAGE": "Vous n'avez pas la permission d'accéder à cette page.",
+        "BACK_HOME": "Retour à l'accueil"
+    },
+    "Mes_CRA": "Mes cra",
+    "Validation_List": "Liste de validation",
+    "Add_Cra": "Ajouter un cra",
+    "activity": {
+        "placeholder": "Activité",
+        "weekend": "Weekend",
+        "l": "L",
+        "m": "M",
+        "mw": "M",
+        "j": "J",
+        "v": "V",
+        "s": "S",
+        "d": "D"
+    },
+    "Remplir_tous": "Remplir tous",
+    "vider_tous": "Vider tous",
+    "input": {
+        "error_title": "Erreur de saisie",
+        "error_detail": "Seules les valeurs 0, 0.5 et 1 sont autorisées"
+    },
+    "calendar": {
+        "limit_reached": "Vous avez atteint la limite de 3 calendriers.",
+        "limit_detail": "Supprimez un calendrier avant d'en ajouter un nouveau.",
+        "deleted": "Calendrier supprimé",
+        "deleted_detail": "Le calendrier a été supprimé avec succès."
+    },
+    "Feuilles_de_temps": "Feuilles de temps",
+    "input_warn": {
+        "value_invalid": "Valeur invalide",
+        "valid_values": "Les valeurs autorisées sont 0, 0.5 ou 1.",
+        "value_exceeded": "Valeur dépassée",
+        "total_cannot_exceed_one": "Le total pour ce jour ne peut pas dépasser 1.",
+        "values_adjusted": "Valeurs ajustées",
+        "other_calendar_adjusted": "Les valeurs dans d'autres calendriers ont été ajustées."
+    },
+    "temps": "Temps",
+    "jours": "jours",
+    "month_year_required": "Le mois et l'année doivent être sélectionnés.",
+    "cra_save_failed": "Échec lors de l'enregistrement du CRA.",
+    "cra_saved": "CRA enregistré avec succès.",
+    "no_calendars_to_save": "Aucun calendrier à enregistrer.",
+    "all_calendars_need_client_mission": "Chaque calendrier doit avoir un client et une mission.",
+    "duplicate_client_mission": "Il existe des doublons de couple client/mission.",
+    "cras_saved_updated": " CRA(s) mis à jour.",
+    "cras_saved": "{{count}} CRA(s) enregistrés.",
+    "cras_updated": "{{count}} CRA(s) mis à jour.",
+    "partial_success": "Enregistrement partiel",
+    "some_cras_processed": "{{saved}} CRA(s) enregistrés, {{updated}} mis à jour, {{failed}} en échec.",
+    "all_cras_failed": "Tous les enregistrements ont échoué.",
+    "info": "Information",
+    "no_cras_to_save": "Aucun CRA à enregistrer.",
+    "EN_COURS": "En cours",
+    "VALIDÉ": "Validé",
+    "cra_saved_successfully": "CRA enregistré avec succès",
+    "cra_updated_successfully": "CRA mis à jour avec succès",
+    "status": {
+        "VALIDE": "Validé",
+        "IN_PROGRESS": "En cours",
+        "REJETE": "Rejeté"
+    },
+    "cra_not_saved": "Veuillez d'abord enregistrer le CRA avant de l'envoyer.",
+    "VALIDATE": "Valider",
+    "REJECT": "Rejeter",
+    "COMMENTAIRES": "Commentaire"
 }

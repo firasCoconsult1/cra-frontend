@@ -1,0 +1,93 @@
+<p-toast></p-toast>
+
+<div class="calendar-wrapper calendar-box" [ngClass]="{ 'expanded': isExpanded }">
+
+  <div>
+    <h4>{{ 'Feuilles_de_temps' | translate }} {{ selectedMonth }}-{{ selectedYear }}</h4><br>
+    <button class="round-button" (click)="addCalendar()" *ngIf="!isValidationMode">
+      <i class="pi pi-plus"></i>
+    </button>
+  </div>
+
+  <div *ngIf="isExpanded" class="calendar-expanded-content">
+
+    <!-- Standard mode buttons -->
+    <div class="buttons" *ngIf="!isValidationMode">
+      <p-button label="{{ 'SEND' | translate }}" severity="info" icon="pi pi-send" (onClick)="sendCra()"></p-button>
+      <p-button label="{{ 'SAVE' | translate }}" severity="success" icon="pi pi-save" (onClick)="saveCra()"></p-button>
+    </div>
+
+    <!-- Validation mode buttons -->
+    <div class="buttons" *ngIf="isValidationMode">
+      <p-button label="{{ 'VALIDATE' | translate }}" severity="success" icon="pi pi-check" (onClick)="validateCra()"></p-button>
+      <p-button label="{{ 'REJECT' | translate }}" severity="danger" icon="pi pi-times" (onClick)="rejectCra()" ></p-button>
+    </div>
+
+    <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;" *ngIf="!isValidationMode">
+      <div style="display: flex; align-items: center; gap: 5px;">
+        <p style="margin: 0;">{{'temps' | translate}} <i class="fas fa-clock" style="font-size: 16px;"></i></p>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 10px;" *ngIf="!isValidationMode">
+        <span>{{ getFormattedTotalRemplis() }}/{{ getTotalWorkingDaysAllCalendars() }} {{ 'jours' | translate }}</span>
+        <p-progressBar [value]="getGlobalCompletionPercentage()" [style]="{ width: '495px', height: '20px' }">
+        </p-progressBar>
+        <span>{{ getGlobalCompletionPercentage() }}%</span>
+      </div>
+    </div>
+
+    <div *ngFor="let calendar of calendars" class="calendar-content">
+
+      <div class="cra-grid">
+        <div class="input-button-container">
+          <div class="input-button-row">
+            <p-floatlabel variant="in" class="small-input">
+              <input pInputText id="client-{{calendar.idCalendre}}" autocomplete="off" [(ngModel)]="calendar.client" 
+                     [disabled]="isValidationMode || cra.status == 'VALIDE'" />
+              <label for="client-{{calendar.idCalendre}}">Client</label>
+            </p-floatlabel>
+            <p-button label="{{ 'Remplir_tous' | translate }}" (onClick)="remplirTous(calendar)" severity="help"
+              class="cra-action-button" *ngIf="!isValidationMode"></p-button>
+          </div>
+          <div class="input-button-row">
+            <p-floatlabel variant="in" class="small-input">
+              <input pInputText id="mission-{{calendar.idCalendre}}" autocomplete="off" [(ngModel)]="calendar.mission" 
+                     [disabled]="isValidationMode || cra.status == 'VALIDE'" />
+              <label for="mission-{{calendar.idCalendre}}">Mission</label>
+            </p-floatlabel>
+            <p-button label="{{ 'vider_tous' | translate }}" (onClick)="viderTous(calendar)" severity="contrast"
+              class="cra-action-button" *ngIf="!isValidationMode"></p-button>
+          </div>
+        </div>
+
+        <div class="days-scroll-container">
+          <div class="days-container">
+            <div *ngFor="let day of calendar.days" class="day">
+              <div class="day-label">{{ getDayLetter(day.date) }}</div>
+              <div class="day-date">{{ day.date | date:'dd' }}</div>
+              <input type="text" [disabled]="isWeekend(day.date) || isValidationMode || cra.status == 'VALIDE'" class="day-input" [(ngModel)]="day.value"
+                (blur)="validateInput(day, calendar)" />
+            </div>
+
+            <div class="day delete-day" *ngIf="!isValidationMode">
+              <div class="day-label">&nbsp;</div>
+              <div class="day-date">&nbsp;</div>
+              <button class="delete-button" (click)="deleteCalendar(calendar)">
+                <i class="pi pi-trash"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+
+    </div>
+    <br>
+    <div class="commentaires-container" *ngIf="isValidationMode">
+      <h6>{{'COMMENTAIRES' | translate }}</h6>
+      <textarea rows="6"cols="70" pTextarea style="resize: none"></textarea>
+
+    </div>
+
+  </div>
+</div>

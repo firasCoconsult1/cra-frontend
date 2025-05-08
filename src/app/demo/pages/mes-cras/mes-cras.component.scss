@@ -1,0 +1,277 @@
+.cra-detail {
+  padding: 1rem;
+}
+
+.cra-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.round-button {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: green;
+  color: white;
+  font-size: 24px;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-left: 10px;
+  margin-right: auto;
+}
+
+.cra-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-right: 1rem;
+}
+
+
+.calendar-line {
+  display: flex;
+  overflow-x: auto;
+  margin-top: 20px;
+}
+
+.day-cell {
+  min-width: 50px;
+  border: 1px solid #ddd;
+  padding: 8px;
+  margin-right: 5px;
+  text-align: center;
+  border-radius: 4px;
+}
+
+.day-cell.disabled {
+  background-color: #f0f0f0;
+  color: #ccc;
+}
+
+.calendar-wrapper {
+  margin-bottom: 30px;
+}
+
+.calendar-container {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.calendar-content {
+  flex: 1;
+}
+
+.cra-grid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  overflow-x: auto;
+  margin-top: 20px;
+
+}
+
+.day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: 1px;
+ 
+}
+
+.day-label {
+  font-weight: bold;
+  margin-bottom: 4px;
+  font-size: 12px;
+}
+
+.day-date {
+  font-size: 11px;
+  margin-bottom: 2px;
+}
+
+.day-input {
+  width: 25px;
+  height: 25px;
+  text-align: center;
+  font-size: 10px;
+}
+
+.calendar-box {
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  overflow: hidden;
+  transition: max-height 0.5s ease-in-out;
+  max-height: 150px; // réduit au départ
+}
+.calendar-box.expanded {
+  max-height: 2000px; // ou auto, mais fixe est plus fluide
+}
+
+.calendar-expanded-content {
+  margin-top: 20px;
+}
+
+/* Inputs avec boutons */
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.calendar-line::-webkit-scrollbar {
+  height: 6px;
+}
+
+.calendar-line::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 3px;
+}
+
+.danger {
+  margin-left: 10px;
+}
+
+.progress-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: -130px;
+  margin-top: 8px;
+  width: 60px;
+}
+
+.vertical-progress {
+  transform: rotate(100deg);
+  transform-origin: center left;
+  width: 200px !important;
+  position: relative;
+}
+
+.progress-text {
+  font-size: 12px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.delete-button {
+  width: 25px;
+  height: 25px;
+  border-radius: 4px;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 10px;
+  transition: background-color 0.3s;
+}
+
+.delete-button:hover {
+  background-color: #d32f2f;
+}
+
+.delete-button i.pi-trash {
+  font-size: 10px;
+}
+
+p-toast {
+  position: fixed;
+  z-index: 11000;
+  top: 10px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  
+}
+::ng-deep .cra-buttons .p-button {
+  width: 100px;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 4px 8px;           
+}
+::ng-deep .cra-buttons .p-button .p-button-label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+}
+.input-button-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.input-button-row {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+  align-items: start;
+}
+
+:host ::ng-deep .small-input .p-inputtext {
+  height: 40px;
+  font-size: 0.875rem;
+  padding-top: 1.8rem;
+}
+
+:host ::ng-deep .small-input .p-float-label label {
+  font-size: 0.75rem;
+  top: 0.75rem;
+}
+
+:host ::ng-deep .cra-action-button .p-button {
+  height: 40px;
+  font-size: 0.875rem;
+  width: 120px;
+}
+
+
+.days-scroll-container {
+  width: 100%;
+  overflow-x: auto;
+  margin-top: 1rem;
+  padding-bottom: 0.5rem; 
+  padding-left: 5rem;
+  background-attachment: local, local, scroll, scroll;
+}
+
+.days-container {
+  display: flex;
+  min-width: max-content;
+  margin-left: -5rem;
+}
+
+.days-scroll-container::-webkit-scrollbar {
+  height: 6px;
+  width: 500px;
+}
+
+.days-scroll-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.days-scroll-container::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 3px;
+}
+
+.days-scroll-container::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

@@ -23,8 +23,8 @@
         "RESOURCES_DESC": "View, edit, and manage all users.",
         "MANAGE_ROLES": "Manage Roles",
         "ROLES_DESC": "View, edit, and manage all roles.",
-        "MANAGE_CRA": "Manage Timesheets",
-        "CRA_DESC": "View, edit and manage all timesheets."
+        "MANAGE_CRA": "Manage Cra",
+        "CRA_DESC": "View, edit and manage all cra."
     },
     "PROFILE": {
         "UPDATE_TITLE": "Update Profile",
@@ -135,7 +135,10 @@
         "pages": "Pages",
         "auth": "Authentication",
         "signup": "Sign up",
-        "signin": "Sign in"
+        "signin": "Sign in",
+        "cra": "Cra management",
+        "absence": "Absence",
+        "frais": "Costs"
     },
     "reset": {
         "tokenMissing": "Missing token",
@@ -206,9 +209,74 @@
     "SUCCESS": "Success",
     "ERROR": "Error",
     "UNAUTHORIZED": {
-    "TITLE": "Access Denied",
-    "MESSAGE": "You do not have permission to access this page.",
-    "BACK_HOME": "Back to Home"
-  }
-    
+        "TITLE": "Access Denied",
+        "MESSAGE": "You do not have permission to access this page.",
+        "BACK_HOME": "Back to Home"
+    },
+    "Mes_CRA": "My cra",
+    "Validation_List": "Validation list",
+    "Add_Cra": "Add Cra",
+    "activity": {
+        "placeholder": "Activity",
+        "weekend": "Weekend",
+        "l": "M",
+        "m": "T",
+        "mw": "W",
+        "j": "T",
+        "v": "F",
+        "s": "S",
+        "d": "S"
+    },
+    "Remplir_tous": "Fill all",
+    "vider_tous": "Empty all",
+    "input": {
+        "error_title": "Input Error",
+        "error_detail": "Only the values 0, 0.5 and 1 are allowed"
+    },
+    "calendar": {
+        "limit_reached": "Maximum number of calendars reached",
+        "limit_detail": "You cannot add more than 3 calendars",
+        "deleted": "Calendar deleted",
+        "deleted_detail": "The calendar was successfully removed"
+    },
+    "input_warn": {
+        "value_invalid": "Invalid value",
+        "valid_values": "Only 0, 0.5, or 1 are allowed",
+        "value_exceeded": "Exceeded daily maximum",
+        "total_cannot_exceed_one": "The total value for the day cannot exceed 1",
+        "values_adjusted": "Values adjusted",
+        "other_calendar_adjusted": "Other calendar(s) were modified to respect the daily limit"
+    },
+    "Feuilles_de_temps": "Timesheets",
+    "temps": "Time",
+    "jours": "days",
+    "month_year_required": "Month and year must be selected.",
+    "cra_save_failed": "Failed to save CRA.",
+    "cra_saved": "CRA saved successfully.",
+    "no_calendars_to_save": "You must create at least one calendar",
+    "all_calendars_need_client_mission": "Each calendar must have a client and a mission",
+    "duplicate_client_mission": "You cannot duplicate the same client/mission pair",
+    "cras_saved_updated": " CRA(s) updated",
+    "cras_saved": "{{count}} CRA(s) created",
+    "cras_updated": "{{count}} CRA(s) updated",
+    "partial_success": "Some CRA(s) were not processed",
+    "some_cras_processed": "{{saved}} saved, {{updated}} updated, {{failed}} failed",
+    "all_cras_failed": "All CRA(s) failed to save",
+    "info": "Info",
+    "no_cras_to_save": "No CRA(s) to save",
+    "EN_COURS": "In progress",
+    "VALIDÉ": "Validated",
+    "cra_updated_successfully": "CRA updated successfully",
+    "cra_saved_successfully": "CRA saved successfully",
+    "status": {
+    "VALIDE": "Validated",
+    "IN_PROGRESS": "In progress",
+    "REJETE": "Rejected"
+  },
+  "cra_not_saved": "Please save the CRA before sending it.",
+  "VALIDATE": "Validate",
+  "REJECT": "Reject",
+  "COMMENTAIRES": "Comment"
+
+
 }
