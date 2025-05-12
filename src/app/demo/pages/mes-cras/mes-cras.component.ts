@@ -30,8 +30,8 @@ interface CalendarMonth {
   month: number;
   days: Day[];
   visible: boolean;
-  client?: string;  
-  mission?: string; 
+  client?: string;
+  mission?: string;
 }
 
 @Component({
@@ -57,36 +57,39 @@ export class MesCrasComponent implements OnInit {
   selectedMonth: string = '';
   selectedYear: string = '';
   calendars: Calendre[] = [];
-
+  commentaire: string = '';
+  commentaireClient: string = '';
   validValues: number[] = [0, 0.5, 1];
   cra: Cra | null = null;
   readonlyMode: boolean = false;
   selectedCalendar: Calendre | null = null;
   isValidationMode: boolean = false;
+  
+
 
   constructor(private route: ActivatedRoute,
     private messageService: MessageService,
-    private translate: TranslateService, 
-    private craService: CrasService, 
-    private profileService: ProfileService, 
+    private translate: TranslateService,
+    private craService: CrasService,
+    private profileService: ProfileService,
     private authService: AuthService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       this.selectedMonth = params['month'];
       this.selectedYear = params['year'];
-      
+
       const craId = params['craId'];
-      
-      // Properly set isValidationMode from URL parameter
+
       this.isValidationMode = params['validationMode'] === 'true';
-      
+
       if (craId) {
-        this.loadCra(craId);  
+        this.loadCra(craId);
       } else {
         this.calendars = [];
         this.isExpanded = false;
-        // Don't reset isValidationMode here, as it's already set from URL params
+        this.commentaire = '';
+        this.commentaireClient = '';
       }
     });
   }
@@ -95,34 +98,32 @@ export class MesCrasComponent implements OnInit {
     this.craService.getCraById(craId).subscribe({
       next: (cra: Cra) => {
         this.cra = cra;
-  
-        const year = cra.year;
-        const month = cra.month;
-  
-        this.selectedYear = year.toString();
-        this.selectedMonth = month.toString();
-  
+        console.log('CRA chargé:', this.cra)
+
+        this.selectedYear = cra.year.toString();
+        this.selectedMonth = cra.month.toString();
+        this.commentaire = cra.commentaire || '';
+        this.commentaireClient = cra.commentaireClient || '';
+
         this.calendars = cra.calendres.map((calendar) => {
-          const fullDays = this.createEmptyDays(); 
-  
+          const fullDays = this.createEmptyDays();
+
           for (let day of fullDays) {
             const found = calendar.days.find(d => new Date(d.date).toDateString() === new Date(day.date).toDateString());
             if (found) {
               day.value = found.value;
             }
           }
-  
+
           return {
             ...calendar,
             days: fullDays
           };
         });
-  
+
         this.isExpanded = true;
-        
-        
       },
-      error: (error) => {
+      error: () => {
         this.messageService.add({
           severity: 'error',
           summary: this.translate.instant('error.title'),
@@ -131,13 +132,13 @@ export class MesCrasComponent implements OnInit {
       },
     });
   }
-  
+
 
   addCalendar(): void {
-    if (this.isValidationMode || this.cra.status === Status.VALIDE) {
-      return; // Prevent adding calendars in validation mode
+    if (this.isValidationMode || this.cra?.status === Status.VALIDE) {
+      return;
     }
-    
+
     if (this.calendars.length < 3) {
       const newCalendar: Calendre = {
         idCalendre: null,
@@ -162,7 +163,7 @@ export class MesCrasComponent implements OnInit {
     const month = parseInt(this.selectedMonth, 10) - 1;
     const date = new Date(year, month, 1);
     const currentMonth = date.getMonth();
-  
+
     while (date.getMonth() === currentMonth) {
       const formattedDate = `${year}-${(month + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
       days.push({
@@ -172,76 +173,80 @@ export class MesCrasComponent implements OnInit {
       });
       date.setDate(date.getDate() + 1);
     }
-  
+
     return days;
   }
-  
-  saveCra(): void {
-    if (this.isValidationMode || this.cra.status === Status.VALIDE) {
-      return; // Prevent saving in validation mode
-    }
-    
-    if (!this.selectedMonth || !this.selectedYear) {
-      this.messageService.add({
-        severity: 'warn',
-        summary: this.translate.instant('error.title'),
-        detail: this.translate.instant('month_year_required'),
-      });
-      return;
-    }
-  
-    const filteredCalendars: Calendre[] = this.calendars.map(calendar => ({
-      ...calendar,
-      days: calendar.days.filter(day => day.value > '0')
-    }));
-  
-    const cra: Cra = {
-      idCra: this.cra?.idCra || null,
-      month: +this.selectedMonth,
-      year: +this.selectedYear,
-      status: Status.IN_PROGRESS,
-      userId: null,
-      isSend: false,
-      calendres: filteredCalendars,
-    };
-  
-    if (this.cra?.idCra ) {
-      this.craService.updateCra(this.cra.idCra, cra).subscribe({
-        next: () => {
-          this.messageService.add({
-            severity: 'success',
-            summary: this.translate.instant('success.title'),
-            detail: this.translate.instant('cra_updated_successfully'),
-          });
-        },
-        error: () => {
-          this.messageService.add({
-            severity: 'error',
-            summary: this.translate.instant('error.title'),
-            detail: this.translate.instant('error.updating_cra'),
-          });
-        },
-      });
-    } else {
-      this.craService.saveCra(cra).subscribe({
-        next: () => {
-          this.messageService.add({
-            severity: 'success',
-            summary: this.translate.instant('success.title'),
-            detail: this.translate.instant('cra_saved_successfully'),
-          });
-        },
-        error: () => {
-          this.messageService.add({
-            severity: 'error',
-            summary: this.translate.instant('error.title'),
-            detail: this.translate.instant('error.saving_cra'),
-          });
-        },
-      });
-    }
+
+ saveCra(): void {
+  const calendrierInvalide = this.calendars.some(
+    calendar => !calendar.client?.trim() || !calendar.mission?.trim()
+  );
+
+  if (calendrierInvalide) {
+    this.messageService.add({
+      severity: 'warn',
+      summary: this.translate.instant('warning.title'),
+      detail: this.translate.instant('client_mission_required'),
+    });
+    return;
   }
-  
+
+  const isNewCra = !this.cra?.idCra; 
+
+  const craToSave: Cra = {
+    idCra: this.cra?.idCra || null,
+    month: +this.selectedMonth,
+    year: +this.selectedYear,
+    status: Status.IN_PROGRESS,
+    userId: null,
+    send: this.cra?.send || false,
+    commentaire: this.commentaire || this.cra?.commentaire || '',
+    commentaireClient: this.commentaireClient || this.cra?.commentaireClient || '',
+    calendres: this.calendars.map(calendar => ({
+      ...calendar,
+      days: calendar.days,
+    })),
+  };
+
+  const saveSuccess = (savedCra: Cra) => {
+    this.cra = savedCra;
+    this.commentaire = savedCra.commentaire || '';
+    this.commentaireClient = savedCra.commentaireClient || '';
+
+    this.messageService.add({
+      severity: 'success',
+      summary: this.translate.instant('success.title'),
+      detail: this.translate.instant(isNewCra ? 'cra_saved_successfully' : 'cra_updated_successfully'),
+    });
+  };
+
+  if (this.cra?.idCra) {
+    this.craService.updateCra(this.cra.idCra, craToSave).subscribe({
+      next: saveSuccess,
+      error: () => {
+        this.messageService.add({
+          severity: 'error',
+          summary: this.translate.instant('error.title'),
+          detail: this.translate.instant('error.updating_cra'),
+        });
+      },
+    });
+  } else {
+    this.craService.saveCra(craToSave).subscribe({
+      next: saveSuccess,
+      error: () => {
+        this.messageService.add({
+          severity: 'error',
+          summary: this.translate.instant('error.title'),
+          detail: this.translate.instant('error.saving_cra'),
+        });
+      },
+    });
+  }
+}
+
+
+
   validateCra(): void {
     if (!this.cra?.idCra) {
       this.messageService.add({
@@ -251,26 +256,67 @@ export class MesCrasComponent implements OnInit {
       });
       return;
     }
-  
-    this.craService.validateCra(this.cra.idCra).subscribe({
-      next: () => {
-        this.messageService.add({
-          severity: 'success',
-          summary: this.translate.instant('success.title'),
-          detail: this.translate.instant('cra_validated_successfully'),
-        });
-        if (this.cra) {
-          this.cra.status = Status.VALIDE;
+
+    if (this.commentaireClient) {
+      const craToSave: Cra = {
+        ...this.cra,
+        commentaireClient: this.commentaireClient || this.cra?.commentaireClient || '',
+      };
+
+      this.craService.updateCra(this.cra.idCra, craToSave).subscribe({
+        next: (updatedCra) => {
+          this.cra = updatedCra;
+          console.log('CRA updated:', this.cra)
+
+          this.craService.validateCra(this.cra.idCra).subscribe({
+            next: () => {
+              this.messageService.add({
+                severity: 'success',
+                summary: this.translate.instant('success.title'),
+                detail: this.translate.instant('cra_validated_successfully'),
+              });
+              if (this.cra) {
+                this.cra.status = Status.VALIDE;
+              }
+            },
+            error: () => {
+              this.messageService.add({
+                severity: 'error',
+                summary: this.translate.instant('error.title'),
+                detail: this.translate.instant('error.validating_cra'),
+              });
+            },
+          });
+        },
+        error: () => {
+          this.messageService.add({
+            severity: 'error',
+            summary: this.translate.instant('error.title'),
+            detail: this.translate.instant('error.updating_comments'),
+          });
         }
-      },
-      error: () => {
-        this.messageService.add({
-          severity: 'error',
-          summary: this.translate.instant('error.title'),
-          detail: this.translate.instant('error.validating_cra'),
-        });
-      },
-    });
+      });
+    } else {
+      this.craService.validateCra(this.cra.idCra).subscribe({
+        next: () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: this.translate.instant('success.title'),
+            detail: this.translate.instant('cra_validated_successfully'),
+          });
+          if (this.cra) {
+            this.cra.status = Status.VALIDE;
+          }
+        },
+        error: () => {
+          this.messageService.add({
+            severity: 'error',
+            summary: this.translate.instant('error.title'),
+            detail: this.translate.instant('error.validating_cra'),
+          });
+        },
+      });
+    }
   }
 
   rejectCra(): void {
@@ -282,38 +328,78 @@ export class MesCrasComponent implements OnInit {
       });
       return;
     }
-  
-    this.craService.rejectCra(this.cra.idCra).subscribe({
-      next: () => {
-        this.messageService.add({
-          severity: 'success',
-          summary: this.translate.instant('success.title'),
-          detail: this.translate.instant('cra_rejected_successfully'),
-        });
-        if (this.cra) {
-          this.cra.status = Status.REJETE;
+
+    if (this.commentaireClient) {
+      const craToSave: Cra = {
+        ...this.cra,
+        commentaireClient: this.commentaireClient || this.cra?.commentaireClient || '',
+      };
+
+      this.craService.updateCra(this.cra.idCra, craToSave).subscribe({
+        next: (updatedCra) => {
+          this.cra = updatedCra;
+
+          this.craService.rejectCra(this.cra.idCra).subscribe({
+            next: () => {
+              this.messageService.add({
+                severity: 'success',
+                summary: this.translate.instant('success.title'),
+                detail: this.translate.instant('cra_rejected_successfully'),
+              });
+              if (this.cra) {
+                this.cra.status = Status.REJETE;
+              }
+            },
+            error: () => {
+              this.messageService.add({
+                severity: 'error',
+                summary: this.translate.instant('error.title'),
+                detail: this.translate.instant('error.rejecting_cra'),
+              });
+            },
+          });
+        },
+        error: () => {
+          this.messageService.add({
+            severity: 'error',
+            summary: this.translate.instant('error.title'),
+            detail: this.translate.instant('error.updating_comments'),
+          });
         }
-      },
-      error: () => {
-        this.messageService.add({
-          severity: 'error',
-          summary: this.translate.instant('error.title'),
-          detail: this.translate.instant('error.rejecting_cra'),
-        });
-      },
-    });
+      });
+    } else {
+      this.craService.rejectCra(this.cra.idCra).subscribe({
+        next: () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: this.translate.instant('success.title'),
+            detail: this.translate.instant('cra_rejected_successfully'),
+          });
+          if (this.cra) {
+            this.cra.status = Status.REJETE;
+          }
+        },
+        error: () => {
+          this.messageService.add({
+            severity: 'error',
+            summary: this.translate.instant('error.title'),
+            detail: this.translate.instant('error.rejecting_cra'),
+          });
+        },
+      });
+    }
   }
 
   selectCalendar(calendar: Calendre) {
     this.selectedCalendar = calendar;
     this.isExpanded = true;
   }
-  
+
   deleteCalendar(calendar: Calendre): void {
-    if (this.isValidationMode || this.cra.status === Status.VALIDE) {
-      return; // Prevent deleting calendars in validation mode
+    if (this.isValidationMode || this.cra?.status === Status.VALIDE) {
+      return;
     }
-    
+
     const index = this.calendars.indexOf(calendar);
     if (index !== -1) {
       this.calendars.splice(index, 1);
@@ -326,10 +412,10 @@ export class MesCrasComponent implements OnInit {
   }
 
   remplirTous(calendar: Calendre): void {
-    if (this.isValidationMode || this.cra.status === Status.VALIDE) {
-      return; // Prevent filling in validation mode
+    if (this.isValidationMode || this.cra?.status === Status.VALIDE) {
+      return;
     }
-    
+
     calendar.days.forEach((day) => {
       const dayDate = new Date(day.date);
       if (!this.isWeekend(dayDate)) {
@@ -356,10 +442,10 @@ export class MesCrasComponent implements OnInit {
   }
 
   viderTous(calendar: Calendre): void {
-    if (this.isValidationMode || this.cra.status === Status.VALIDE) {
-      return; // Prevent emptying in validation mode
+    if (this.isValidationMode || this.cra?.status === Status.VALIDE) {
+      return;
     }
-    
+
     calendar.days.forEach((day) => {
       const dayDate = new Date(day.date);
       if (!this.isWeekend(dayDate)) {
@@ -373,7 +459,7 @@ export class MesCrasComponent implements OnInit {
     const day = date.getDay();
     return day === 0 || day === 6;
   }
-  
+
   getDayLetter(dateInput: string | Date): string {
     const date = typeof dateInput === 'string' ? new Date(dateInput) : dateInput;
     const day = date.getDay();
@@ -469,41 +555,48 @@ export class MesCrasComponent implements OnInit {
   }
 
   validateInput(day: DayEntry, calendar: Calendre): void {
-    if (this.isValidationMode || this.cra.status === Status.VALIDE) {
-      return; // Prevent input validation in validation mode
-    }
-    
-    const value = parseFloat(day.value);
+    const validValues = ['0', '0.5', '1'];
 
-    if (isNaN(value) || value < 0) {
-      day.value = '';
-      return;
-    }
-
-    const closestValidValue = this.getClosestValidValue(value);
-    if (value !== closestValidValue) {
-      day.value = closestValidValue.toString();
+    if (!validValues.includes(day.value)) {
       this.messageService.add({
         severity: 'warn',
         summary: this.translate.instant('input_warn.value_invalid'),
         detail: this.translate.instant('input_warn.valid_values'),
       });
+      day.value = '0';
+      return;
     }
 
-    this.synchronizeDayValue(calendar, day);
+    const dateStr = new Date(day.date).toDateString();
+    const totalForDay = this.calendars.reduce((sum, cal) => {
+      return sum + cal.days
+        .filter(d => new Date(d.date).toDateString() === dateStr)
+        .reduce((subSum, d) => subSum + parseFloat(d.value || '0'), 0);
+    }, 0);
+
+    if (totalForDay > 1) {
+      this.messageService.add({
+        severity: 'error',
+        summary: this.translate.instant('input_warn.value_exceeded'),
+        detail: this.translate.instant('input_warn.total_cannot_exceed_one'),
+      });
+      day.value = '0';
+    }
   }
 
-  getClosestValidValue(value: number): number {
-    if (value <= 0.25) return 0;
-    if (value <= 0.75) return 0.5;
-    return 1;
+  private showError(summaryKey: string, detailKey: string) {
+    this.messageService.add({
+      severity: 'error',
+      summary: this.translate.instant(summaryKey),
+      detail: this.translate.instant(detailKey),
+    });
   }
 
   synchronizeDayValue(changedCalendar: Calendre, changedDay: DayEntry): void {
-    if (this.isValidationMode || this.cra.status === Status.VALIDE) {
-      return; // Prevent synchronization in validation mode
+    if (this.isValidationMode || this.cra?.status === Status.VALIDE) {
+      return;
     }
-    
+
     const changedDate = new Date(changedDay.date);
     const dateStr = changedDate.toDateString();
     const maxTotal = 1;
@@ -545,10 +638,10 @@ export class MesCrasComponent implements OnInit {
   }
 
   adjustOtherCalendars(changedCalendar: Calendre, changedDay: DayEntry): void {
-    if (this.isValidationMode || this.cra.status === Status.VALIDE) {
-      return; // Prevent adjustment in validation mode
+    if (this.isValidationMode || this.cra?.status === Status.VALIDE) {
+      return;
     }
-    
+
     const changedDate = new Date(changedDay.date);
     const dateStr = changedDate.toDateString();
     const maxTotal = 1;
@@ -597,40 +690,58 @@ export class MesCrasComponent implements OnInit {
     if (total === 0) return '0';
     return total === Math.floor(total) ? total.toString() : total.toFixed(1);
   }
-  
+
   sendCra(): void {
-    if (this.isValidationMode || this.cra.status === Status.VALIDE) {
-      return; // Prevent sending in validation mode
+    if (this.isValidationMode || this.cra?.status === Status.VALIDE) {
+      return;
     }
-    
+
     if (!this.cra?.idCra) {
       this.messageService.add({
         severity: 'warn',
         summary: this.translate.instant('error.title'),
-        detail: this.translate.instant('cra_not_saved'),
+        detail: this.translate.instant('cra_not_found'),
       });
       return;
     }
-  
-    this.craService.sendCra(this.cra.idCra).subscribe({
-      next: () => {
-        this.messageService.add({
-          severity: 'success',
-          summary: this.translate.instant('success.title'),
-          detail: this.translate.instant('cra_sent_successfully'),
+
+    const craToSave: Cra = {
+      ...this.cra,
+      commentaire: this.commentaire,
+      commentaireClient: this.commentaireClient
+    };
+
+    this.craService.updateCra(this.cra.idCra, craToSave).subscribe({
+      next: (updatedCra) => {
+        this.cra = updatedCra;
+
+        this.craService.sendCra(this.cra.idCra).subscribe({
+          next: () => {
+            this.messageService.add({
+              severity: 'success',
+              summary: this.translate.instant('success.title'),
+              detail: this.translate.instant('cra_sent_successfully'),
+            });
+            if (this.cra) {
+              this.cra.send = true;
+            }
+          },
+          error: () => {
+            this.messageService.add({
+              severity: 'error',
+              summary: this.translate.instant('error.title'),
+              detail: this.translate.instant('sending_cra'),
+            });
+          },
         });
-        // Update the local state to reflect that the CRA has been sent
-        if (this.cra) {
-          this.cra.isSend = true;
-        }
       },
       error: () => {
         this.messageService.add({
           severity: 'error',
           summary: this.translate.instant('error.title'),
-          detail: this.translate.instant('error.sending_cra'),
+          detail: this.translate.instant('updating_comments'),
         });
-      },
+      }
     });
   }
   

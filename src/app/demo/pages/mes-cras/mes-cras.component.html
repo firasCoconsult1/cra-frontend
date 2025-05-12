@@ -4,26 +4,35 @@
 
   <div>
     <h4>{{ 'Feuilles_de_temps' | translate }} {{ selectedMonth }}-{{ selectedYear }}</h4><br>
-    <button class="round-button" (click)="addCalendar()" *ngIf="!isValidationMode">
+    <button class="round-button" (click)="addCalendar()" *ngIf="!isValidationMode"
+      [disabled]="cra?.status === 'VALIDE'">
+
       <i class="pi pi-plus"></i>
     </button>
   </div>
 
   <div *ngIf="isExpanded" class="calendar-expanded-content">
 
-    <!-- Standard mode buttons -->
     <div class="buttons" *ngIf="!isValidationMode">
-      <p-button label="{{ 'SEND' | translate }}" severity="info" icon="pi pi-send" (onClick)="sendCra()"></p-button>
-      <p-button label="{{ 'SAVE' | translate }}" severity="success" icon="pi pi-save" (onClick)="saveCra()"></p-button>
+      <p-button label="{{ 'SEND' | translate }}" severity="info" icon="pi pi-send" (onClick)="sendCra() "
+        [disabled]="cra?.status === 'VALIDE' || (cra?.send== true && cra?.status !== 'REJETE')">
+      </p-button>
+
+      <p-button label="{{ 'SAVE' | translate }}" severity="success" icon="pi pi-save" (onClick)="saveCra()"
+        [disabled]="cra?.status === 'VALIDE'">
+      </p-button>
     </div>
 
-    <!-- Validation mode buttons -->
+
     <div class="buttons" *ngIf="isValidationMode">
-      <p-button label="{{ 'VALIDATE' | translate }}" severity="success" icon="pi pi-check" (onClick)="validateCra()"></p-button>
-      <p-button label="{{ 'REJECT' | translate }}" severity="danger" icon="pi pi-times" (onClick)="rejectCra()" ></p-button>
+      <p-button label="{{ 'VALIDATE' | translate }}" severity="success" icon="pi pi-check"
+        (onClick)="validateCra()" [disabled]="cra?.status === 'VALIDE'"></p-button>
+      <p-button label="{{ 'REJECT' | translate }}" severity="danger" icon="pi pi-times"
+        (onClick)="rejectCra()"[disabled]="cra?.status === 'VALIDE'"></p-button>
     </div>
 
-    <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;" *ngIf="!isValidationMode">
+    <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;"
+      *ngIf="!isValidationMode">
       <div style="display: flex; align-items: center; gap: 5px;">
         <p style="margin: 0;">{{'temps' | translate}} <i class="fas fa-clock" style="font-size: 16px;"></i></p>
       </div>
@@ -42,21 +51,23 @@
         <div class="input-button-container">
           <div class="input-button-row">
             <p-floatlabel variant="in" class="small-input">
-              <input pInputText id="client-{{calendar.idCalendre}}" autocomplete="off" [(ngModel)]="calendar.client" 
-                     [disabled]="isValidationMode || cra.status == 'VALIDE'" />
+              <input pInputText id="client-{{calendar.idCalendre}}" autocomplete="off" [(ngModel)]="calendar.client"
+                [disabled]="isValidationMode || cra?.status == 'VALIDE'" required />
               <label for="client-{{calendar.idCalendre}}">Client</label>
             </p-floatlabel>
             <p-button label="{{ 'Remplir_tous' | translate }}" (onClick)="remplirTous(calendar)" severity="help"
-              class="cra-action-button" *ngIf="!isValidationMode"></p-button>
+              class="cra-action-button" *ngIf="!isValidationMode" [disabled]="cra?.status === 'VALIDE'">
+            </p-button>
           </div>
           <div class="input-button-row">
             <p-floatlabel variant="in" class="small-input">
-              <input pInputText id="mission-{{calendar.idCalendre}}" autocomplete="off" [(ngModel)]="calendar.mission" 
-                     [disabled]="isValidationMode || cra.status == 'VALIDE'" />
+              <input pInputText id="mission-{{calendar.idCalendre}}" autocomplete="off" [(ngModel)]="calendar.mission"
+                [disabled]="isValidationMode || cra?.status == 'VALIDE'" required />
               <label for="mission-{{calendar.idCalendre}}">Mission</label>
             </p-floatlabel>
             <p-button label="{{ 'vider_tous' | translate }}" (onClick)="viderTous(calendar)" severity="contrast"
-              class="cra-action-button" *ngIf="!isValidationMode"></p-button>
+              class="cra-action-button" *ngIf="!isValidationMode" [disabled]="cra?.status === 'VALIDE'">
+            </p-button>
           </div>
         </div>
 
@@ -65,7 +76,8 @@
             <div *ngFor="let day of calendar.days" class="day">
               <div class="day-label">{{ getDayLetter(day.date) }}</div>
               <div class="day-date">{{ day.date | date:'dd' }}</div>
-              <input type="text" [disabled]="isWeekend(day.date) || isValidationMode || cra.status == 'VALIDE'" class="day-input" [(ngModel)]="day.value"
+              <input type="text" [disabled]="isWeekend(day.date) || isValidationMode || cra?.status == 'VALIDE'"
+                class="day-input" [(ngModel)]="day.value" (ngModelChange)="day.value = $event"
                 (blur)="validateInput(day, calendar)" />
             </div>
 
@@ -79,15 +91,61 @@
           </div>
         </div>
       </div>
-      
+
 
     </div>
-    <br>
+    <div class="commentaires-container" [hidden]="calendars.length === 0">
+      <div class="commentaire-pair">
+        <div class="commentaire-item">
+          <h6>{{ 'NB' | translate }}</h6>
+          <textarea id="commentaire" [(ngModel)]="commentaire" rows="6" cols="30" pTextarea style="resize: none"
+            [disabled]="isValidationMode || cra?.status === 'VALIDE'">
+      </textarea>
+        </div>
+
+        <div class="commentaire-item">
+          <h6>{{ 'COMMENTAIRES' | translate }}</h6>
+          <textarea id="commentaireClient" [(ngModel)]="commentaireClient" rows="6" cols="30" pTextarea
+            style="resize: none" [disabled]="!isValidationMode">
+      </textarea>
+        </div>
+      </div>
+    </div>
+
+
+    <!--  <br>
     <div class="commentaires-container" *ngIf="isValidationMode">
-      <h6>{{'COMMENTAIRES' | translate }}</h6>
-      <textarea rows="6"cols="70" pTextarea style="resize: none"></textarea>
-
+      <div class="commentaire-pair">
+        <div class="commentaire-item">
+          <h6>{{'COMMENTAIRES' | translate }}</h6>
+          <textarea id="commentaireClient" [(ngModel)]="commentaireClient" rows="6" cols="30" pTextarea
+            style="resize: none"></textarea>
+        </div>
+        <div class="commentaire-item">
+          <h6>{{'NB' | translate }}</h6>
+          <textarea id="commentaire" [(ngModel)]="commentaire" rows="6" cols="30" pTextarea style="resize: none"
+            [disabled]="true"></textarea>
+        </div>
+      </div>
     </div>
+    <div class="commentaires-container" *ngIf="!isValidationMode">
+      <div class="commentaire-pair">
+        <div class="commentaire-item">
+          <h6>{{'NB' | translate }}</h6>
+          <textarea id="commentaire" [(ngModel)]="cra.commentaire" rows="6" cols="30" pTextarea style="resize: none"
+            [disabled]="cra?.status === 'VALIDE'"></textarea>
+        </div>
+        <div class="commentaire-item">
+          <h6>{{'COMMENTAIRES' | translate }}</h6>
+          <textarea id="commentaireClient" [(ngModel)]="cra.commentaireClient" rows="6" cols="30" pTextarea
+            style="resize: none" [disabled]="true"></textarea>
+        </div>
+      </div>
+    </div>-->
+
+
+
 
   </div>
+
 </div>

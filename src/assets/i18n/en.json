@@ -229,10 +229,6 @@
     },
     "Remplir_tous": "Fill all",
     "vider_tous": "Empty all",
-    "input": {
-        "error_title": "Input Error",
-        "error_detail": "Only the values 0, 0.5 and 1 are allowed"
-    },
     "calendar": {
         "limit_reached": "Maximum number of calendars reached",
         "limit_detail": "You cannot add more than 3 calendars",
@@ -248,6 +244,7 @@
         "other_calendar_adjusted": "Other calendar(s) were modified to respect the daily limit"
     },
     "Feuilles_de_temps": "Timesheets",
+    "client_mission_required": "Each calendar must have a client and mission defined.",
     "temps": "Time",
     "jours": "days",
     "month_year_required": "Month and year must be selected.",
@@ -269,14 +266,22 @@
     "cra_updated_successfully": "CRA updated successfully",
     "cra_saved_successfully": "CRA saved successfully",
     "status": {
-    "VALIDE": "Validated",
-    "IN_PROGRESS": "In progress",
-    "REJETE": "Rejected"
-  },
-  "cra_not_saved": "Please save the CRA before sending it.",
-  "VALIDATE": "Validate",
-  "REJECT": "Reject",
-  "COMMENTAIRES": "Comment"
-
+        "VALIDE": "Validated",
+        "IN_PROGRESS": "In progress",
+        "REJETE": "Rejected"
+    },
+    "cra_not_saved": "Please save the CRA before sending it.",
+    "VALIDATE": "Validate",
+    "REJECT": "Reject",
+    "COMMENTAIRES": "Client review",
+    "NB": "User Comment",
+    "sending_cra": "An error occurred while sending the CRA",
+    "updating_comments": "An error occurred while updating comments",
+    "cra_sent_successfully": "CRA sent successfully",
+    "cra_not_found": "Aucun CRA trouvé.",
+    "cra_validated_successfully": "CRA was successfully validated.",
+    "cra_rejected_successfully": "CRA was successfully rejected.",
+    "validating_cra": "Error while validating CRA.",
+    "rejecting_cra": "Error while rejecting CRA."
 
 }

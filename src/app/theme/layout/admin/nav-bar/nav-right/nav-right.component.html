@@ -77,7 +77,7 @@
       <div class="dropdown-menu dropdown-menu-end profile-notification" ngbDropdownMenu>
         <div class="pro-head d-flex align-items-center">
          <span class="profile-initials rounded-circle"> {{ getInitials(user?.fullname || '') }}</span>
-          <span class="profile-name">{{user.fullname}}</span>
+          <span class="profile-name">{{user?.fullname}}</span>
           <a href="javascript:" class="dud-logout" title="Logout">
             <i class="feather icon-log-out" (click)="logout()"></i>
           </a>

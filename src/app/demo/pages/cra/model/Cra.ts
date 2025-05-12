@@ -3,12 +3,15 @@ import { Calendre } from "./Calendre";
 
 export interface Cra {
     idCra: number;
-    
-    month: number; 
-    year: number;  
+
+    month: number;
+    year: number;
     status: Status;
     calendres: Calendre[];
-    isSend: boolean;
+    send: boolean;
+    commentaire: string;
+    commentaireClient: string;
+
     userId: number;
 }
 export enum Status {

@@ -11,8 +11,8 @@ export class CrasService {
 
   constructor(private http: HttpClient) { }
 
-  saveCra(cra: Cra): Observable<any> {
-    return this.http.post(this.apiUrl, cra);
+  saveCra(cra: Cra): Observable<Cra> {
+    return this.http.post<Cra>(this.apiUrl, cra);
   }
 
 
@@ -35,13 +35,13 @@ export class CrasService {
     return this.http.get<Cra>(`${this.apiUrl}/${id}`);
   }
 
-  updateCra(id: number, craDto: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${id}`, craDto, { withCredentials: true });
+  updateCra(id: number, cra: Cra): Observable<Cra> {
+    return this.http.put<Cra>(`${this.apiUrl}/${id}`, cra);
   }
-  sendCra(id: number): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/${id}/send`, {});
+  sendCra(id: number): Observable<Cra> {
+    return this.http.put<Cra>(`${this.apiUrl}/${id}/send`, {});
   }
-  
+
 
   validateCra(id: number): Observable<void> {
     return this.http.put<void>(`${this.apiUrl}/${id}/validate`, {});

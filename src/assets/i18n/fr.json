@@ -229,10 +229,6 @@
     },
     "Remplir_tous": "Remplir tous",
     "vider_tous": "Vider tous",
-    "input": {
-        "error_title": "Erreur de saisie",
-        "error_detail": "Seules les valeurs 0, 0.5 et 1 sont autorisées"
-    },
     "calendar": {
         "limit_reached": "Vous avez atteint la limite de 3 calendriers.",
         "limit_detail": "Supprimez un calendrier avant d'en ajouter un nouveau.",
@@ -251,6 +247,7 @@
     "temps": "Temps",
     "jours": "jours",
     "month_year_required": "Le mois et l'année doivent être sélectionnés.",
+    "client_mission_required": "Chaque calendrier doit avoir un client et une mission définis.",
     "cra_save_failed": "Échec lors de l'enregistrement du CRA.",
     "cra_saved": "CRA enregistré avec succès.",
     "no_calendars_to_save": "Aucun calendrier à enregistrer.",
@@ -276,5 +273,14 @@
     "cra_not_saved": "Veuillez d'abord enregistrer le CRA avant de l'envoyer.",
     "VALIDATE": "Valider",
     "REJECT": "Rejeter",
-    "COMMENTAIRES": "Commentaire"
+    "COMMENTAIRES": "Revue client",
+    "NB": "Commentaire d'utilisateur",
+    "sending_cra": "Une erreur est survenue lors de l’envoi du CRA",
+    "updating_comments": "Une erreur est survenue lors de la mise à jour des commentaires",
+    "cra_not_found": "CRA introuvable",
+    "cra_sent_successfully": "CRA envoyé avec succès",
+    "cra_validated_successfully": "Le CRA a été validé avec succès.",
+    "cra_rejected_successfully": "Le CRA a été rejeté avec succès.",
+    "validating_cra": "Erreur lors de la validation du CRA.",
+    "rejecting_cra": "Erreur lors du rejet du CRA."
 }
