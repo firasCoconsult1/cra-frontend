@@ -214,19 +214,8 @@
         "BACK_HOME": "Retour à l'accueil"
     },
     "Mes_CRA": "Mes cra",
-    "Validation_List": "Liste de validation",
+    "Validation_List": " Validation Cra",
     "Add_Cra": "Ajouter un cra",
-    "activity": {
-        "placeholder": "Activité",
-        "weekend": "Weekend",
-        "l": "L",
-        "m": "M",
-        "mw": "M",
-        "j": "J",
-        "v": "V",
-        "s": "S",
-        "d": "D"
-    },
     "Remplir_tous": "Remplir tous",
     "vider_tous": "Vider tous",
     "calendar": {
@@ -282,5 +271,16 @@
     "cra_validated_successfully": "Le CRA a été validé avec succès.",
     "cra_rejected_successfully": "Le CRA a été rejeté avec succès.",
     "validating_cra": "Erreur lors de la validation du CRA.",
-    "rejecting_cra": "Erreur lors du rejet du CRA."
+    "rejecting_cra": "Erreur lors du rejet du CRA.",
+    "RAISON": "Raison",
+    "Supprimer": "Supprimer",
+    "TOTAL_SOLDE": "Total solde",
+    "absence_created_successfully": "Absence crée avec succès",
+    "absence_not_created": "Erreur lors de la création de l'/absence",
+    "Absence_List": " Validation absence",
+    "absence_rejected_successfully": "Absence rejetée avec succès",
+    "absence_validated_successfully": "Absence validée avec succès",
+    "COMMENT": "Commentaire",
+    "MES_ABSENCES" : "Mes absences",
+    "absence_updated_successfully": "Absence mise à jour avec succès"
 }

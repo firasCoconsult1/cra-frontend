@@ -58,6 +58,12 @@ const routes: Routes = [
         loadComponent: () => import('./demo/pages/mes-cras/mes-cras.component').then((c) => c.MesCrasComponent),
         //   canActivate: [AuthGuard],
 
+      },
+      {
+        path: 'absence',
+        loadComponent: () => import('./demo/pages/absences-management/absences-management.component').then((c) => c.AbsencesManagementComponent),
+        //   canActivate: [AuthGuard],
+
       }
 
     ]

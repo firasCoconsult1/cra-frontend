@@ -1,6 +1,5 @@
 <div class="container-fluid mt--7">
     <div class="row justify-content-center">
-        <!-- Carte des informations du profil à gauche -->
         <div class="col-xl-4 order-xl-1 mb-5 mb-xl-0">
             <div class="card card-profile shadow">
                 <div class="row justify-content-center">
@@ -10,10 +9,10 @@
                             (click)="deleteImage(user.id,user.imageUrl)" [pTooltip]="'PROFILE.DELETE_IMAGE' | translate" class="delete-button" />
                             <a href="javascript:void(0)">
                                 
-                                <div class="profile-initials rounded-circle" *ngIf="!user.imageUrl">
+                                <div class="profile-initials rounded-circle" *ngIf="!user?.imageUrl">
                                     {{ getInitials(user?.username || '') }}
                                 </div>
-                                <img *ngIf="user.imageUrl" [src]="user.imageUrl"
+                                <img *ngIf="user?.imageUrl" [src]="user.imageUrl"
                                     class="rounded-circle profile-image-preview" />
                             </a>
                             <label class="upload-icon position-absolute" for="profileImageInput">

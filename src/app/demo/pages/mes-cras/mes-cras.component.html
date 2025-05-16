@@ -84,7 +84,7 @@
             <div class="day delete-day" *ngIf="!isValidationMode">
               <div class="day-label">&nbsp;</div>
               <div class="day-date">&nbsp;</div>
-              <button class="delete-button" (click)="deleteCalendar(calendar)">
+              <button class="delete-button" (click)="deleteCalendar(calendar)" >
                 <i class="pi pi-trash"></i>
               </button>
             </div>
@@ -112,36 +112,7 @@
       </div>
     </div>
 
-
-    <!--  <br>
-    <div class="commentaires-container" *ngIf="isValidationMode">
-      <div class="commentaire-pair">
-        <div class="commentaire-item">
-          <h6>{{'COMMENTAIRES' | translate }}</h6>
-          <textarea id="commentaireClient" [(ngModel)]="commentaireClient" rows="6" cols="30" pTextarea
-            style="resize: none"></textarea>
-        </div>
-        <div class="commentaire-item">
-          <h6>{{'NB' | translate }}</h6>
-          <textarea id="commentaire" [(ngModel)]="commentaire" rows="6" cols="30" pTextarea style="resize: none"
-            [disabled]="true"></textarea>
-        </div>
-      </div>
-    </div>
-    <div class="commentaires-container" *ngIf="!isValidationMode">
-      <div class="commentaire-pair">
-        <div class="commentaire-item">
-          <h6>{{'NB' | translate }}</h6>
-          <textarea id="commentaire" [(ngModel)]="cra.commentaire" rows="6" cols="30" pTextarea style="resize: none"
-            [disabled]="cra?.status === 'VALIDE'"></textarea>
-        </div>
-        <div class="commentaire-item">
-          <h6>{{'COMMENTAIRES' | translate }}</h6>
-          <textarea id="commentaireClient" [(ngModel)]="cra.commentaireClient" rows="6" cols="30" pTextarea
-            style="resize: none" [disabled]="true"></textarea>
-        </div>
-      </div>
-    </div>-->
+    
 
 
 

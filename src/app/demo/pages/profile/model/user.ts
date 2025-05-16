@@ -9,6 +9,8 @@ export interface User{
     description: string;
     enabled: boolean;
     invited: boolean;
+    dateSignUp: Date;
+    leaveBalance: number;
     roles : Role [
        
     ];

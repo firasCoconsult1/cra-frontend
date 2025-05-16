@@ -15,6 +15,10 @@ import { Cra, Status } from './model/Cra';
 import { CrasService } from './cra-service/cras.service';
 import { TagModule } from 'primeng/tag';
 import { PaginatorModule } from 'primeng/paginator';
+import { AbsenceService } from '../absences-management/services/absence-service.service';
+import { Absence } from '../absences-management/model/absence';
+import { TranslateService } from '@ngx-translate/core';
+import { NgbTimepickerI18nDefault } from '@ng-bootstrap/ng-bootstrap/timepicker/timepicker-i18n';
 
 
 
@@ -24,7 +28,7 @@ import { PaginatorModule } from 'primeng/paginator';
 @Component({
   selector: 'app-cra',
   imports: [CommonModule, TabsModule, TooltipModule, TranslateModule, ButtonModule, ToolbarModule, ToastModule, DatePickerModule, FormsModule, TableModule, TagModule, PaginatorModule],
-  providers: [MessageService, ConfirmationService],
+  providers: [MessageService, ConfirmationService, TranslateService],
 
   templateUrl: './cra.component.html',
   styleUrl: './cra.component.scss',
@@ -38,18 +42,24 @@ export class CraComponent implements OnInit {
   ngOnInit(): void {
     this.getCrasByConnectedUser();
     this.getAllSendedCras();
+    this.getAllAbsences();
+    this.getAbsencesByConnectedUser();
   }
   showDatepicker: boolean = false;
   selectedDate: Date | null = null;
   cras: Cra[] = [];
+  absences: Absence[] = [];
   selectedCra: Cra | null = null;
-  selectedCraToValidate: Cra | null = null;
+  selectedAbsence: Absence | null = null;
 
+  selectedCraToValidate: Cra | null = null;
+  listAbsences: Absence[] = [];
+  selectedAbsenceToValidate: Absence | null = null;
   validationList: Cra[] = [];
   activeTabIndex: number = 0;
 
 
-  constructor(private router: Router, private craService: CrasService) { }
+  constructor(private router: Router, private craService: CrasService, private absenceService: AbsenceService, private translate: TranslateService) { }
 
   onDateSelected() {
     if (this.selectedDate) {
@@ -71,8 +81,18 @@ export class CraComponent implements OnInit {
       }
     );
   }
-  getAllSendedCras(){
-    this.craService.getAllCra(0,10).subscribe(
+  getAbsencesByConnectedUser() {
+    this.absenceService.getAbsencesByConnectedUser(0, 10).subscribe(
+      (response) => {
+        this.absences = response.content;
+      },
+      (error) => {
+        console.error('Error fetching CRAs:', error);
+      }
+    );
+  }
+  getAllSendedCras() {
+    this.craService.getAllCra(0, 10).subscribe(
       (response) => {
         this.validationList = response.content.filter(cra => cra.send === true);
       },
@@ -80,6 +100,18 @@ export class CraComponent implements OnInit {
         console.error('Error fetching CRAs:', error);
       }
     );
+  }
+  getAllAbsences() {
+    this.absenceService.getAllAbsences(0, 10).subscribe(
+      (result) => {
+        this.listAbsences = result.content;
+        console.log(this.listAbsences);
+      },
+      (error) => {
+        console.error('Error fetching Absences:', error);
+      }
+    );
+
   }
   getSeverity(status: Status) {
     switch (status) {
@@ -97,29 +129,62 @@ export class CraComponent implements OnInit {
   goToMyCraDetail(cra: Cra): void {
     const craId = cra.idCra;
     if (!craId) return;
-  
+
     this.router.navigate(['/mes-cras'], {
-      queryParams: { 
-        year: cra.year, 
-        month: cra.month, 
+      queryParams: {
+        year: cra.year,
+        month: cra.month,
         craId: craId,
-        validationMode: false // Toujours false pour "Mes CRA"
+        validationMode: false
       }
     });
   }
-  
-  // Pour les CRA à valider (onglet "Validation List")
+  goToMyAbsenceDetail(absence: Absence): void {
+    const absenceId = absence.idAbsence; 
+    if (!absenceId) return;
+
+    this.router.navigate(['/absence'], {
+      queryParams: {
+        year: absence.year,
+        month: absence.month,
+        absenceId: absence.idAbsence,
+        validationMode: false
+      }
+    });
+  }
   goToValidationCraDetail(cra: Cra): void {
     const craId = cra.idCra;
     if (!craId) return;
-  
+
     this.router.navigate(['/mes-cras'], {
-      queryParams: { 
-        year: cra.year, 
-        month: cra.month, 
+      queryParams: {
+        year: cra.year,
+        month: cra.month,
         craId: craId,
-        validationMode: true // Toujours true pour "Validation List"
+        validationMode: true
       }
     });
+  }
+  goToValidationAbsenceDetail(absence: Absence): void {
+    console.log('Clicking absence:', absence);
+    const absenceId = absence.idAbsence;
+    if (!absenceId) {
+      console.error('No absence ID found!');
+      return;
+    }
+
+    console.log('Navigating to absence page with ID:', absenceId);
+    this.router.navigate(['/absence'], {
+      queryParams: {
+        year: absence.year,
+        month: absence.month,
+        absenceId: absence.idAbsence,
+        validationMode: true
+      }
+    });
+  }
+  getMonthName(year: number, month: number): string {
+    const date = new Date(year, month - 1, 1);
+    return date.toLocaleString(this.translate.currentLang || 'en-US', { month: 'long' });
   }
 }

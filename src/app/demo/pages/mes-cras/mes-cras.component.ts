@@ -18,6 +18,8 @@ import { AuthService } from '../authentication/auth-service/authentification.ser
 import { Calendre } from '../cra/model/Calendre';
 import { Cra, Status } from '../cra/model/Cra';
 import { DayEntry } from '../cra/model/DayEntry';
+import { TooltipModule } from 'primeng/tooltip';
+
 
 
 interface Day {
@@ -45,7 +47,8 @@ interface CalendarMonth {
     ToastModule,
     InputTextModule,
     FloatLabel,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    TooltipModule
   ],
   providers: [MessageService, ConfirmationService],
   templateUrl: './mes-cras.component.html',
@@ -460,10 +463,10 @@ export class MesCrasComponent implements OnInit {
     return day === 0 || day === 6;
   }
 
-  getDayLetter(dateInput: string | Date): string {
+    getDayLetter(dateInput: string | Date): string {
     const date = typeof dateInput === 'string' ? new Date(dateInput) : dateInput;
-    const day = date.getDay();
-    return ['D', 'L', 'M', 'M', 'J', 'V', 'S'][day];
+    const dayName = date.toLocaleDateString(this.translate.currentLang || 'en-US', { weekday: 'long' });
+    return dayName.charAt(0).toUpperCase();
   }
 
   getRemplisTotalValue(calendar: Calendre): number {
@@ -700,7 +703,7 @@ export class MesCrasComponent implements OnInit {
       this.messageService.add({
         severity: 'warn',
         summary: this.translate.instant('error.title'),
-        detail: this.translate.instant('cra_not_found'),
+        detail: this.translate.instant('cra_not_saved'),
       });
       return;
     }

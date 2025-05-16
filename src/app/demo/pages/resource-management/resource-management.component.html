@@ -9,14 +9,12 @@
 
   <div class="flex justify-content-between w-full align-items-center">
 
-    <!-- Partie gauche : Dropdown -->
     <div class="flex align-items-center">
       <p-dropdown [options]="filterOptions" [(ngModel)]="selectedFilter" (onChange)="filterUsers()"></p-dropdown>
     </div>
 
 
 
-    <!-- Partie droite : Barre de recherche -->
     <div class="p-inputgroup">
 
       <input pInputText type="text" placeholder="{{ 'TOOLBAR.SEARCH_PLACEHOLDER' | translate }}"  [(ngModel)]="searchTerm" style="width: 300px;" />
@@ -74,9 +72,7 @@
     <p *ngIf="selectedUser?.numeroTelephone"><strong class="titre">{{ 'DIALOG.DETAILS.PHONE' | translate }}:</strong> {{
       selectedUser.numeroTelephone }}</p>
   </div>
-  <ng-template #footer>
-    <p-button label="{{ 'DIALOG.CLOSE' | translate }}"  icon="pi pi-times" severity="secondary" (click)="displayUserDialog = false"></p-button>
-  </ng-template>
+ 
 </p-dialog>
 
 <!-- Boîte de dialogue pour assigner un rôle -->

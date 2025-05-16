@@ -109,17 +109,17 @@
   padding: 20px;
   overflow: hidden;
   transition: max-height 0.5s ease-in-out;
-  max-height: 150px; // réduit au départ
+  max-height: 150px; 
 }
 .calendar-box.expanded {
-  max-height: 2000px; // ou auto, mais fixe est plus fluide
+  max-height: 2000px; 
 }
 
 .calendar-expanded-content {
   margin-top: 20px;
 }
 
-/* Inputs avec boutons */
+
 .input-group {
   display: flex;
   flex-direction: column;
