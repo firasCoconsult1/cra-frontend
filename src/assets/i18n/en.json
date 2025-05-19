@@ -123,6 +123,7 @@
         "settings": "Settings"
     },
     "nav": {
+        "accueil": "Home",
         "navigation": "Navigation",
         "dashboard": "Dashboard",
         "userPanel": "User Panel",
@@ -275,7 +276,7 @@
     "rejecting_cra": "Error while rejecting CRA.",
     "RAISON": "Reason",
     "Supprimer": "Delete",
-    "TOTAL_SOLDE": "Total remaining",
+    "TOTAL_SOLDE": "Remaining",
     "absence_created_successfully" : "Absence created successfully",
     "absence_not_created" : "Error while creating absence",
     "Absence_List": "Absence validation",
@@ -283,6 +284,14 @@
     "absence_validated_successfully" : "Absence validated successfully",
     "COMMENT": "Comment",
     "MES_ABSENCES": "My absences",
-    "absence_updated_successfully" : "Absence updated successfully"
+    "absence_updated_successfully" : "Absence updated successfully",
+    "DEMANDE": "Requested",
+    "EXPECTED": "Expected",
+    "TJM": {
+    "NO_USER_SELECTED": "No user selected",
+    "INVALID_VALUE": "Invalid TJM value",
+    "UPDATE_SUCCESS": "TJM updated successfully",
+    "UPDATE_FAILURE": "Failed to update TJM"
+  }
 
 }

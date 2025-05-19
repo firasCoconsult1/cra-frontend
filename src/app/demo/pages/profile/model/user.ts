@@ -11,6 +11,7 @@ export interface User{
     invited: boolean;
     dateSignUp: Date;
     leaveBalance: number;
+    tjm: number;
     roles : Role [
        
     ];

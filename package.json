@@ -38,6 +38,7 @@
     "@primeng/themes": "^19.0.9",
     "apexcharts": "3.49.2",
     "bootstrap": "5.3.3",
+    "chart.js": "^4.4.9",
     "classlist.js": "^1.1.20150312",
     "google-libphonenumber": "^3.2.40",
     "intl-tel-input": "^25.3.0",

@@ -13,7 +13,7 @@ import { AbsenceService } from './services/absence-service.service';
 import { Absence, AbsenceStatus } from './model/absence';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { DayAbsence } from './model/dayAbsence';
+import { DayAbsence, MonthAbsenceSummary } from './model/dayAbsence';
 import { ActivatedRoute } from '@angular/router';
 
 export interface MonthBalance {
@@ -42,6 +42,9 @@ export class AbsencesManagementComponent implements OnInit {
   absence: Absence | null = null;
   monthBalances: MonthBalance[] = [];
   absenceUser: User | null = null;
+  monthAbsences: MonthAbsenceSummary[] = [];
+  totalDays = 0;
+
 
 
   constructor(
@@ -62,7 +65,67 @@ export class AbsencesManagementComponent implements OnInit {
         this.loadAbsence(absenceId);
       }
     });
+    if (this.days?.length) {
+      this.onDayValueChange();
+    }
+
   }
+  loadMonthlyAbsenceSummary() {
+    if (!this.currentUser) return;
+
+    this.absenceService.getMonthlyAbsenceSummary(this.currentUser.id).subscribe({
+      next: (data) => {
+        const now = new Date();
+        const registrationDate = new Date(this.currentUser.dateSignUp);
+
+        const fullMonths = this.generateFullMonthList(registrationDate, now);
+
+        for (const fullMonth of fullMonths) {
+          const found = data.find(mb => mb.month === fullMonth.month);
+          if (found) {
+            fullMonth.daysTaken = found.daysTaken;
+          }
+        }
+
+        this.monthAbsences = fullMonths;
+      },
+      error: (err) => {
+        console.error('Erreur chargement résumé absences mensuelles', err);
+      }
+    });
+  }
+  getMonthNameFromString(monthStr: string): string {
+    if (!monthStr) return 'Date invalide';
+    const parts = monthStr.split('-');
+    if (parts.length !== 2) return 'Date invalide';
+
+    const year = parseInt(parts[0], 10);
+    const month = parseInt(parts[1], 10);
+
+    return this.getMonthName(year, month);
+  }
+
+
+
+  generateFullMonthList(startDate: Date, endDate: Date): MonthAbsenceSummary[] {
+    const months: MonthAbsenceSummary[] = [];
+    const current = new Date(startDate.getFullYear(), startDate.getMonth(), 1);
+    const end = new Date(endDate.getFullYear(), endDate.getMonth(), 1);
+
+    while (current <= end) {
+      const monthStr = `${current.getFullYear()}-${(current.getMonth() + 1).toString().padStart(2, '0')}`;
+      months.push({
+        month: monthStr,
+        year: current.getFullYear(),
+        daysTaken: 0
+      });
+      current.setMonth(current.getMonth() + 1);
+    }
+
+    return months;
+  }
+
+
 
   getCurrentUser() {
     this.authService.getCurrentUser().subscribe(
@@ -71,7 +134,8 @@ export class AbsencesManagementComponent implements OnInit {
           (user: User) => {
             this.currentUser = user;
             if (!this.isValidationMode) {
-              this.generateMonthBalancesForUser(user);
+              this.loadMonthlyAbsenceSummary();
+
             }
           },
           (error) => console.error('Erreur récupération utilisateur', error)
@@ -114,51 +178,11 @@ export class AbsencesManagementComponent implements OnInit {
     this.selectedDate = null;
   }
 
-  getMonthName(dateStr: string): string {
-    const date = new Date(dateStr + '-01');
+  getMonthName(year: number, month: number): string {
+    const date = new Date(year, month - 1, 1); // month - 1 car JavaScript commence les mois à 0
     return date.toLocaleString(this.translate.currentLang || 'en-US', { month: 'long', year: 'numeric' });
   }
 
-  generateMonthBalancesForUser(user: User): void {
-    if (!user?.dateSignUp) return;
-
-    const signUpDate = new Date(user.dateSignUp);
-    const startYear = signUpDate.getFullYear();
-    const startMonth = signUpDate.getMonth();
-    const balances: MonthBalance[] = [];
-    let year = startYear;
-    let month = startMonth;
-    let balance = 0;
-
-    const today = new Date();
-    const endYear = today.getFullYear();
-    const endMonth = today.getMonth();
-    const totalMonths = (endYear - startYear) * 12 + (endMonth - startMonth) + 1;
-
-    for (let i = 0; i < totalMonths; i++) {
-      const paddedMonth = (month + 1).toString().padStart(2, '0');
-      const monthStr = `${year}-${paddedMonth}`;
-      balances.push({ month: monthStr, balance: balance });
-      balance += 2;
-      month++;
-      if (month > 11) {
-        month = 0;
-        year++;
-      }
-    }
-
-    this.monthBalances = balances;
-  }
-
-  generateMonthBalancesForUserId(userId: number): void {
-    this.profileService.getUserById(userId).subscribe({
-      next: (user: User) => {
-        this.absenceUser = user;
-        this.generateMonthBalancesForUser(user);
-      },
-      error: (err) => console.error("Erreur récupération utilisateur par ID", err)
-    });
-  }
 
 
   sendAbsenceRequest() {
@@ -194,12 +218,12 @@ export class AbsencesManagementComponent implements OnInit {
       this.reason = savedAbsence.reason || '';
       this.comment = savedAbsence.comment || '';
 
-      
+
 
       this.messageService.add({
         severity: 'success',
         summary: this.translate.instant('success.title'),
-      detail: this.translate.instant(isNewAbsence ? 'absence_created_successfully' : 'absence_updated_successfully'),
+        detail: this.translate.instant(isNewAbsence ? 'absence_created_successfully' : 'absence_updated_successfully'),
       });
     };
 
@@ -228,13 +252,10 @@ export class AbsencesManagementComponent implements OnInit {
     }
   }
 
-
   loadAbsence(absenceId: number): void {
     this.absenceService.getAbsenceById(absenceId).subscribe({
       next: (absence: Absence) => {
         this.absence = absence;
-        console.log(absence);
-
         this.selectedDate = new Date(absence.year, absence.month - 1, 1);
         this.reason = absence.reason || '';
         this.comment = absence.comment || '';
@@ -247,9 +268,12 @@ export class AbsencesManagementComponent implements OnInit {
           this.days[i].value = found ? found.value : 0;
           this.days[i].id = found ? found.id : undefined;
         }
+        this.onDayValueChange();
 
         if (this.isValidationMode && absence.userId) {
-          this.generateMonthBalancesForUserId(absence.userId);
+          this.profileService.getUserById(absence.userId).subscribe(user => {
+            this.absenceUser = user;
+          });
         }
 
         this.showDatepicker = true;
@@ -295,6 +319,7 @@ export class AbsencesManagementComponent implements OnInit {
               });
               if (this.absence) {
                 this.absence.status = AbsenceStatus.REJETE;
+                this.totalDays = 0;
               }
             },
             error: () => {
@@ -353,17 +378,18 @@ export class AbsencesManagementComponent implements OnInit {
 
           this.absenceService.validateAbsence(this.absence.idAbsence).subscribe({
             next: (updatedUser) => {
+              console.log('Updated user leave balance:', updatedUser.leaveBalance); // Log for debugging
+              this.loadMonthlyAbsenceSummary();
               this.messageService.add({
                 severity: 'success',
                 summary: this.translate.instant('success.title'),
                 detail: this.translate.instant('absence_validated_successfully'),
               });
 
-              this.currentUser.leaveBalance = updatedUser.leaveBalance;
-
               if (this.absence) {
                 this.absence.status = AbsenceStatus.VALIDE;
               }
+              this.totalDays = 0;
             },
             error: () => {
               this.messageService.add({
@@ -385,13 +411,14 @@ export class AbsencesManagementComponent implements OnInit {
     } else {
       this.absenceService.validateAbsence(this.absence.idAbsence).subscribe({
         next: (updatedUser) => {
+          console.log('Updated user leave balance:', updatedUser.leaveBalance); // Log for debugging
           this.messageService.add({
             severity: 'success',
             summary: this.translate.instant('success.title'),
             detail: this.translate.instant('absence_validated_successfully'),
           });
 
-          this.currentUser.leaveBalance = updatedUser.leaveBalance;
+          this.currentUser.leaveBalance = updatedUser.leaveBalance; // Update leave balance
 
           if (this.absence) {
             this.absence.status = AbsenceStatus.VALIDE;
@@ -409,11 +436,26 @@ export class AbsencesManagementComponent implements OnInit {
   }
 
   getDisplayedLeaveBalance(): number | null {
-    if (this.isValidationMode && this.absenceUser?.leaveBalance != null) {
-      return this.absenceUser.leaveBalance;
+    if (this.isValidationMode) {
+      return this.absenceUser?.leaveBalance ?? null;
     }
     return this.currentUser?.leaveBalance ?? null;
   }
+
+  getPredictedBalance(): number {
+    if (this.isValidationMode && this.absenceUser?.leaveBalance != null) {
+      return this.absenceUser?.leaveBalance - this.totalDays;
+    }
+    return (this.currentUser?.leaveBalance || 0) - this.totalDays;
+  }
+
+
+  onDayValueChange(): void {
+    this.totalDays = this.days
+      ?.filter(day => !isNaN(day.value) && +day.value > 0)
+      .reduce((sum, day) => sum + +day.value, 0) || 0;
+  }
+
 
 
 }

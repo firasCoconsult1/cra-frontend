@@ -71,7 +71,12 @@
     <p><strong class="titre">{{ 'DIALOG.DETAILS.EMAIL' | translate }}:</strong> {{ selectedUser.username }}</p>
     <p *ngIf="selectedUser?.numeroTelephone"><strong class="titre">{{ 'DIALOG.DETAILS.PHONE' | translate }}:</strong> {{
       selectedUser.numeroTelephone }}</p>
+      <strong class="titre">TJM:</strong>&nbsp;
+      <input pInputText type="text" [(ngModel)]="tjm" style="width: 70px;"/>
   </div>
+   <ng-template #footer>
+    <p-button label="{{ 'SAVE' | translate }}"  icon="pi pi-check" (click)="saveTjm()"></p-button>
+  </ng-template>
  
 </p-dialog>
 

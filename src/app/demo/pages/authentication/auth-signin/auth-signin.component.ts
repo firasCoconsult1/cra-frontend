@@ -52,31 +52,25 @@ export default class AuthSigninComponent {
   }
 
   login(): void {
-    // Vérification des champs vides
     if (!this.loginData.username || !this.loginData.password) {
       this.errorMessage = this.translate.instant('FILL_IN_FIELDS');
       return;
     }
   
-    // Vérification de l'existence de l'utilisateur par son nom d'utilisateur
     this.authService.getByUsername(this.loginData.username).subscribe({
       next: (user) => {
-        // Si l'utilisateur est désactivé
         if (!user.enabled) {
           this.toast.error(this.translate.instant('ACCOUNT_DISABLED'), this.translate.instant('error.title'));
           return;
         }
   
-        // Tentative de connexion
         this.authService.login({ username: this.loginData.username, password: this.loginData.password }).subscribe({
           next: (res) => {
-            // Enregistrement des tokens et redirection
             this.authService.setToken(res.accessToken, res.refreshToken);
             this.toast.success(this.translate.instant('LOGIN_SUCCESS'), this.translate.instant('success.title'));
-            this.router.navigate(['/dashboard']);
+            this.router.navigate(['/accueil']);
           },
           error: (err) => {
-            // Gestion des erreurs de connexion
             console.log('Erreur de connexion:', err);
             if (err.message === 'Invalid credentials') {
               this.errorMessage = this.translate.instant('INVALID_CREDENTIALS');
@@ -88,7 +82,6 @@ export default class AuthSigninComponent {
         });
       },
       error: (err) => {
-        // Si l'utilisateur n'est pas trouvé (erreur 404)
         console.log('Erreur de récupération de l\'utilisateur:', err);
         if (err.message === 'Invalid credentials') {
           this.errorMessage = this.translate.instant('INVALID_CREDENTIALS');

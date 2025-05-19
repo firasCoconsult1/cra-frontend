@@ -1,38 +1,41 @@
 .calendar-side-container {
-    background-color: white;
-    margin-top: 30px;
+  background-color: white;
+  margin-top: 30px;
 }
 
 .datepicker-container {
-    margin-right:150px;
+  margin-right: 150px;
 }
 
 input {
-    width: 22px;
-    margin-top: 4px;
-    text-align: center;
-    font-size: 10px;
+  width: 22px;
+  margin-top: 4px;
+  text-align: center;
+  font-size: 10px;
 
 }
 
 .button {
-    display: flex;
-    justify-content: flex-end;
-    gap: 8px;
-    margin-top: 16px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
 
 }
-p{
-    margin: 0;
-    font-weight: bold;
-    font-size: 15px;
-    text-align: center;
+
+p {
+  margin: 0;
+  font-weight: bold;
+  font-size: 15px;
+  text-align: center;
 }
+
 p-toast {
   position: fixed;
   z-index: 11000;
   top: 10px;
 }
+
 .commentaire-pair {
   display: flex;
   gap: 2rem;
@@ -42,4 +45,55 @@ p-toast {
   flex: 1;
   display: flex;
   flex-direction: column;
+}
+
+.text-red {
+  color: red;
+}
+
+.summary-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.8rem;
+}
+
+.summary-box {
+  padding: 1rem;
+  border: 2px solid #3f4d67;
+  border-radius: 1rem;
+  width: 140px;
+  height: 40px;
+  background-color: rgb(235, 235, 235);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.summary-box .value {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #00a86b;
+  margin-bottom: -10px;
+  margin-top: 1px;
+}
+
+.summary-box.negative .value {
+  color: red;
+}
+
+.summary-box .label {
+  font-size: 0.7rem;
+  color: #555;
+}
+
+.summary-separator {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #444;
 }

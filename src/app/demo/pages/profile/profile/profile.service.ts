@@ -16,7 +16,7 @@ export class ProfileService {
   }
 
   /*path variable*/
-  updateUser(id: number, user: User): Observable<User> {
+  updateUser(id: number, user: any): Observable<User> {
     console.log('Sending user update:', JSON.stringify(user));
 
     return this.http.put<User>(`${this.apiUrl}/${id}`, user, {
@@ -47,6 +47,10 @@ export class ProfileService {
     const url = `${this.apiUrl}/delete-image/${userId}/${fileName}`;
     return this.http.delete(url);
   }
+  updateTjm(userId: number, tjm: number): Observable<any> {
+  const url = `${this.apiUrl}/update-tjm/${userId}`;
+  return this.http.put(url, tjm, { headers: { 'Content-Type': 'application/json' } });
+}
 }
 
 

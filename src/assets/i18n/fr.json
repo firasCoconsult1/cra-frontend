@@ -125,6 +125,7 @@
     },
     "nav": {
         "navigation": "Navigation",
+        "accueil": "Accueil",
         "dashboard": "Tableau de bord",
         "userPanel": "Panneau utilisateur",
         "account": "Compte",
@@ -274,7 +275,7 @@
     "rejecting_cra": "Erreur lors du rejet du CRA.",
     "RAISON": "Raison",
     "Supprimer": "Supprimer",
-    "TOTAL_SOLDE": "Total solde",
+    "TOTAL_SOLDE": "Solde",
     "absence_created_successfully": "Absence crée avec succès",
     "absence_not_created": "Erreur lors de la création de l'/absence",
     "Absence_List": " Validation absence",
@@ -282,5 +283,14 @@
     "absence_validated_successfully": "Absence validée avec succès",
     "COMMENT": "Commentaire",
     "MES_ABSENCES" : "Mes absences",
-    "absence_updated_successfully": "Absence mise à jour avec succès"
+    "absence_updated_successfully": "Absence mise à jour avec succès",
+    "DEMANDE": "Demandé",
+    "EXPECTED": "Prévu",
+     "TJM": {
+    "NO_USER_SELECTED": "Aucun utilisateur sélectionné",
+    "INVALID_VALUE": "Valeur de TJM invalide",
+    "UPDATE_SUCCESS": "TJM mis à jour avec succès",
+    "UPDATE_FAILURE": "Échec de la mise à jour du TJM"
+  }
+
 }

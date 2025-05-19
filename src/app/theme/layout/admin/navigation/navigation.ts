@@ -22,12 +22,21 @@ export const NavigationItems: NavigationItem[] = [
     type: 'group',
     icon: 'icon-navigation',
     children: [
-      {
+     /* {
         id: 'dashboard',
         title: 'Dashboard',
         translate: 'nav.dashboard',
         type: 'item',
         url: '/dashboard',
+        icon: 'feather icon-home',
+        classes: 'nav-item'
+      },*/
+      {
+        id: 'accueil',
+        title: 'Accueil',
+        translate: 'nav.accueil',
+        type: 'item',
+        url: '/accueil',
         icon: 'feather icon-home',
         classes: 'nav-item'
       }

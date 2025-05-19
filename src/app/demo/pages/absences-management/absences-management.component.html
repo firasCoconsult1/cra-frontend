@@ -1,9 +1,10 @@
 <p-toast></p-toast>
+
 <div style="display: flex; align-items: flex-start;">
     <div>
         <div class="datepicker-container">
             <div class="flex-auto">
-                <label for="buttondisplay" class="font-bold block mb-2"> Date </label> &nbsp;
+                <label for="buttondisplay" class="font-bold block mb-2">Date</label> &nbsp;
                 <div class="justify-content-center">
                     <p-datepicker [(ngModel)]="selectedDate" view="month" dateFormat="yy-mm" [showIcon]="true"
                         inputId="buttondisplay" [showOnFocus]="false" (onSelect)="onDateSelected()">
@@ -12,57 +13,78 @@
             </div>
         </div>
 
-        <div
+        <div *ngIf="monthAbsences && monthAbsences.length > 0"
             style="background: #fff; width: 250px; border-radius: 6px; box-shadow: 0 2px 8px #0001; margin-top: 12px; padding: 12px 8px;">
-            <ng-container *ngFor="let mb of monthBalances">
-                <p>{{ getMonthName(mb.month) }} &nbsp;&nbsp;({{ mb.balance }})</p>
+            <ng-container *ngFor="let mb of monthAbsences">
+                <p>
+                    {{ getMonthNameFromString(mb.month) }} ({{ mb.daysTaken }})
+                </p>
                 <p-divider></p-divider>
             </ng-container>
-
-            <p>
-            <p>{{ 'TOTAL_SOLDE' | translate }}&nbsp;&nbsp;  ({{ getDisplayedLeaveBalance() }})
-</p>
-
         </div>
     </div>
 
-    <div *ngIf="showDatepicker" class="calendar-side-container" style="margin-left: 32px;">
-        <div class="calendar-month" style="width: 600px; border: 1px solid #ccc; padding: 16px;">
+    <div style="display: flex; flex-direction: column;">
+        <div class="summary-container">
+            <div class="summary-box">
+                <div class="value">{{ getDisplayedLeaveBalance()  }}</div>
+                <div class="label">{{ 'TOTAL_SOLDE' | translate }}</div>
+            </div>
+            <div class="summary-separator">-</div>
+            <div class="summary-box">
+                <div class="value">{{ totalDays  }}</div>
+                <div class="label">{{ 'DEMANDE' | translate }}</div>
+            </div>
+            <div class="summary-separator">=</div>
+            <div class="summary-box" [ngClass]="{ 'text-red': getPredictedBalance() < 0 }">
+                <div class="value">{{ getPredictedBalance()  }}</div>
+                <div class="label">{{ 'EXPECTED' | translate }}</div>
+            </div>
+        </div>
+
+
+        <div *ngIf="showDatepicker" class="calendar-side-container"
+            style="margin-top: 16px; width: 600px; border: 1px solid #ccc; padding: 16px;">
             <div class="days-grid" style="display: grid; grid-template-columns: repeat(16, 1fr); gap: 4px;">
                 <div *ngFor="let day of daysOfMonth; let idx = index" style="text-align: center; font-size: 0.8em;">
                     <div><b>{{ day.date | date: 'dd' }}</b></div>
                     <div>{{ getDayLetter(day.date) }}</div>
-                    <input type="text" [(ngModel)]="days[idx].value" [disabled]="isValidationMode || absence?.status === 'REJETE' || absence?.status === 'VALIDE' " />
+                    <input type="text" [(ngModel)]="days[idx].value"  (ngModelChange)="onDayValueChange()"
+                        [disabled]="isValidationMode || absence?.status === 'REJETE' || absence?.status === 'VALIDE'" />
                 </div>
             </div>
+
             <br><br>
 
-            <div class="commentaires-container">
-                <div class="commentaire-pair">
-                    <div class="commentaire-item">
-                        <h6>{{ 'RAISON' | translate }}</h6>
-                        <textarea  id="commentaire" [(ngModel)]="reason" rows="6" cols="30" pTextarea
-                            style="resize: none" [disabled]="isValidationMode || absence?.status === 'VALIDE' || absence?.status === 'REJETE'">
-      </textarea>
-                    </div>
+            <div class="commentaires-container" style="display: flex; gap: 24px;">
+                <div class="commentaire-item" style="flex: 1;">
+                    <h6>{{ 'RAISON' | translate }}</h6>
+                    <textarea id="commentaire" [(ngModel)]="reason" rows="6" cols="30" pTextarea style="resize: none"
+                        [disabled]="isValidationMode || absence?.status === 'VALIDE' || absence?.status === 'REJETE'">
+          </textarea>
+                </div>
 
-                    <div class="commentaire-item">
-                        <h6>{{ 'COMMENT' | translate }}</h6>
-                        <textarea  id="comment" [(ngModel)]="comment" rows="6" cols="30" pTextarea
-                            style="resize: none" [disabled]="!isValidationMode || absence?.status === 'VALIDE' || absence?.status === 'REJETE'">
-      </textarea>
-                    </div>
+                <div class="commentaire-item" style="flex: 1;">
+                    <h6>{{ 'COMMENT' | translate }}</h6>
+                    <textarea id="comment" [(ngModel)]="comment" rows="6" cols="30" pTextarea style="resize: none"
+                        [disabled]="!isValidationMode || absence?.status === 'VALIDE' || absence?.status === 'REJETE'">
+          </textarea>
                 </div>
             </div>
-            
+
             <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px;"
                 *ngIf="!isValidationMode">
-                <p-button severity="secondary" (onClick)="cancel()"> {{'CANCEL'| translate}} </p-button>
-                <p-button severity="success" (onClick)="sendAbsenceRequest()"> {{'SEND'| translate}} </p-button>
+                <p-button severity="secondary" (onClick)="cancel()"> {{ 'CANCEL' | translate }} </p-button>
+                <p-button severity="success" (onClick)="sendAbsenceRequest()"> {{ 'SEND' | translate }} </p-button>
             </div>
+
             <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px;" *ngIf="isValidationMode">
-                <p-button severity="success" (onClick)="validateAbsence()" [disabled]="absence?.status === 'VALIDE'"> {{'VALIDATE'| translate}} </p-button>
-                <p-button severity="danger" (onClick)="rejectAbsence()" [disabled]="absence?.status === 'VALIDE'"> {{'REJECT'| translate}} </p-button>
+                <p-button severity="success" (onClick)="validateAbsence()" [disabled]="absence?.status === 'VALIDE'">
+                    {{ 'VALIDATE' | translate }}
+                </p-button>
+                <p-button severity="danger" (onClick)="rejectAbsence()" [disabled]="absence?.status === 'VALIDE'">
+                    {{ 'REJECT' | translate }}
+                </p-button>
             </div>
         </div>
     </div>

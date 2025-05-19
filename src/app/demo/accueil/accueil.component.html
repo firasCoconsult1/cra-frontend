@@ -1,0 +1,48 @@
+<div class="home-container">
+  <header class="header">
+    <h1>{{ 'HOME.TITLE' | translate }}</h1>
+    <p>{{ 'HOME.SUBTITLE' | translate }}</p>
+  </header>
+
+  <div class="quick-navigation">
+    <p-card class="nav-card" [style]="{ width: '18rem', height: '15rem' }">
+      <ng-template #header>
+        <i class="pi pi-users nav-icon"></i>
+      </ng-template>
+      <ng-template #title>{{ 'HOME.MANAGE_RESOURCES' | translate }}</ng-template>
+      <ng-template #content>
+        <p>{{ 'HOME.RESOURCES_DESC' | translate }}</p>
+      </ng-template>
+     <!-- <ng-template #footer>
+        <p-button label="Go" icon="pi pi-arrow-right" class="p-button-primary" routerLink="/resource"></p-button>
+      </ng-template>-->
+    </p-card>
+
+    <p-card class="nav-card" [style]="{ width: '18rem', height: '15rem' }">
+      <ng-template #header>
+        <i class="pi pi-briefcase nav-icon"></i>
+      </ng-template>
+      <ng-template #title>{{ 'HOME.MANAGE_ROLES' | translate }}</ng-template>
+      <ng-template #content>
+        <p>{{ 'HOME.ROLES_DESC' | translate }}</p>
+      </ng-template>
+     <!-- <ng-template #footer>
+        <p-button label="Go" icon="pi pi-arrow-right" class="p-button-primary" routerLink="/role"></p-button>
+      </ng-template>-->
+    </p-card>
+
+    <p-card class="nav-card" [style]="{ width: '18rem', height: '15rem' }">
+      <ng-template #header>
+        <i class="pi pi-file nav-icon"></i>
+      </ng-template>
+      <ng-template #title>{{ 'HOME.MANAGE_CRA' | translate }}</ng-template>
+      <ng-template #content>
+        <p>{{ 'HOME.CRA_DESC' | translate }}</p>
+      </ng-template>
+     <!-- <ng-template #footer>
+        <p-button label="Go" icon="pi pi-arrow-right" class="p-button-primary" routerLink="/resources"></p-button>
+      </ng-template>-->
+    </p-card>
+  </div>
+
+  

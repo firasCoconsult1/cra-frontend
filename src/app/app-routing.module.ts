@@ -20,6 +20,11 @@ const routes: Routes = [
         loadComponent: () => import('./demo/dashboard/dashboard.component').then((c) => c.DashboardComponent),
         //canActivate: [AuthGuard],
       },
+      {
+        path: 'accueil',
+        loadComponent: () => import('./demo/accueil/accueil.component').then((c) => c.AcceuilComponent),
+        //canActivate: [AuthGuard],
+      },
 
       {
         path: 'settings',

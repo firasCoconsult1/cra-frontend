@@ -101,4 +101,10 @@
   flex-grow: 1; 
 }
 
+p-toast {
+  position: fixed;
+  z-index: 11000;
+  top: 10px;
+}
+
 

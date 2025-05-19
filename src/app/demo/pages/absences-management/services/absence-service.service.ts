@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Absence } from '../model/absence';
 import { User } from '../../profile/model/user';
+import { MonthAbsenceSummary } from '../model/dayAbsence';
 
 
 @Injectable({
@@ -44,5 +45,9 @@ export class AbsenceService {
 
     return this.http.get(`${this.apiUrl}/by-user`, { params });
   }
+  getMonthlyAbsenceSummary(userId: number): Observable<MonthAbsenceSummary[]> {
+    return this.http.get<MonthAbsenceSummary[]>(`${this.apiUrl}/${userId}/absences/monthly-summary`);
+  }
+
 
 }

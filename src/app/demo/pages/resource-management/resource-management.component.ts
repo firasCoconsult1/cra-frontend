@@ -23,6 +23,8 @@ import { PaginatorModule } from 'primeng/paginator';
 import { Page } from '../role-management/model/page';
 import { TooltipModule } from 'primeng/tooltip';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { ProfileComponent } from '../profile/profile.component';
+import { ProfileService } from '../profile/profile/profile.service';
 
 
 
@@ -49,6 +51,7 @@ export class ResourceManagementComponent implements OnInit {
   users: User[] = [];
   currentPage: number = 0;
   filterOptions: any[] = [];
+  tjm: number;
 
 
 
@@ -64,7 +67,7 @@ export class ResourceManagementComponent implements OnInit {
   filteredUsersE: any[] = [];
   emailInput: string = '';
   emails: string[] = [];
-  constructor(private translate: TranslateService, private roleService: RoleServiceService, private resourceService: ResourceManagementService, private messageService: MessageService, private confirmationService: ConfirmationService) { }
+  constructor(private translate: TranslateService, private roleService: RoleServiceService, private resourceService: ResourceManagementService, private messageService: MessageService, private confirmationService: ConfirmationService, private profileService: ProfileService) { }
   ngOnInit(): void {
     this.loadFilterOptions();
 
@@ -75,7 +78,7 @@ export class ResourceManagementComponent implements OnInit {
     });
   }
   loadFilterOptions(): void {
-    this.translate.get(['all', 'enabled', 'disabled','invited','not invited']).subscribe(translations => {
+    this.translate.get(['all', 'enabled', 'disabled', 'invited', 'not invited']).subscribe(translations => {
       this.filterOptions = [
         { label: translations['all'], value: { type: 'all', value: null } },
         { label: translations['enabled'], value: { type: 'status', value: true } },
@@ -83,7 +86,7 @@ export class ResourceManagementComponent implements OnInit {
         { label: translations['invited'], value: { type: 'invited', value: true } },
         { label: translations['not invited'], value: { type: 'invited', value: false } }
       ];
-      
+
     });
   }
   getAllRoles(): void {
@@ -246,8 +249,8 @@ export class ResourceManagementComponent implements OnInit {
       this.filteredUsersE = this.users.filter(user => user.invited === this.selectedFilter.value);
     }
   }
-  
- 
+
+
   addEmail(event: any): void {
     if (!this.emailInput || this.emailInput.trim() === '') {
       this.messageService.add({
@@ -257,7 +260,7 @@ export class ResourceManagementComponent implements OnInit {
       });
       return;
     }
-  
+
     if (!this.isValidEmail(this.emailInput)) {
       this.messageService.add({
         severity: 'error',
@@ -266,7 +269,7 @@ export class ResourceManagementComponent implements OnInit {
       });
       return;
     }
-  
+
     if (this.emails.includes(this.emailInput)) {
       this.messageService.add({
         severity: 'warn',
@@ -275,11 +278,11 @@ export class ResourceManagementComponent implements OnInit {
       });
       return;
     }
-  
+
     this.emails.push(this.emailInput);
     this.emailInput = '';
   }
-  
+
 
   isValidEmail(email: string): boolean {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -296,7 +299,7 @@ export class ResourceManagementComponent implements OnInit {
       });
       return;
     }
-  
+
     this.resourceService.inviteUsers(this.emails).subscribe(
       () => {
         this.messageService.add({
@@ -309,12 +312,12 @@ export class ResourceManagementComponent implements OnInit {
       },
       error => {
         console.error('Error sending invitation email', error);
-    
+
         let detailMessage = this.translate.instant('invitations_failed');
         if (error.error === 'User already exists.') {
           detailMessage = this.translate.instant('user_already_invited');
         }
-    
+
         this.messageService.add({
           severity: 'error',
           summary: this.translate.instant('error.title'),
@@ -322,18 +325,58 @@ export class ResourceManagementComponent implements OnInit {
         });
       }
     );
-  }    
-  
+  }
+
   removeEmail(email: string): void {
     const index = this.emails.indexOf(email);
     if (index > -1) {
-      this.emails.splice(index, 1); 
+      this.emails.splice(index, 1);
     }
 
     if (this.emails.length === 0) {
-      this.emails = []; 
+      this.emails = [];
     }
   }
+  saveTjm(): void {
+    if (!this.selectedUser) {
+      this.messageService.add({
+        severity: 'error',
+        summary: this.translate.instant('ERROR'),
+        detail: this.translate.instant('TJM.NO_USER_SELECTED'),
+      });
+      return;
+    }
+
+    if (isNaN(this.tjm) || this.tjm < 0) {
+      this.messageService.add({
+        severity: 'error',
+        summary: this.translate.instant('ERROR'),
+        detail: this.translate.instant('TJM.INVALID_VALUE'),
+      });
+      return;
+    }
+
+    this.profileService.updateTjm(this.selectedUser.id, this.tjm).subscribe({
+      next: () => {
+        this.messageService.add({
+          severity: 'success',
+          summary: this.translate.instant('SUCCESS'),
+          detail: this.translate.instant('TJM.UPDATE_SUCCESS'),
+        });
+        this.displayUserDialog = false;
+        this.getAllUsers();
+      },
+      error: (error) => {
+        console.error('Error updating TJM:', error);
+        this.messageService.add({
+          severity: 'error',
+          summary: this.translate.instant('ERROR'),
+          detail: this.translate.instant('TJM.UPDATE_FAILURE'),
+        });
+      },
+    });
+  }
+
 }
 
 
