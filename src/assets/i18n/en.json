@@ -171,6 +171,7 @@
     "failed_to_deactivate": "Failed to deactivate user account",
     "search_results": "Search Results",
     "found_users": "Found {{count}} user(s)",
+    "found_factures": "Found {{count}} invoice(s)",
     "search_failed": "Failed to search users",
     "invalid_email": "Invalid Email",
     "enter_valid_email": "Please enter a valid email address.",
@@ -217,7 +218,6 @@
     "Mes_CRA": "My cra",
     "Validation_List": "Cra validation",
     "Add_Cra": "Add Cra",
-    
     "Remplir_tous": "Fill all",
     "vider_tous": "Empty all",
     "calendar": {
@@ -259,7 +259,10 @@
     "status": {
         "VALIDE": "Validated",
         "IN_PROGRESS": "In progress",
-        "REJETE": "Rejected"
+        "REJETE": "Rejected",
+        "PAYE": "Paid",
+        "NON_PAYE": "Unpaid",
+        "status": "Status"
     },
     "cra_not_saved": "Please save the CRA before sending it.",
     "VALIDATE": "Validate",
@@ -277,21 +280,39 @@
     "RAISON": "Reason",
     "Supprimer": "Delete",
     "TOTAL_SOLDE": "Remaining",
-    "absence_created_successfully" : "Absence created successfully",
-    "absence_not_created" : "Error while creating absence",
+    "absence_created_successfully": "Absence created successfully",
+    "absence_not_created": "Error while creating absence",
     "Absence_List": "Absence validation",
-    "absence_rejected_successfully" : "Absence rejected successfully",
-    "absence_validated_successfully" : "Absence validated successfully",
+    "absence_rejected_successfully": "Absence rejected successfully",
+    "absence_validated_successfully": "Absence validated successfully",
     "COMMENT": "Comment",
     "MES_ABSENCES": "My absences",
-    "absence_updated_successfully" : "Absence updated successfully",
+    "absence_updated_successfully": "Absence updated successfully",
     "DEMANDE": "Requested",
     "EXPECTED": "Expected",
     "TJM": {
-    "NO_USER_SELECTED": "No user selected",
-    "INVALID_VALUE": "Invalid TJM value",
-    "UPDATE_SUCCESS": "TJM updated successfully",
-    "UPDATE_FAILURE": "Failed to update TJM"
-  }
-
+        "TJM": "DR",
+        "NO_USER_SELECTED": "No user selected",
+        "INVALID_VALUE": "Invalid TJM value",
+        "UPDATE_SUCCESS": "TJM updated successfully",
+        "UPDATE_FAILURE": "Failed to update TJM"
+    },
+    "INVOICE": "INVOICE",
+    "FACTURER": "Invoicing",
+    "Jours_travaillés": "Days worked",
+    "CRA_DETAILS": "CRA Details",
+    "Billed_To": "Billed to",
+    "From": "From",
+    "FacturesList": "Invoice List",
+    "user": "User",
+    "month": "Month",
+    "year": "Year",
+    "DOWNLOAD": "Download",
+    "FACTURE": {
+        "CREATED_SUCCESS": "Invoice created successfully!",
+        "CREATION_FAILED": "Failed to create invoice!",
+        "DOWNLOADED_SUCCESS": "Invoice downloaded successfully!",
+        "DOWNLOAD_FAILED": "Failed to download invoice!",
+        "VIEW_FACTURE": "View invoice"
+    }
 }

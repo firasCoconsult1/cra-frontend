@@ -25,10 +25,14 @@
 
 
     <div class="buttons" *ngIf="isValidationMode">
-      <p-button label="{{ 'VALIDATE' | translate }}" severity="success" icon="pi pi-check"
-        (onClick)="validateCra()" [disabled]="cra?.status === 'VALIDE'"></p-button>
-      <p-button label="{{ 'REJECT' | translate }}" severity="danger" icon="pi pi-times"
-        (onClick)="rejectCra()"[disabled]="cra?.status === 'VALIDE'"></p-button>
+      <ng-container *ngIf="cra?.status === 'VALIDE'; else validateRejectButtons">
+        <p-button label="{{ 'FACTURER' | translate }}" icon="pi pi-file" severity="info" (onClick)="facturerCra()"></p-button>      </ng-container>
+      <ng-template #validateRejectButtons>
+        <p-button label="{{ 'VALIDATE' | translate }}" severity="success" icon="pi pi-check"
+          (onClick)="validateCra()"></p-button>
+        <p-button label="{{ 'REJECT' | translate }}" severity="danger" icon="pi pi-times"
+          (onClick)="rejectCra()"></p-button>
+      </ng-template>
     </div>
 
     <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;"
@@ -84,7 +88,7 @@
             <div class="day delete-day" *ngIf="!isValidationMode">
               <div class="day-label">&nbsp;</div>
               <div class="day-date">&nbsp;</div>
-              <button class="delete-button" (click)="deleteCalendar(calendar)" >
+              <button class="delete-button" (click)="deleteCalendar(calendar)">
                 <i class="pi pi-trash"></i>
               </button>
             </div>
@@ -112,7 +116,7 @@
       </div>
     </div>
 
-    
+
 
 
 

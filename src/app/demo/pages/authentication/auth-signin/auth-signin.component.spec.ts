@@ -29,6 +29,9 @@ describe('AuthSigninComponent', () => {
     description: '',
     enabled: true,
     invited: false,
+    tjm : 0,
+    dateSignUp: new Date(),
+    leaveBalance:0,
     roles: []
   };
 

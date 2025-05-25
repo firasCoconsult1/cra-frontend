@@ -1,0 +1,13 @@
+::ng-deep .p-toolbar-group-end {
+  margin-left: auto; 
+  display: flex;
+  justify-content: flex-end;
+ 
+}
+::ng-deep .custom-pagination .p-paginator {
+  justify-content: flex-end !important;
+}
+p-button {
+  margin-left: 5px; 
+}
+

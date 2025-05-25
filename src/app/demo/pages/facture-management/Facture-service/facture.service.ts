@@ -1,0 +1,49 @@
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Facture } from '../model/facture';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class FactureService {
+  private apiUrl = 'http://localhost:8080/api/factures';
+
+  constructor(private http: HttpClient) { }
+
+  createFacture(facture: Facture): Observable<Facture> {
+    return this.http.post<Facture>(this.apiUrl, facture);
+  }
+
+
+  getFactures(page: number, size: number): Observable<any> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.http.get(`${this.apiUrl}/all`, { params });
+  }
+
+
+  getFactureById(id: number): Observable<Facture> {
+    return this.http.get<Facture>(`${this.apiUrl}/${id}`);
+  }
+
+  updateFacture(id: number, facture: Facture): Observable<Facture> {
+    return this.http.put<Facture>(`${this.apiUrl}/${id}`, facture);
+  }
+
+  deleteFacture(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+
+downloadFacture(id: number): Observable<Blob> {
+  const url = `${this.apiUrl}/${id}/download`;
+  return this.http.get(url, { responseType: 'blob' });
+}
+searchFactures(searchTerm: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/search?term=${searchTerm}`);
+  }
+
+}

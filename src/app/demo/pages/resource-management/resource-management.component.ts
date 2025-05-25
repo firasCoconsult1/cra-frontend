@@ -23,7 +23,6 @@ import { PaginatorModule } from 'primeng/paginator';
 import { Page } from '../role-management/model/page';
 import { TooltipModule } from 'primeng/tooltip';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { ProfileComponent } from '../profile/profile.component';
 import { ProfileService } from '../profile/profile/profile.service';
 
 
@@ -178,6 +177,7 @@ export class ResourceManagementComponent implements OnInit {
 
   openUserDialog(user: any) {
     this.selectedUser = user;
+    this.tjm = user.tjm;
     this.displayUserDialog = true;
   }
   openInvitationDialog() {

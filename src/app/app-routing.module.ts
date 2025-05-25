@@ -69,6 +69,16 @@ const routes: Routes = [
         loadComponent: () => import('./demo/pages/absences-management/absences-management.component').then((c) => c.AbsencesManagementComponent),
         //   canActivate: [AuthGuard],
 
+      },
+      {
+        path: 'facture',
+        loadComponent : () => import('./demo/pages/facture-management/facture-management.component').then((c) => c.FactureManagementComponent),
+        //   canActivate: [AuthGuard],
+      },
+       {
+        path: 'listeFactures',
+        loadComponent : () => import('./demo/pages/factures/factures.component').then((c) => c.FacturesComponent),
+        //   canActivate: [AuthGuard],
       }
 
     ]

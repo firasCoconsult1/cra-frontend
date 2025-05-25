@@ -1,0 +1,57 @@
+<p-toast></p-toast>
+
+<div class="p-toolbar-group-end">
+
+    <input pInputText type="text" placeholder="{{ 'TOOLBAR.SEARCH_PLACEHOLDER' | translate }}" [(ngModel)]="searchTerm"
+        style="width: 300px;" />
+    <button pButton type="button" icon="pi pi-search" (click)="searchFactures()"></button>
+</div><br>
+<div class="card">
+    <p-tabs value="0">
+        <p-tablist>
+            <p-tab value="0">{{ 'FacturesList' | translate }}</p-tab>
+
+
+
+        </p-tablist>
+        <p-tabpanels>
+            <p-tabpanel value="0">
+                <div class="card" *ngIf="factures.length > 0 ">
+                    <p-table [value]="factures" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5, 10, 20]"
+                        [tableStyle]="{ 'min-width': '50rem' }" selectionMode="single" [(selection)]="selectedFacture"
+                        dataKey="idFacture" class="custom-pagination">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th style="width: 20%;">{{'user'| translate}}</th>
+                                <th style="width:20%">Date</th>
+                                <th style="width:20%">{{'status.status' | translate}}</th>
+                                <th style="width:20%">Actions</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-facture>
+                            <tr style="cursor: pointer;">
+                                <td>{{ userMap[facture.userId]?.username }}</td>
+                                <td>{{ getMonthName(facture.year, facture.month) }} {{ facture.year }}</td>
+
+                                <td>
+                                    <p-tag [value]="'status.' + facture.status | translate"
+                                        [severity]="getSeverity(facture.status)"></p-tag>
+                                </td>
+                                <td><p-button icon="pi pi-download" (onClick)="goToFactureDetailForDownload(facture)">
+                                    </p-button>
+
+                                    <p-button severity="info" icon="pi pi-eye"
+                                        [pTooltip]="'FACTURE.VIEW_FACTURE' | translate" tooltipPosition="top"
+                                        (click)="goToValidationFactureDetail(facture)"></p-button>
+
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+
+            </p-tabpanel>
+
+        </p-tabpanels>
+    </p-tabs>
+</div>

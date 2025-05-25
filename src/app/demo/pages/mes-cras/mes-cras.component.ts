@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
@@ -67,7 +67,7 @@ export class MesCrasComponent implements OnInit {
   readonlyMode: boolean = false;
   selectedCalendar: Calendre | null = null;
   isValidationMode: boolean = false;
-  
+
 
 
   constructor(private route: ActivatedRoute,
@@ -75,7 +75,8 @@ export class MesCrasComponent implements OnInit {
     private translate: TranslateService,
     private craService: CrasService,
     private profileService: ProfileService,
-    private authService: AuthService) { }
+    private authService: AuthService,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
@@ -95,6 +96,16 @@ export class MesCrasComponent implements OnInit {
         this.commentaireClient = '';
       }
     });
+  }
+
+
+
+  facturerCra(): void {
+    if (this.cra?.idCra) {
+      this.router.navigate(['/facture'], {
+        queryParams: { craId: this.cra.idCra }
+      });
+    }
   }
 
   loadCra(craId: number): void {
@@ -180,73 +191,73 @@ export class MesCrasComponent implements OnInit {
     return days;
   }
 
- saveCra(): void {
-  const calendrierInvalide = this.calendars.some(
-    calendar => !calendar.client?.trim() || !calendar.mission?.trim()
-  );
+  saveCra(): void {
+    const calendrierInvalide = this.calendars.some(
+      calendar => !calendar.client?.trim() || !calendar.mission?.trim()
+    );
 
-  if (calendrierInvalide) {
-    this.messageService.add({
-      severity: 'warn',
-      summary: this.translate.instant('warning.title'),
-      detail: this.translate.instant('client_mission_required'),
-    });
-    return;
+    if (calendrierInvalide) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: this.translate.instant('warning.title'),
+        detail: this.translate.instant('client_mission_required'),
+      });
+      return;
+    }
+
+    const isNewCra = !this.cra?.idCra;
+
+    const craToSave: Cra = {
+      idCra: this.cra?.idCra || null,
+      month: +this.selectedMonth,
+      year: +this.selectedYear,
+      status: Status.IN_PROGRESS,
+      userId: null,
+      send: this.cra?.send || false,
+      commentaire: this.commentaire || this.cra?.commentaire || '',
+      commentaireClient: this.commentaireClient || this.cra?.commentaireClient || '',
+      calendres: this.calendars.map(calendar => ({
+        ...calendar,
+        days: calendar.days,
+      })),
+    };
+
+    const saveSuccess = (savedCra: Cra) => {
+      this.cra = savedCra;
+      this.commentaire = savedCra.commentaire || '';
+      this.commentaireClient = savedCra.commentaireClient || '';
+
+      this.messageService.add({
+        severity: 'success',
+        summary: this.translate.instant('success.title'),
+        detail: this.translate.instant(isNewCra ? 'cra_saved_successfully' : 'cra_updated_successfully'),
+      });
+    };
+
+    if (this.cra?.idCra) {
+      this.craService.updateCra(this.cra.idCra, craToSave).subscribe({
+        next: saveSuccess,
+        error: () => {
+          this.messageService.add({
+            severity: 'error',
+            summary: this.translate.instant('error.title'),
+            detail: this.translate.instant('error.updating_cra'),
+          });
+        },
+      });
+    } else {
+      this.craService.saveCra(craToSave).subscribe({
+        next: saveSuccess,
+        error: () => {
+          this.messageService.add({
+            severity: 'error',
+            summary: this.translate.instant('error.title'),
+            detail: this.translate.instant('error.saving_cra'),
+          });
+        },
+      });
+    }
   }
-
-  const isNewCra = !this.cra?.idCra; 
-
-  const craToSave: Cra = {
-    idCra: this.cra?.idCra || null,
-    month: +this.selectedMonth,
-    year: +this.selectedYear,
-    status: Status.IN_PROGRESS,
-    userId: null,
-    send: this.cra?.send || false,
-    commentaire: this.commentaire || this.cra?.commentaire || '',
-    commentaireClient: this.commentaireClient || this.cra?.commentaireClient || '',
-    calendres: this.calendars.map(calendar => ({
-      ...calendar,
-      days: calendar.days,
-    })),
-  };
-
-  const saveSuccess = (savedCra: Cra) => {
-    this.cra = savedCra;
-    this.commentaire = savedCra.commentaire || '';
-    this.commentaireClient = savedCra.commentaireClient || '';
-
-    this.messageService.add({
-      severity: 'success',
-      summary: this.translate.instant('success.title'),
-      detail: this.translate.instant(isNewCra ? 'cra_saved_successfully' : 'cra_updated_successfully'),
-    });
-  };
-
-  if (this.cra?.idCra) {
-    this.craService.updateCra(this.cra.idCra, craToSave).subscribe({
-      next: saveSuccess,
-      error: () => {
-        this.messageService.add({
-          severity: 'error',
-          summary: this.translate.instant('error.title'),
-          detail: this.translate.instant('error.updating_cra'),
-        });
-      },
-    });
-  } else {
-    this.craService.saveCra(craToSave).subscribe({
-      next: saveSuccess,
-      error: () => {
-        this.messageService.add({
-          severity: 'error',
-          summary: this.translate.instant('error.title'),
-          detail: this.translate.instant('error.saving_cra'),
-        });
-      },
-    });
-  }
-}
 
 
 
@@ -463,7 +474,7 @@ export class MesCrasComponent implements OnInit {
     return day === 0 || day === 6;
   }
 
-    getDayLetter(dateInput: string | Date): string {
+  getDayLetter(dateInput: string | Date): string {
     const date = typeof dateInput === 'string' ? new Date(dateInput) : dateInput;
     const dayName = date.toLocaleDateString(this.translate.currentLang || 'en-US', { weekday: 'long' });
     return dayName.charAt(0).toUpperCase();
@@ -747,5 +758,5 @@ export class MesCrasComponent implements OnInit {
       }
     });
   }
-  
+
 }

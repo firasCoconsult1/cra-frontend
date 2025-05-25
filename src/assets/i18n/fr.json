@@ -234,6 +234,7 @@
         "values_adjusted": "Valeurs ajustées",
         "other_calendar_adjusted": "Les valeurs dans d'autres calendriers ont été ajustées."
     },
+    "found_factures": "Trouvé {{count}} facture(s)",
     "temps": "Temps",
     "jours": "jours",
     "month_year_required": "Le mois et l'année doivent être sélectionnés.",
@@ -258,7 +259,10 @@
     "status": {
         "VALIDE": "Validé",
         "IN_PROGRESS": "En cours",
-        "REJETE": "Rejeté"
+        "REJETE": "Rejeté",
+        "PAYE": "Payée",
+        "NON_PAYE": "Non payée",
+        "status": "Statut"
     },
     "cra_not_saved": "Veuillez d'abord enregistrer le CRA avant de l'envoyer.",
     "VALIDATE": "Valider",
@@ -282,15 +286,33 @@
     "absence_rejected_successfully": "Absence rejetée avec succès",
     "absence_validated_successfully": "Absence validée avec succès",
     "COMMENT": "Commentaire",
-    "MES_ABSENCES" : "Mes absences",
+    "MES_ABSENCES": "Mes absences",
     "absence_updated_successfully": "Absence mise à jour avec succès",
     "DEMANDE": "Demandé",
     "EXPECTED": "Prévu",
-     "TJM": {
-    "NO_USER_SELECTED": "Aucun utilisateur sélectionné",
-    "INVALID_VALUE": "Valeur de TJM invalide",
-    "UPDATE_SUCCESS": "TJM mis à jour avec succès",
-    "UPDATE_FAILURE": "Échec de la mise à jour du TJM"
-  }
-
+    "TJM": {
+        "TJM": "TJM",
+        "NO_USER_SELECTED": "Aucun utilisateur sélectionné",
+        "INVALID_VALUE": "Valeur de TJM invalide",
+        "UPDATE_SUCCESS": "TJM mis à jour avec succès",
+        "UPDATE_FAILURE": "Échec de la mise à jour du TJM"
+    },
+    "INVOICE": "FACTURE",
+    "FACTURER": "Facturer",
+    "Jours_travaillés": "Jours travaillés",
+    "CRA_DETAILS": "Détails du CRA",
+    "Billed_To": "Facturé à",
+    "From": "De",
+    "FacturesList": "Liste des factures",
+    "user": "Utilisateur",
+    "month": "Mois",
+    "year": "Année",
+    "DOWNLOAD": "Télécharger",
+    "FACTURE": {
+        "CREATED_SUCCESS": "Facture créée avec succès !",
+        "CREATION_FAILED": "Échec de la création de la facture !",
+        "DOWNLOADED_SUCCESS": "Facture téléchargée avec succès !",
+        "DOWNLOAD_FAILED": "Échec du téléchargement de la facture !",
+        "VIEW_FACTURE": "Voir la facture"
+    }
 }

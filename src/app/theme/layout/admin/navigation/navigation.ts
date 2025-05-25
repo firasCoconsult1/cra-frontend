@@ -101,7 +101,7 @@ export const NavigationItems: NavigationItem[] = [
             title: 'Frais',
             translate: 'nav.frais',
             type: 'item',
-            url: '/frais',
+            url: '/listeFactures',
             icon: 'feather icon-credit-card'
           }
         ]

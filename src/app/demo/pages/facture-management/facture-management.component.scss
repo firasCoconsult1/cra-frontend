@@ -1,0 +1,45 @@
+.invoice-wrapper {
+    background-color: #f4f6fb;
+    padding: 2rem;
+
+}
+
+.invoice-card {
+    max-width: 900px;
+    margin: auto;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 4px 32px #0001;
+    overflow: hidden;
+}
+
+.invoice-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(90deg, #3f4d67 0%, #1dceda 100%);
+    color: #fff;
+    padding: 2rem;
+
+}
+
+h2 {
+    color: white;
+}
+
+i {
+    margin-right: 6px;
+    color: #3f4d67
+}
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  
+}
+p-toast {
+  position: fixed;
+  z-index: 11000;
+  top: 10px;
+}
