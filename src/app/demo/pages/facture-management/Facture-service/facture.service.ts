@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Facture } from '../model/facture';
 
@@ -38,12 +38,30 @@ export class FactureService {
   }
 
 
-downloadFacture(id: number): Observable<Blob> {
-  const url = `${this.apiUrl}/${id}/download`;
-  return this.http.get(url, { responseType: 'blob' });
-}
-searchFactures(searchTerm: string): Observable<any> {
+  downloadFacture(id: number): Observable<Blob> {
+    const url = `${this.apiUrl}/${id}/download`;
+    return this.http.get(url, { responseType: 'blob' });
+  }
+  searchFactures(searchTerm: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/search?term=${searchTerm}`);
   }
+  payerFacture(id: number): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}/${id}/payer`, {});
+  }
+  getAllFacturesForDashboard(): Observable<Facture[]> {
+    return this.http.get<Facture[]>(`${this.apiUrl}/dashboard`);
+  }
 
+
+uploadFile(username: string, file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    return this.http.post(`${this.apiUrl}/upload/${username}`, formData, {
+      responseType: 'text', // Changed from expecting JSON to text
+      observe: 'response'
+    });
+  }
 }
+
+

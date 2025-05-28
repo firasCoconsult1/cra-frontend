@@ -1,83 +1,107 @@
 <p-toast></p-toast>
-   <div class="buttons">
-    <p-button *ngIf="isValidationMode || downloadMode" label="{{ 'SAVE' | translate }}" severity="success" icon="pi pi-save"
-        (onClick)="saveFacture()"></p-button>
-    <p-button label="{{ 'DOWNLOAD' | translate }}" severity="info" icon="pi pi-download"
+<div class="buttons">
+    <p-button *ngIf="!isValidationMode && !downloadMode" label="{{ 'SAVE' | translate }}" severity="success"
+        icon="pi pi-save" (onClick)="saveFacture()"></p-button>
+    <p-button *ngIf="downloadMode" label="{{ 'DOWNLOAD' | translate }}" severity="info" icon="pi pi-download"
         (onClick)="downloadFacturePDF()"></p-button>
+        <p-button *ngIf="isValidationMode && !downloadMode" label="{{ 'PAYER' | translate }}" severity="info" icon="pi pi-credit-card"
+        (onClick)="payerFacture()"  [disabled]="status === 'PAYE'"></p-button>
+
+         <p-button 
+        *ngIf="downloadMode" 
+        label="{{ 'UPLOAD' | translate }}" 
+        severity="primary" 
+        icon="pi pi-cloud-upload"
+        (onClick)="uploadCurrentFacture()"
+        [disabled]="factureUploaded"
+        [style.margin-left]="!downloadMode ? '0.5rem' : '0.5rem'">
+    </p-button>
+
 </div>
-    <div class="invoice-wrapper" #invoiceContent>
-        <div class="invoice-card">
-            <div class="invoice-header">
-                <div>
-                    <h2 style="margin: 0;">{{'INVOICE'| translate}}</h2>
-                    <div style="font-size: 1.1rem;">#{{ reference}}</div>
-                    <div style="font-size: 0.95rem;">Date: {{ date | date:'dd/MM/yyyy' }}</div>
+
+
+
+
+<div class="invoice-wrapper" #invoiceContent>
+    <div class="invoice-card">
+        <div class="invoice-header">
+            <div>
+                <h2 style="margin: 0;">{{'INVOICE'| translate}}</h2>
+                <div style="font-size: 1.1rem;">#{{ reference}}</div>
+                <div style="font-size: 0.95rem;">
+                    Date:
+                    <ng-container *ngIf="isValidationMode ; else fallbackDate">
+                        {{ getFactureMonthYear() | date:'MM/yyyy' }}
+                    </ng-container>
+                    <ng-template #fallbackDate>
+                        {{ date | date:'dd/MM/yyyy' }}
+                    </ng-template>
                 </div>
-                <img src="../../../../assets/images/invoice.png" alt="Logo" width="120" height="90"
-                    style="background: #fff; border-radius: 12px; padding: 0.5rem;">
             </div>
-
-            <div class="invoice-body" style="padding: 2rem;">
-                <div class="p-grid p-formgrid p-mb-4">
-                    <div class="p-col-12 p-md-6">
-                        <h4 style="color: #3f4d67;">{{'Billed_To' | translate}}</h4>
-                        <div *ngIf="user?.fullname!=''"><i class="pi pi-user"></i><strong>{{ user?.fullname }}</strong>
-                        </div>
-                        <div> <i class="pi pi-envelope"></i>{{ user?.username }}</div>
-                        <div *ngIf="user?.numeroTelephone!=''">
-                            <i class="pi pi-phone"></i>
-                            {{ user?.numeroTelephone }}
-                        </div>
-                    </div>
-                    <div class="p-col-12 p-md-6" style="text-align: right;">
-                        <h4 style="color: #1dceda;">{{'From' | translate}}</h4>
-                        <div><i class="pi pi-building"></i><strong>CoConsult</strong></div>
-                        <div>
-                            <i class="pi pi-phone"></i>
-                            51063943
-                        </div>
-
-                    </div>
-                </div>
-
-
-                <h4 style="margin-top: 2rem; color: #4f8cff;">{{'CRA_DETAILS'| translate}} </h4><br>
-                <table class="p-datatable-table p-datatable-sm"
-                    style="width: 850px; border-radius: 10px; overflow: hidden; ">
-                    <thead style="background: #f4f6fb;">
-                        <tr>
-                            <th>{{'Jours_travaillés' | translate}}</th>
-                            <th>{{'TJM.TJM'| translate }}</th>
-                            <th>{{'TOTAL_SOLDE' | translate}}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr style="background: #fff;" *ngIf="user">
-                            <td>
-                                <input pInputText [value]="getTotalDays()" disabled />
-                            </td>
-                            <td>
-                                <input pInputText [(ngModel)]="user.tjm" disabled/>
-                            </td>
-                            <td>
-                                <input pInputText [(ngModel)]="user.leaveBalance" disabled/>
-                            </td>
-
-                        </tr>
-                    </tbody>
-                </table>
-
-
-                <div style="display: flex; justify-content: flex-end; margin-top: 2rem;">
-                    <div style="min-width: 250px;">
-                        <div
-                            style="display: flex; justify-content: space-between; font-size: 1.2rem; font-weight: bold; color: #4f8cff;">
-                            <span>Total:</span>
-                            <span>{{ getTotalTTC() }}&nbsp;DT</span>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
+            <img src="../../../../assets/images/invoice.png" alt="Logo" width="120" height="90"
+                style="background: #fff; border-radius: 12px; padding: 0.5rem;">
         </div>
-   
+
+        <div class="invoice-body" style="padding: 2rem;">
+            <div class="p-grid p-formgrid p-mb-4">
+                <div class="p-col-12 p-md-6">
+                    <h4 style="color: #3f4d67;">{{'Billed_To' | translate}}</h4>
+                    <div *ngIf="user?.fullname!=''"><i class="pi pi-user"></i><strong>{{ user?.fullname }}</strong>
+                    </div>
+                    <div> <i class="pi pi-envelope"></i>{{ user?.username }}</div>
+                    <div *ngIf="user?.numeroTelephone!=''">
+                        <i class="pi pi-phone"></i>
+                        {{ user?.numeroTelephone }}
+                    </div>
+                </div>
+                <div class="p-col-12 p-md-6" style="text-align: right;">
+                    <h4 style="color: #1dceda;">{{'From' | translate}}</h4>
+                    <div><i class="pi pi-building"></i><strong>CoConsult</strong></div>
+                    <div>
+                        <i class="pi pi-phone"></i>
+                        51063943
+                    </div>
+
+                </div>
+            </div>
+
+
+            <h4 style="margin-top: 2rem; color: #4f8cff;">{{'CRA_DETAILS'| translate}} </h4><br>
+            <table class="p-datatable-table p-datatable-sm"
+                style="width: 850px; border-radius: 10px; overflow: hidden; ">
+                <thead style="background: #f4f6fb;">
+                    <tr>
+                        <th>{{'Jours_travaillés' | translate}}</th>
+                        <th>{{'TJM.TJM'| translate }}</th>
+                        <th>{{'TOTAL_SOLDE' | translate}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="background: #fff;" *ngIf="user">
+                        <td>
+                            <input pInputText [value]="getTotalDays()" disabled />
+                        </td>
+                        <td>
+                            <input pInputText [(ngModel)]="user.tjm" disabled />
+                        </td>
+                        <td>
+                            <input pInputText [(ngModel)]="user.leaveBalance" disabled />
+                        </td>
+
+                    </tr>
+                </tbody>
+            </table>
+
+
+            <div style="display: flex; justify-content: flex-end; margin-top: 2rem;">
+                <div style="min-width: 250px;">
+                    <div
+                        style="display: flex; justify-content: space-between; font-size: 1.2rem; font-weight: bold; color: #4f8cff;">
+                        <span>Total:</span>
+                        <span>{{ getTotalTTC() }}&nbsp;DT</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>

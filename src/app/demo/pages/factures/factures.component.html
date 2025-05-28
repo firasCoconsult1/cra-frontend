@@ -30,7 +30,7 @@
                         </ng-template>
                         <ng-template pTemplate="body" let-facture>
                             <tr style="cursor: pointer;">
-                                <td>{{ userMap[facture.userId]?.username }}</td>
+                                <td>{{ facture.user?.username || getUsername(facture.userId) || '—' }}</td>
                                 <td>{{ getMonthName(facture.year, facture.month) }} {{ facture.year }}</td>
 
                                 <td>
@@ -43,6 +43,7 @@
                                     <p-button severity="info" icon="pi pi-eye"
                                         [pTooltip]="'FACTURE.VIEW_FACTURE' | translate" tooltipPosition="top"
                                         (click)="goToValidationFactureDetail(facture)"></p-button>
+                                    
 
                                 </td>
                             </tr>

@@ -1,48 +1,31 @@
-<div class="home-container">
-  <header class="header">
-    <h1>{{ 'HOME.TITLE' | translate }}</h1>
-    <p>{{ 'HOME.SUBTITLE' | translate }}</p>
-  </header>
+<div class="dashboard-container">
+  <div class="p-grid">
+    <div class="p-col-12 p-md-6 small-chart">
+      <p-card header="{{ 'CRA_STATISTICS' | translate }}">
+        <p-chart type="pie" [data]="craStatusChartData"></p-chart>
+      </p-card>
+    </div>
+    <div class="p-col-12 p-md-6 small-chart">
+      <p-card header="{{ 'ABSENCES_STATISTICS' | translate }}">
+        <p-chart type="doughnut" [data]="absenceStatusChartData"></p-chart>
+      </p-card>
+    </div>
 
-  <div class="quick-navigation">
-    <p-card class="nav-card" [style]="{ width: '18rem', height: '15rem' }">
-      <ng-template #header>
-        <i class="pi pi-users nav-icon"></i>
-      </ng-template>
-      <ng-template #title>{{ 'HOME.MANAGE_RESOURCES' | translate }}</ng-template>
-      <ng-template #content>
-        <p>{{ 'HOME.RESOURCES_DESC' | translate }}</p>
-      </ng-template>
-     <!-- <ng-template #footer>
-        <p-button label="Go" icon="pi pi-arrow-right" class="p-button-primary" routerLink="/resource"></p-button>
-      </ng-template>-->
-    </p-card>
+    <div class="p-col-12 p-md-6 small-chart">
+      <p-card header="{{ 'INVOICES_STATISTICS' | translate }}">
+        <p-chart type="doughnut" [data]="factureByStatusChartData"></p-chart>
+      </p-card>
+    </div>
+    <div class="p-col-12 p-md-6 small-chart">
+      <p-card header="{{ 'USER_STATISTICS' | translate }}">
+        <p-chart type="bar" [data]="userStatusChartData" [options]="userStatusChartOptions"></p-chart>
+      </p-card>
+    </div>
+    </div>
 
-    <p-card class="nav-card" [style]="{ width: '18rem', height: '15rem' }">
-      <ng-template #header>
-        <i class="pi pi-briefcase nav-icon"></i>
-      </ng-template>
-      <ng-template #title>{{ 'HOME.MANAGE_ROLES' | translate }}</ng-template>
-      <ng-template #content>
-        <p>{{ 'HOME.ROLES_DESC' | translate }}</p>
-      </ng-template>
-     <!-- <ng-template #footer>
-        <p-button label="Go" icon="pi pi-arrow-right" class="p-button-primary" routerLink="/role"></p-button>
-      </ng-template>-->
-    </p-card>
-
-    <p-card class="nav-card" [style]="{ width: '18rem', height: '15rem' }">
-      <ng-template #header>
-        <i class="pi pi-file nav-icon"></i>
-      </ng-template>
-      <ng-template #title>{{ 'HOME.MANAGE_CRA' | translate }}</ng-template>
-      <ng-template #content>
-        <p>{{ 'HOME.CRA_DESC' | translate }}</p>
-      </ng-template>
-     <!-- <ng-template #footer>
-        <p-button label="Go" icon="pi pi-arrow-right" class="p-button-primary" routerLink="/resources"></p-button>
-      </ng-template>-->
-    </p-card>
+    <div class="p-col-12 line-full-width">
+      <p-card header="{{ 'evolution_factures_absences_cras' | translate }}">
+        <p-chart type="line" [data]="lineChartData" [options]="lineChartOptions"></p-chart>
+      </p-card>
+    </div>
   </div>
-
-  

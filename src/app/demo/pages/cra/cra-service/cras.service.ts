@@ -50,6 +50,9 @@ export class CrasService {
   rejectCra(id: number): Observable<void> {
     return this.http.put<void>(`${this.apiUrl}/${id}/reject`, {});
   }
+  getAllCraForDashboard(): Observable<Cra[]> {
+    return this.http.get<Cra[]>(`${this.apiUrl}/dashboard`);
+  }
 }
 
 

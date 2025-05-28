@@ -308,11 +308,20 @@
     "month": "Mois",
     "year": "Année",
     "DOWNLOAD": "Télécharger",
+    "PAYER": "Payer",
     "FACTURE": {
         "CREATED_SUCCESS": "Facture créée avec succès !",
         "CREATION_FAILED": "Échec de la création de la facture !",
         "DOWNLOADED_SUCCESS": "Facture téléchargée avec succès !",
         "DOWNLOAD_FAILED": "Échec du téléchargement de la facture !",
-        "VIEW_FACTURE": "Voir la facture"
-    }
+        "VIEW_FACTURE": "Voir la facture",
+        "PAID_SUCCESS": "Facture payée avec succès !",
+        "PAYMENT_FAILED": "Le paiement de la facture a échoué !"
+    },
+    "CRA_STATISTICS": "Cras par statut",
+    "ABSENCES_STATISTICS": "Absences par statut",
+    "INVOICES_STATISTICS": "Factures par statut",
+    "USER_STATISTICS": "Utilisateurs par status",
+    "evolution_factures_absences_cras": "Évolution Factures / Absences / Cras par mois",
+    "FACTURES": "Factures"
 }

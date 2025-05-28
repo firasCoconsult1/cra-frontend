@@ -22,6 +22,8 @@ import { Facture, FactureStatus } from '../facture-management/model/facture';
 import { User } from '../profile/model/user';
 import { ProfileService } from '../profile/profile/profile.service';
 import { ResourceManagementService } from '../resource-management/service/resource-management.service';
+import { forkJoin } from 'rxjs';
+import { stat } from 'fs';
 
 
 @Component({
@@ -48,20 +50,29 @@ export class FacturesComponent implements OnInit {
     this.factureService.getFactures(0, 10).subscribe({
       next: (res) => {
         this.factures = res.content;
-        this.factures.forEach(facture => {
-          if (facture.userId && !this.userMap[facture.userId]) {
-            this.profileService.getUserById(facture.userId).subscribe({
-              next: (user) => {
-                this.userMap[facture.userId] = user;
-              }
+
+        const userIds = Array.from(new Set(this.factures.map(f => f.userId).filter(id => id != null)));
+
+        if (userIds.length > 0) {
+          const userRequests = userIds.map(id => this.profileService.getUserById(id));
+
+          forkJoin(userRequests).subscribe(users => {
+            users.forEach(user => {
+              this.userMap[user.id] = user;
             });
-          }
-        });
+
+            console.log('userMap loaded:', this.userMap);
+          });
+        }
       },
       error: (err) => {
-        console.error(err);
+        console.error('Erreur chargement factures', err);
       }
     });
+  }
+
+  getUsername(userId: number): string {
+    return this.userMap[userId]?.username || '—';
   }
 
   getMonthName(year: number, month: number): string {
@@ -112,7 +123,10 @@ export class FacturesComponent implements OnInit {
       queryParams: {
         factureId: facture.idFacture,
         craId: facture.craId,
-        validationMode: true
+        validationMode: true,
+        month: facture.month,
+        year: facture.year,
+        status: facture.status
       }
     });
   }
@@ -122,34 +136,65 @@ export class FacturesComponent implements OnInit {
       return;
     }
 
-    this.factureService.searchFactures(this.searchTerm).subscribe(
-      data => {
-        this.factures = data.content ? data.content : data;
-        this.factures.forEach(facture => {
-          if (facture.userId && !this.userMap[facture.userId]) {
-            this.profileService.getUserById(facture.userId).subscribe({
-              next: (user) => {
-                this.userMap[facture.userId] = user;
-              }
-            });
-          }
-        });
+    this.factureService.searchFactures(this.searchTerm).subscribe({
+      next: (data) => {
+        const facturesResult = data.content ? data.content : data;
+        this.factures = facturesResult;
 
-        this.messageService.add({
-          severity: 'info',
-          summary: this.translate.instant('search_results'),
-          detail: this.translate.instant('found_factures', { count: data.length })
-        });
+        this.userMap = {};
+
+
+        const userIds = Array.from(new Set(
+          this.factures
+            .map(f => f.userId)
+            .filter(id => id != null)
+        ));
+
+        if (userIds.length > 0) {
+          const userRequests = userIds.map(id => this.profileService.getUserById(id));
+
+          forkJoin(userRequests).subscribe({
+            next: (users) => {
+              users.forEach(user => {
+                this.userMap[user.id] = user;
+                console.log('User', user);
+              });
+              
+
+              this.messageService.add({
+                severity: 'info',
+                summary: this.translate.instant('search_results'),
+                detail: this.translate.instant('found_factures', { count: facturesResult.length })
+              });
+            },
+            error: (err) => {
+              console.error('Erreur lors de la récupération des utilisateurs', err);
+              this.messageService.add({
+                severity: 'info',
+                summary: this.translate.instant('search_results'),
+                detail: this.translate.instant('found_factures', { count: facturesResult.length })
+              });
+            }
+          });
+        } else {
+          this.messageService.add({
+            severity: 'info',
+            summary: this.translate.instant('search_results'),
+            detail: this.translate.instant('found_factures', { count: facturesResult.length })
+          });
+        }
       },
-      error => {
-        console.error('Error searching factures', error);
+      error: (error) => {
+        console.error('Erreur lors de la recherche de factures', error);
         this.messageService.add({
           severity: 'error',
           summary: this.translate.instant('error.title'),
           detail: this.translate.instant('search_failed')
         });
       }
-    );
+    });
   }
+ 
+
 
 }

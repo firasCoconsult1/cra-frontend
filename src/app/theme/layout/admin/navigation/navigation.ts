@@ -132,10 +132,19 @@ export const NavigationItems: NavigationItem[] = [
         url: '/resource',
         classes: 'nav-item',
         icon: 'feather icon-users'
+      },
+      {
+        id: 'dashboard',
+        title: 'Dashboard',
+        translate: 'nav.dashboard',
+        type: 'item',
+        url: '/dashboard',
+        icon: 'feather icon-bar-chart',
+        classes: 'nav-item',
       }
     ]
   },
-  {
+ /* {
     id: 'pages',
     title: 'Pages',
     translate: 'nav.pages',
@@ -172,5 +181,5 @@ export const NavigationItems: NavigationItem[] = [
         ]
       }
     ]
-  }
+  }*/
 ];

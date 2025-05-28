@@ -51,6 +51,8 @@ export class ResourceManagementService {
   
     return this.http.post(`${this.baseUrl}/invite`, null, { params, responseType: 'text' });
   }
-  
+    getAllUsersForDashboard(): Observable<User[]> {
+      return this.http.get<User[]>(`${this.baseUrl}/dashboard`);
+    }
 }  
 

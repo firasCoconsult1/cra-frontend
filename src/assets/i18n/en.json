@@ -308,11 +308,21 @@
     "month": "Month",
     "year": "Year",
     "DOWNLOAD": "Download",
+    "PAYER": "Pay",
     "FACTURE": {
         "CREATED_SUCCESS": "Invoice created successfully!",
         "CREATION_FAILED": "Failed to create invoice!",
         "DOWNLOADED_SUCCESS": "Invoice downloaded successfully!",
         "DOWNLOAD_FAILED": "Failed to download invoice!",
-        "VIEW_FACTURE": "View invoice"
-    }
+        "VIEW_FACTURE": "View invoice",
+        "PAID_SUCCESS": "Invoice paid successfully!",
+        "PAYMENT_FAILED": "Invoice payment failed!"
+    },
+    "CRA_STATISTICS": "Cras by status",
+    "ABSENCES_STATISTICS": "Absences by status",
+    "INVOICES_STATISTICS": "Invoices by status",
+    "USER_STATISTICS": "Users by status",
+    "evolution_factures_absences_cras": "Evolution of Invoices / Absences / Cras per month",
+    "FACTURES": "Invoices",
+    "FACTURE.UPLOADED_SUCCESS": "Invoice uploaded successfully!"
 }

@@ -41,19 +41,48 @@ export class FactureManagementComponent implements OnInit {
   downloadMode: boolean = false;
 
   factures: Facture[] = [];
+  month: number = new Date().getMonth() + 1;
+  year: number = new Date().getFullYear();
+  factureId: number | null = null;
+  facture: Facture | null = null;
+  status: FactureStatus;
+  factureUploaded: boolean = false;
+
 
 
   constructor(private messageService: MessageService, private route: ActivatedRoute, private craService: CrasService, private profileService: ProfileService, private factureService: FactureService, private translate: TranslateService) { }
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       this.craId = params['craId'] ? +params['craId'] : null;
-      if (this.craId) {
+      this.isValidationMode = params['validationMode'] === 'true';
+      this.downloadMode = params['downloadMode'] === 'true';
+      this.month = params['month'] ? +params['month'] : new Date().getMonth() + 1;
+      this.year = params['year'] ? +params['year'] : new Date().getFullYear();
+      this.factureId = params['factureId'] ? +params['factureId'] : null;
+      this.status = params['status'] ? params['status'] as FactureStatus : FactureStatus.NON_PAYE;
+
+      if ((this.isValidationMode || this.downloadMode) && this.factureId) {
+        this.factureService.getFactureById(this.factureId).subscribe(facture => {
+          this.facture = facture;
+          this.reference = facture.reference;
+          this.craId = facture.craId;
+          if (this.craId) {
+            this.getCraById(this.craId);
+          }
+        });
+      } else if (this.craId) {
         this.getCraById(this.craId);
+        this.generateReference();
+      } else {
+        this.generateReference();
       }
     });
-    this.generateReference();
-
   }
+
+
+
+
+
 
   getCraById(id: number) {
     this.craService.getCraById(id).subscribe({
@@ -117,6 +146,9 @@ export class FactureManagementComponent implements OnInit {
     else
       return this.getTotalDays() * this.user.tjm - (Math.abs(this.user.leaveBalance) * this.user.tjm);
   }
+  getFactureMonthYear(): Date {
+    return new Date(this.year, this.month - 1, 1);
+  }
 
   saveFacture() {
 
@@ -135,25 +167,27 @@ export class FactureManagementComponent implements OnInit {
     this.factureService.createFacture(facture).subscribe({
       next: (res) => {
         console.log('Facture saved:', res);
-        this.messageService.add({ 
-          severity: 'success', 
+        this.messageService.add({
+          severity: 'success',
           summary: this.translate.instant('success.title'),
-          detail: this.translate.instant('FACTURE.CREATED_SUCCESS' ) });
+          detail: this.translate.instant('FACTURE.CREATED_SUCCESS')
+        });
         this.generateReference();
       },
       error: (err) => {
         console.error('Error saving facture:', err);
-        this.messageService.add({ 
-          severity: 'error', 
-          summary: this.translate.instant('error.title'), 
-          detail: this.translate.instant('FACTURE.CREATION_FAILED' ) });
+        this.messageService.add({
+          severity: 'error',
+          summary: this.translate.instant('error.title'),
+          detail: this.translate.instant('FACTURE.CREATION_FAILED')
+        });
       }
     });
   }
   async downloadFacturePDF() {
     try {
       const element = this.invoiceContent.nativeElement;
-      
+
       const canvas = await html2canvas(element, {
         scale: 2,
         useCORS: true,
@@ -165,42 +199,164 @@ export class FactureManagementComponent implements OnInit {
 
       const imgData = canvas.toDataURL('image/png');
       const pdf = new jsPDF('p', 'mm', 'a4');
-      
-      const imgWidth = 210; 
-      const pageHeight = 295; 
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
-      let heightLeft = imgHeight;
 
-      let position = 0;
+      const pageWidth = 210;
+      const pageHeight = 297;
 
-      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-      heightLeft -= pageHeight;
+      const canvasWidth = canvas.width;
+      const canvasHeight = canvas.height;
+      const aspectRatio = canvasWidth / canvasHeight;
 
-      while (heightLeft >= 0) {
-        position = heightLeft - imgHeight;
-        pdf.addPage();
-        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-        heightLeft -= pageHeight;
-      }
+      const targetHeight = pageHeight * 0.5;
+      const targetWidth = targetHeight * aspectRatio;
+
+      const xOffset = (pageWidth - targetWidth) / 2;
+      const yOffset = (pageHeight - targetHeight) / 2;
+
+      pdf.addImage(imgData, 'PNG', xOffset, yOffset, targetWidth, targetHeight);
 
       pdf.save(`facture-${this.reference}.pdf`);
-      
-      this.messageService.add({ 
+
+      this.messageService.add({
         severity: 'success',
         summary: this.translate.instant('success.title'),
-        detail: this.translate.instant('FACTURE.DOWNLOADED_SUCCESS' ) 
+        detail: this.translate.instant('FACTURE.DOWNLOADED_SUCCESS')
       });
     } catch (error) {
       console.error('Error generating PDF:', error);
-      this.messageService.add({ 
-       severity: 'success',
+      this.messageService.add({
+        severity: 'error',
         summary: this.translate.instant('error.title'),
-        detail: this.translate.instant('FACTURE.DOWNLOAD_FAILED' ) 
+        detail: this.translate.instant('FACTURE.DOWNLOAD_FAILED')
       });
     }
+  }
+  payerFacture() {
+    this.factureService.payerFacture(this.factureId).subscribe({
+      next: () => {
+        this.messageService.add({
+          severity: 'success',
+          summary: this.translate.instant('success.title'),
+          detail: this.translate.instant('FACTURE.PAID_SUCCESS')
+        });
+      },
+      error: (err) => {
+        console.error('Error paying facture:', err);
+        this.messageService.add({
+          severity: 'error',
+          summary: this.translate.instant('error.title'),
+          detail: this.translate.instant('FACTURE.PAYMENT_FAILED')
+        });
+      }
+    });
   }
 
 
 
 
+
+
+
+  async uploadCurrentFacture() {
+    if (!this.user) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: this.translate.instant('warning.title'),
+        detail: 'User information not available'
+      });
+      return;
+    }
+
+    try {
+      const element = this.invoiceContent.nativeElement;
+
+      const canvas = await html2canvas(element, {
+        scale: 2,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: '#ffffff',
+        width: element.scrollWidth,
+        height: element.scrollHeight
+      });
+
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4');
+
+      const pageWidth = 210;
+      const pageHeight = 297;
+
+      const canvasWidth = canvas.width;
+      const canvasHeight = canvas.height;
+      const aspectRatio = canvasWidth / canvasHeight;
+
+      const targetHeight = pageHeight * 0.5;
+      const targetWidth = targetHeight * aspectRatio;
+
+      const xOffset = (pageWidth - targetWidth) / 2;
+      const yOffset = (pageHeight - targetHeight) / 2;
+
+
+
+      pdf.addImage(imgData, 'JPEG', xOffset, yOffset, targetWidth, targetHeight, undefined, 'MEDIUM');
+
+      const pdfBlob = pdf.output('blob');
+
+      const fileSizeMB = pdfBlob.size / (1024 * 1024);
+      console.log(`Taille du PDF généré: ${fileSizeMB.toFixed(2)} MB`);
+
+      if (fileSizeMB > 8) {
+        this.messageService.add({
+          severity: 'warn',
+          summary: this.translate.instant('warning.title'),
+          detail: `Fichier volumineux (${fileSizeMB.toFixed(2)} MB). L'upload peut échouer.`
+        });
+      }
+
+      const pdfFile = new File([pdfBlob], `facture-${this.reference}.pdf`, {
+        type: 'application/pdf'
+      });
+
+      const username = this.user?.username || 'current_user';
+
+      this.factureService.uploadFile(username, pdfFile).subscribe({
+        next: (response) => {
+          this.factureUploaded = true; 
+
+          this.messageService.add({
+            severity: 'success',
+            summary: this.translate.instant('success.title'),
+            detail: this.translate.instant('FACTURE.UPLOADED_SUCCESS')
+          });
+        },
+        error: (err) => {
+          console.error('Error uploading facture file', err);
+
+          if (err.status === 413 || err.error?.includes('Maximum upload size exceeded')) {
+            this.messageService.add({
+              severity: 'error',
+              summary: this.translate.instant('error.title'),
+              detail: 'Fichier trop volumineux. La taille maximale autorisée est de 10MB.'
+            });
+          } else {
+            this.messageService.add({
+              severity: 'error',
+              summary: this.translate.instant('error.title'),
+              detail: this.translate.instant('FACTURE.UPLOAD_FAILED')
+            });
+          }
+        }
+      });
+
+    } catch (error) {
+      console.error('Error generating and uploading PDF:', error);
+      this.messageService.add({
+        severity: 'error',
+        summary: this.translate.instant('error.title'),
+        detail: this.translate.instant('FACTURE.UPLOAD_FAILED')
+      });
+    }
+  }
 }
+
+
+

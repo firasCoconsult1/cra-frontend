@@ -10,4 +10,9 @@
 p-button {
   margin-left: 5px; 
 }
+p-toast {
+  position: fixed;
+  z-index: 11000;
+  top: 10px;
+}
 

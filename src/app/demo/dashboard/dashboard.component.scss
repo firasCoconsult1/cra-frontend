@@ -1,50 +1,41 @@
-.home-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 2rem;
-  background-color: #f9f9f9;
-  min-height: 100vh;
-}
-
-.header {
-  text-align: center;
-  margin-bottom: 2rem;
-
-  h1 {
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
-  }
-
-  p {
-    font-size: 1.2rem;
-    color: #666;
-  }
-}
-
-.quick-navigation {
-  display: flex;
-  gap: 2rem;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.nav-card {
-  text-align: center;
-
-  .nav-icon {
-    margin-top: 15px;
-    font-size: 3rem;
-    color: #007bff;
-    margin-bottom: 1rem;
-  }
-}
-
-.footer {
-  margin-top: auto;
-  text-align: center;
-  padding: 1rem;
-  background-color: #007bff;
-  color: white;
+.dashboard-container {
+  padding: 20px;
   width: 100%;
 }
+
+.p-grid {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -0.5rem;
+}
+
+.small-chart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 400px;
+  padding: 0.5rem;
+  box-sizing: border-box;
+  margin-bottom: 1rem;
+}
+
+.small-chart p-chart {
+  width: 500px !important;
+  height: 320px !important;
+  min-width: 320px !important;
+  min-height: 320px !important;
+  max-width: 100%;
+  max-height: 100%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .p-col-12.p-md-6 {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+}
+

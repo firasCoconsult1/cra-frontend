@@ -48,6 +48,8 @@ export class AbsenceService {
   getMonthlyAbsenceSummary(userId: number): Observable<MonthAbsenceSummary[]> {
     return this.http.get<MonthAbsenceSummary[]>(`${this.apiUrl}/${userId}/absences/monthly-summary`);
   }
-
+  getAllAbsencesForDashboard(): Observable<Absence[]> {
+    return this.http.get<Absence[]>(`${this.apiUrl}/dashboard`);
+  }
 
 }
