@@ -1,7 +1,7 @@
 <p-toast></p-toast>
 <div class="buttons">
     <p-button *ngIf="!isValidationMode && !downloadMode" label="{{ 'SAVE' | translate }}" severity="success"
-        icon="pi pi-save" (onClick)="saveFacture()"></p-button>
+        icon="pi pi-save" (onClick)="saveFacture()" [disabled]="isSave"></p-button>
     <p-button *ngIf="downloadMode" label="{{ 'DOWNLOAD' | translate }}" severity="info" icon="pi pi-download"
         (onClick)="downloadFacturePDF()"></p-button>
         <p-button *ngIf="isValidationMode && !downloadMode" label="{{ 'PAYER' | translate }}" severity="info" icon="pi pi-credit-card"

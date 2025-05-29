@@ -1,10 +1,30 @@
 <p-toast></p-toast>
 
+
+<div style="display: flex; align-items: center; margin-bottom: 1rem;">
+    <span style="margin-right: 1rem; font-weight: bold;">{{'search'| translate}}</span>
+    <button pButton type="button" icon="pi pi-cloud-upload" [class]="searchMode === 'drive' ? 'p-button-info' : ''"
+        (click)="searchMode = 'drive'" style="margin-right: 0.5rem;" [pTooltip]="'search.drive' | translate" tooltipPosition="top"></button>
+    <button pButton type="button" icon="pi pi-user" [class]="searchMode === 'user' ? 'p-button-info' : ''"
+        (click)="searchMode = 'user'" [pTooltip]="'search.user' | translate" tooltipPosition="top"></button>
+</div>
+
+
+
+
 <div class="p-toolbar-group-end">
 
-    <input pInputText type="text" placeholder="{{ 'TOOLBAR.SEARCH_PLACEHOLDER' | translate }}" [(ngModel)]="searchTerm"
-        style="width: 300px;" />
-    <button pButton type="button" icon="pi pi-search" (click)="searchFactures()"></button>
+    <div *ngIf="searchMode === 'drive'" class="smart-search-bar" style="margin-bottom: 1rem;">
+        <input pInputText type="text" [(ngModel)]="driveSearchTerm" placeholder="{{ 'search.drive' | translate }}"
+            style="width: 300px;" />
+        <button pButton type="button" icon="pi pi-search" (click)="searchDriveFactures()"></button>
+    </div>
+
+    <div *ngIf="searchMode === 'user'" class="smart-search-bar" style="margin-bottom: 1rem;">
+        <input pInputText type="text" [(ngModel)]="searchTerm" placeholder="{{ 'search.user' | translate }}"
+            style="width: 300px;" />
+        <button pButton type="button" icon="pi pi-search" (click)="searchFactures()"></button>
+    </div>
 </div><br>
 <div class="card">
     <p-tabs value="0">
@@ -30,20 +50,20 @@
                         </ng-template>
                         <ng-template pTemplate="body" let-facture>
                             <tr style="cursor: pointer;">
-                                <td>{{ facture.user?.username || getUsername(facture.userId) || '—' }}</td>
+                                <td>{{ facture.user?.fullname || getUsername(facture.userId) || '—' }}</td>
                                 <td>{{ getMonthName(facture.year, facture.month) }} {{ facture.year }}</td>
 
                                 <td>
                                     <p-tag [value]="'status.' + facture.status | translate"
                                         [severity]="getSeverity(facture.status)"></p-tag>
                                 </td>
-                                <td><p-button icon="pi pi-download" (onClick)="goToFactureDetailForDownload(facture)">
+                                <td><p-button icon="pi pi-download" (onClick)="goToFactureDetailForDownload(facture)" [pTooltip]=" 'DOWNLOAD_UPLOAD' | translate" tooltipPosition="top">
                                     </p-button>
 
                                     <p-button severity="info" icon="pi pi-eye"
                                         [pTooltip]="'FACTURE.VIEW_FACTURE' | translate" tooltipPosition="top"
                                         (click)="goToValidationFactureDetail(facture)"></p-button>
-                                    
+
 
                                 </td>
                             </tr>

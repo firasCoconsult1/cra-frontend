@@ -47,6 +47,7 @@ export class FactureManagementComponent implements OnInit {
   facture: Facture | null = null;
   status: FactureStatus;
   factureUploaded: boolean = false;
+  isSave: boolean = false;
 
 
 
@@ -125,20 +126,19 @@ export class FactureManagementComponent implements OnInit {
     const dd = String(today.getDate()).padStart(2, '0');
     const dateStr = `${yyyy}${mm}${dd}`;
 
-    this.factureService.getFactures(0, 10).subscribe({
+    this.factureService.getAllFacturesForDashboard().subscribe({
       next: (factures) => {
-        this.factures = Array.isArray(factures) ? factures : [];
-        const factureNumber = this.factures.length + 1;
+        const todayFactures = (factures || []).filter(fac =>
+          fac.reference && fac.reference.includes(dateStr)
+        );
+        const factureNumber = todayFactures.length + 1;
         this.reference = `TimeBill-Fac-${dateStr}-${factureNumber}`;
       },
       error: (err) => {
-        console.error('Erreur lors de la récupération des factures', err);
-        this.factures = [];
         this.reference = `TimeBill-Fac-${dateStr}-1`;
       }
     });
   }
-
   getTotalTTC(): number {
     if (!this.user) return 0;
     if (this.user.leaveBalance > 0)
@@ -166,6 +166,7 @@ export class FactureManagementComponent implements OnInit {
 
     this.factureService.createFacture(facture).subscribe({
       next: (res) => {
+        this.isSave = true;
         console.log('Facture saved:', res);
         this.messageService.add({
           severity: 'success',
@@ -267,6 +268,8 @@ export class FactureManagementComponent implements OnInit {
       return;
     }
 
+
+
     try {
       const element = this.invoiceContent.nativeElement;
 
@@ -320,14 +323,14 @@ export class FactureManagementComponent implements OnInit {
 
       this.factureService.uploadFile(username, pdfFile).subscribe({
         next: (response) => {
-          this.factureUploaded = true; 
-
+          this.factureUploaded = true;
           this.messageService.add({
             severity: 'success',
             summary: this.translate.instant('success.title'),
             detail: this.translate.instant('FACTURE.UPLOADED_SUCCESS')
           });
         },
+
         error: (err) => {
           console.error('Error uploading facture file', err);
 

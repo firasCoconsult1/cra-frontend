@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TableModule } from 'primeng/table';
 import { InputTextModule } from 'primeng/inputtext';
+import { DropdownModule } from 'primeng/dropdown';
 
 import { TagModule } from 'primeng/tag';
 import { PaginatorModule } from 'primeng/paginator';
@@ -21,14 +22,12 @@ import { FactureService } from '../facture-management/Facture-service/facture.se
 import { Facture, FactureStatus } from '../facture-management/model/facture';
 import { User } from '../profile/model/user';
 import { ProfileService } from '../profile/profile/profile.service';
-import { ResourceManagementService } from '../resource-management/service/resource-management.service';
 import { forkJoin } from 'rxjs';
-import { stat } from 'fs';
 
 
 @Component({
   selector: 'app-factures',
-  imports: [TabsModule, TooltipModule, TranslateModule, ButtonModule, ToolbarModule, ToastModule, DatePickerModule, FormsModule, TableModule, TagModule, PaginatorModule, CommonModule, InputTextModule],
+  imports: [DropdownModule, TabsModule, TooltipModule, TranslateModule, ButtonModule, ToolbarModule, ToastModule, DatePickerModule, FormsModule, TableModule, TagModule, PaginatorModule, CommonModule, InputTextModule],
   providers: [MessageService, ConfirmationService, TranslateService],
   templateUrl: './factures.component.html',
   styleUrl: './factures.component.scss'
@@ -38,13 +37,24 @@ export class FacturesComponent implements OnInit {
   selectedFacture: Facture | null = null;
   userId: number;
   searchTerm: string = '';
+  driveSearchTerm: string = '';
+  driveSearchResults: any[] = [];
+  driveSearchDone: boolean = false;
+  searchMode: 'drive' | 'user' = 'drive';
+ 
+
 
   userMap: { [userId: number]: User } = {};
   constructor(private messageService: MessageService, private router: Router, private factureService: FactureService, private translate: TranslateService, private profileService: ProfileService) { }
   ngOnInit(): void {
     this.getFactures();
+ 
 
   }
+  
+
+  
+
 
   getFactures() {
     this.factureService.getFactures(0, 10).subscribe({
@@ -72,7 +82,7 @@ export class FacturesComponent implements OnInit {
   }
 
   getUsername(userId: number): string {
-    return this.userMap[userId]?.username || '—';
+    return this.userMap[userId]?.fullname || '—';
   }
 
   getMonthName(year: number, month: number): string {
@@ -159,7 +169,7 @@ export class FacturesComponent implements OnInit {
                 this.userMap[user.id] = user;
                 console.log('User', user);
               });
-              
+
 
               this.messageService.add({
                 severity: 'info',
@@ -194,7 +204,18 @@ export class FacturesComponent implements OnInit {
       }
     });
   }
- 
+
+  searchDriveFactures() {
+    if (!this.driveSearchTerm?.trim()) {
+      return;
+    }
+
+    const facturesFolderId = '124OH-sDQ6aHUSP2BzaJtltSgbfJR43ug'; 
+    const searchQuery = `${this.driveSearchTerm} parent:${facturesFolderId}`;
+    const url = `https://drive.google.com/drive/search?q=${encodeURIComponent(searchQuery)}`;
+
+    window.open(url, '_blank');
+  }
 
 
 }
