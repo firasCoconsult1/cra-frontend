@@ -11,6 +11,7 @@ export interface NavigationItem {
   external?: boolean;
   target?: boolean;
   breadcrumbs?: boolean;
+  permission?: string | string[];
 
   children?: NavigationItem[];
 }
@@ -94,6 +95,7 @@ export const NavigationItems: NavigationItem[] = [
             translate: 'nav.absence',
             type: 'item',
             url: '/absence',
+            permission: 'Create Absence',
             icon: 'feather icon-user-x'
           },
           {
@@ -102,6 +104,7 @@ export const NavigationItems: NavigationItem[] = [
             translate: 'nav.frais',
             type: 'item',
             url: '/listeFactures',
+            permission : 'Invoice Management',
             icon: 'feather icon-credit-card'
           }
         ]
@@ -112,6 +115,7 @@ export const NavigationItems: NavigationItem[] = [
     id: 'Admin-panel',
     title: 'Admin Panel',
     translate: 'nav.adminPanel',
+    permission: ['Role Management', 'Resource Management', 'Dashboard Access'],
     type: 'group',
     icon: 'icon-group',
     children: [
@@ -122,6 +126,7 @@ export const NavigationItems: NavigationItem[] = [
         type: 'item',
         url: '/role',
         classes: 'nav-item',
+        permission: 'Role Management',
         icon: 'feather icon-briefcase'
       },
       {
@@ -131,6 +136,8 @@ export const NavigationItems: NavigationItem[] = [
         type: 'item',
         url: '/resource',
         classes: 'nav-item',
+        permission: 'Resource Management',
+
         icon: 'feather icon-users'
       },
       {
@@ -140,6 +147,7 @@ export const NavigationItems: NavigationItem[] = [
         type: 'item',
         url: '/dashboard',
         icon: 'feather icon-bar-chart',
+        permission: 'Dashboard Access',
         classes: 'nav-item',
       }
     ]

@@ -17,7 +17,8 @@ export class AuthService {
   private readonly REFRESH_TOKEN_KEY = 'refreshToken';
   private readonly USER_KEY = 'auth-user';
 
-  private loggedIn = new BehaviorSubject<boolean>(this.isUserLoggedIn());
+  // On initialise le BehaviorSubject selon la présence du token
+  private loggedIn = new BehaviorSubject<boolean>(this.hasValidToken());
 
   constructor(private http: HttpClient) { }
 
@@ -26,6 +27,7 @@ export class AuthService {
       tap(response => {
         if (response.accessToken && response.refreshToken) {
           this.setToken(response.accessToken, response.refreshToken);
+          this.saveUser(response); // si tu reçois l'utilisateur dans la réponse
         }
       }),
       catchError(this.handleError)
@@ -71,6 +73,7 @@ export class AuthService {
       return;
     }
     localStorage.setItem(this.ACCESS_TOKEN_KEY, accessToken);
+    this.loggedIn.next(true); // <-- Ajouté pour garder l'état à jour
   }
 
   getAccessToken(): string | null {
@@ -84,16 +87,12 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem(this.ACCESS_TOKEN_KEY);
     localStorage.removeItem(this.REFRESH_TOKEN_KEY);
-    this.clean();
+    localStorage.removeItem(this.USER_KEY);
+    this.loggedIn.next(false);
   }
 
   get isLoggedIn() {
     return this.loggedIn.asObservable();
-  }
-
-  clean(): void {
-    window.localStorage.clear();
-    this.loggedIn.next(false);
   }
 
   saveUser(user: any): void {
@@ -106,8 +105,9 @@ export class AuthService {
     return user ? JSON.parse(user) : null;
   }
 
-  private isUserLoggedIn(): boolean {
-    return !!window.localStorage.getItem(this.USER_KEY);
+  private hasValidToken(): boolean {
+    // Vérifie juste la présence du token (tu peux améliorer pour vérifier la validité)
+    return !!localStorage.getItem(this.ACCESS_TOKEN_KEY);
   }
 
   isTokenExpired(): boolean {
@@ -142,14 +142,11 @@ export class AuthService {
 
   private handleError(error: HttpErrorResponse): Observable<never> {
     if (error.status === 401 || error.status === 404) {
-
       return throwError(() => new Error('Invalid credentials'));
     } else {
-
       return throwError(() => new Error('Something went wrong; please try again later.'));
     }
   }
-
 
   getCurrentUser(): Observable<User> {
     return this.http.get<User>(`${this.apiUrl}/current-user`);
@@ -171,5 +168,4 @@ export class AuthService {
     const data = { username, password, confirmPassword };
     return this.http.put(`${this.apiUrl}/create-account?token=${token}`, data);
   }
-
 }

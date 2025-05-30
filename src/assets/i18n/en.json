@@ -318,7 +318,9 @@
         "VIEW_FACTURE": "View invoice",
         "PAID_SUCCESS": "Invoice paid successfully!",
         "PAYMENT_FAILED": "Invoice payment failed!",
-        "ALREADY_UPLOADED": "This invoice has already been uploaded."
+        "ALREADY_UPLOADED": "This invoice has already been uploaded.",
+        "ALREADY_EXISTS": "Invoice already exists for this CRA."
+
     },
     "CRA_STATISTICS": "Cras by status",
     "ABSENCES_STATISTICS": "Absences by status",
@@ -331,4 +333,5 @@
     "search.user": "Search by user...",
     "No results found in Drive.": "No results found in Drive.",
     "DOWNLOAD_UPLOAD": "Download / Upload"
+  
 }

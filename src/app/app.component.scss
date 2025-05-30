@@ -1,19 +1,19 @@
 .language-dropdown-wrapper {
-  
-  position: fixed;
-  width: 100%;
-  z-index: 9999;
-  top: 20px;
-  
+  position: fixed !important;
+  top: 20px !important;
+  right: 60px !important;
+  z-index: 9999 !important;
+  width: auto !important;
+  background: transparent;
+  pointer-events: none;
 
-  .left {
-    position: absolute;
-    left: 20px;
-  }
-
+  .left,
   .right {
-    position: absolute;
-    right: 60px;
-    top: -5px;
+    pointer-events: auto;
   }
+}
+app-root, .main-content, .wrapper {
+  transform: none !important;
+  overflow: visible !important;
+  position: static !important;
 }

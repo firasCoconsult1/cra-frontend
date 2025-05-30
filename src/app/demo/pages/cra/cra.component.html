@@ -1,12 +1,11 @@
 <p-toast></p-toast>
-
 <div class="card">
   <p-tabs value="0">
     <p-tablist>
-      <p-tab value="0">{{ 'Mes_CRA' | translate }}</p-tab>
-      <p-tab value="1">{{ 'Validation_List' | translate }}</p-tab>
-      <p-tab value="2">{{ 'MES_ABSENCES' | translate }}</p-tab>
-      <p-tab value="3">{{ 'Absence_List' | translate }}</p-tab>
+      <p-tab value="0" *ngIf="permissionsLoaded && roleService.hasPermission('View CRA')">{{ 'Mes_CRA' | translate }}</p-tab>
+      <p-tab value="1" *ngIf="permissionsLoaded && roleService.hasPermission('Validate CRA')">{{ 'Validation_List' | translate }}</p-tab>
+      <p-tab value="2" *ngIf="permissionsLoaded && roleService.hasPermission('View Absence')">{{ 'MES_ABSENCES' | translate }}</p-tab>
+      <p-tab value="3" *ngIf="permissionsLoaded && roleService.hasPermission('Validate Absence')">{{ 'Absence_List' | translate }}</p-tab>
 
 
     </p-tablist>
@@ -115,7 +114,7 @@
       </p-tabpanel>
 
 
-      <p-tabpanel value="3">
+      <p-tabpanel value="3" >
         <div class="card" *ngIf="listAbsences.length > 0 ">
           <p-table [value]="listAbsences" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5, 10, 20]"
             [tableStyle]="{ 'min-width': '50rem' }" selectionMode="single" [(selection)]="selectedAbsenceToValidate"

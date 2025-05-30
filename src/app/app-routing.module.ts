@@ -3,6 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { AdminComponent } from './theme/layout/admin/admin.component';
 import { GuestComponent } from './theme/layout/guest/guest.component';
 import { AuthGuard } from './demo/pages/authentication/auth.guard';
+import { permission } from 'process';
+import { PermissionGuard } from './demo/pages/authentication/interceptors/permission.guard';
 
 
 const routes: Routes = [
@@ -18,40 +20,43 @@ const routes: Routes = [
       {
         path: 'dashboard',
         loadComponent: () => import('./demo/dashboard/dashboard.component').then((c) => c.DashboardComponent),
-        //canActivate: [AuthGuard],
+        canActivate: [AuthGuard],
+        data: {permission: 'Dashboard Access'}
       },
       {
         path: 'accueil',
         loadComponent: () => import('./demo/accueil/accueil.component').then((c) => c.AcceuilComponent),
-        //canActivate: [AuthGuard],
+        canActivate: [AuthGuard],
       },
 
       {
         path: 'settings',
         loadComponent: () => import('./demo/pages/settings/settings.component').then((c) => c.SettingsComponent),
-        //canActivate: [AuthGuard],
+        canActivate: [AuthGuard],
       },
       {
         path: 'cra',
         loadComponent: () => import('./demo/pages/cra/cra.component').then((c) => c.CraComponent),
-        //canActivate: [AuthGuard],
+        canActivate: [AuthGuard],
       },
       {
         path: 'profile',
         loadComponent: () => import('./demo/pages/profile/profile.component').then((c) => c.ProfileComponent),
-        // canActivate: [AuthGuard],
+        canActivate: [AuthGuard],
 
       },
       {
         path: 'role',
         loadComponent: () => import('./demo/pages/role-management/role-management.component').then((c) => c.RoleManagementComponent),
-        //  canActivate: [AuthGuard],
+        canActivate: [AuthGuard],
+        data: {permission: 'Role Management'}
 
       },
       {
         path: 'resource',
         loadComponent: () => import('./demo/pages/resource-management/resource-management.component').then((c) => c.ResourceManagementComponent),
-        //   canActivate: [AuthGuard],
+         canActivate: [AuthGuard],
+         data: {permission: 'Resource Management'}
 
       },
       {
@@ -61,24 +66,26 @@ const routes: Routes = [
       {
         path: 'mes-cras',
         loadComponent: () => import('./demo/pages/mes-cras/mes-cras.component').then((c) => c.MesCrasComponent),
-        //   canActivate: [AuthGuard],
+        canActivate: [AuthGuard],
 
       },
       {
         path: 'absence',
         loadComponent: () => import('./demo/pages/absences-management/absences-management.component').then((c) => c.AbsencesManagementComponent),
-        //   canActivate: [AuthGuard],
+        canActivate: [AuthGuard , PermissionGuard],
+        data: {permission: 'Create Absence'}
 
       },
       {
         path: 'facture',
         loadComponent : () => import('./demo/pages/facture-management/facture-management.component').then((c) => c.FactureManagementComponent),
-        //   canActivate: [AuthGuard],
+        canActivate: [AuthGuard],
       },
        {
         path: 'listeFactures',
         loadComponent : () => import('./demo/pages/factures/factures.component').then((c) => c.FacturesComponent),
-        //   canActivate: [AuthGuard],
+        canActivate: [AuthGuard],
+        data: {permission: 'Invoice Management'}
       }
 
     ]

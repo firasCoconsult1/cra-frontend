@@ -19,6 +19,7 @@ import { AbsenceService } from '../absences-management/services/absence-service.
 import { Absence } from '../absences-management/model/absence';
 import { TranslateService } from '@ngx-translate/core';
 import { NgbTimepickerI18nDefault } from '@ng-bootstrap/ng-bootstrap/timepicker/timepicker-i18n';
+import { RoleServiceService } from '../role-management/role/role-service.service';
 
 
 
@@ -39,7 +40,23 @@ import { NgbTimepickerI18nDefault } from '@ng-bootstrap/ng-bootstrap/timepicker/
 
 })
 export class CraComponent implements OnInit {
+  permissionsLoaded = false;
+
   ngOnInit(): void {
+   this.roleService.permissionsLoaded$.subscribe(loaded => {
+      this.permissionsLoaded = loaded;
+      console.log('Permissions loaded:', loaded);
+      if (loaded) {
+        console.log('User permissions:', this.roleService.getUserPermissions());
+        console.log('Has Validate Absence permission:', this.roleService.hasPermission('Validate Absence'));
+      }
+    });
+
+    // Si les permissions ne sont pas encore chargées, les charger
+    if (!this.permissionsLoaded) {
+      this.roleService.loadCurrentUserPermissions();
+    }
+
     this.getCrasByConnectedUser();
     this.getAllSendedCras();
     this.getAllAbsences();
@@ -59,7 +76,7 @@ export class CraComponent implements OnInit {
   activeTabIndex: number = 0;
 
 
-  constructor(private router: Router, private craService: CrasService, private absenceService: AbsenceService, private translate: TranslateService) { }
+  constructor(private router: Router, private craService: CrasService, private absenceService: AbsenceService, private translate: TranslateService , public roleService: RoleServiceService) { }
 
   onDateSelected() {
     if (this.selectedDate) {

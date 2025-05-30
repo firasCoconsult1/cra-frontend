@@ -7,6 +7,7 @@ import { environment } from 'src/environments/environment';
 import { NavigationItem, NavigationItems } from '../navigation';
 import { SharedModule } from 'src/app/theme/shared/shared.module';
 import { NavGroupComponent } from './nav-group/nav-group.component';
+import { RoleServiceService } from 'src/app/demo/pages/role-management/role/role-service.service';
 
 @Component({
   selector: 'app-nav-content',
@@ -16,6 +17,7 @@ import { NavGroupComponent } from './nav-group/nav-group.component';
 })
 export class NavContentComponent {
   private location = inject(Location);
+
 
   // public method
   // version
@@ -27,10 +29,36 @@ export class NavContentComponent {
   windowWidth = window.innerWidth;
 
   NavCollapsedMob = output();
+    ngOnInit(): void {
+    this.roleService.loadCurrentUserPermissions();
+    this.roleService.permissionsLoaded$.subscribe(loaded => {
+      if (loaded) {
+        this.navigations = this.filterNavigationItems(NavigationItems);
+      }
+    });
+  }
 
   // constructor
-  constructor() {
-    this.navigations = NavigationItems;
+  constructor(public roleService: RoleServiceService) {
+    this.navigations = this.filterNavigationItems(NavigationItems);
+
+  }
+
+   filterNavigationItems(items: NavigationItem[]): NavigationItem[] {
+    return items
+      .filter(item => {
+        if (!item.permission) return true;
+        if (Array.isArray(item.permission)) {
+          // Affiche si l'utilisateur a AU MOINS UNE des permissions
+          return item.permission.some(p => this.roleService.hasPermission(p));
+          // Pour exiger TOUTES les permissions, utilise .every() à la place de .some()
+        }
+        return this.roleService.hasPermission(item.permission);
+      })
+      .map(item => ({
+        ...item,
+        children: item.children ? this.filterNavigationItems(item.children) : undefined
+      }));
   }
 
   fireOutClick() {

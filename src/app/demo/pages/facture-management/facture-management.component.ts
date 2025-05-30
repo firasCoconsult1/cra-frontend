@@ -161,13 +161,15 @@ export class FactureManagementComponent implements OnInit {
       montantTotal: this.getTotalTTC(),
       userId: this.user.id,
       status: FactureStatus.NON_PAYE,
-      craId: this.craId
+      craId: this.craId,
+      isSave: true
     };
 
     this.factureService.createFacture(facture).subscribe({
       next: (res) => {
         this.isSave = true;
         console.log('Facture saved:', res);
+        this.isSave= facture.isSave;
         this.messageService.add({
           severity: 'success',
           summary: this.translate.instant('success.title'),
@@ -178,9 +180,9 @@ export class FactureManagementComponent implements OnInit {
       error: (err) => {
         console.error('Error saving facture:', err);
         this.messageService.add({
-          severity: 'error',
-          summary: this.translate.instant('error.title'),
-          detail: this.translate.instant('FACTURE.CREATION_FAILED')
+          severity: 'warn',
+          summary: this.translate.instant('warning'),
+          detail: this.translate.instant('FACTURE.ALREADY_EXISTS')
         });
       }
     });

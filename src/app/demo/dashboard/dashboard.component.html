@@ -1,31 +1,75 @@
 <div class="dashboard-container">
+
+
   <div class="p-grid">
-    <div class="p-col-12 p-md-6 small-chart">
-      <p-card header="{{ 'CRA_STATISTICS' | translate }}">
-        <p-chart type="pie" [data]="craStatusChartData"></p-chart>
-      </p-card>
-    </div>
-    <div class="p-col-12 p-md-6 small-chart">
-      <p-card header="{{ 'ABSENCES_STATISTICS' | translate }}">
-        <p-chart type="doughnut" [data]="absenceStatusChartData"></p-chart>
-      </p-card>
-    </div>
-
-    <div class="p-col-12 p-md-6 small-chart">
-      <p-card header="{{ 'INVOICES_STATISTICS' | translate }}">
-        <p-chart type="doughnut" [data]="factureByStatusChartData"></p-chart>
-      </p-card>
-    </div>
-    <div class="p-col-12 p-md-6 small-chart">
-      <p-card header="{{ 'USER_STATISTICS' | translate }}">
-        <p-chart type="bar" [data]="userStatusChartData" [options]="userStatusChartOptions"></p-chart>
-      </p-card>
-    </div>
+    <div class="p-col-6 chart-card">
+      <div class="modern-card">
+        <div class="card-header">
+          <h3 class="card-title">{{ 'CRA_STATISTICS' | translate }}</h3>
+          <div class="card-icon evolution-icon">
+            <i class="pi pi-chart-pie"></i>
+          </div>
+        </div>
+        <div class="chart-container">
+          <p-chart type="pie" [data]="craStatusChartData"></p-chart>
+        </div>
+      </div>
     </div>
 
-    <div class="p-col-12 line-full-width">
-      <p-card header="{{ 'evolution_factures_absences_cras' | translate }}">
-        <p-chart type="line" [data]="lineChartData" [options]="lineChartOptions"></p-chart>
-      </p-card>
+    <div class="p-col-6 chart-card">
+      <div class="modern-card">
+        <div class="card-header">
+          <h3 class="card-title">{{ 'ABSENCES_STATISTICS' | translate }}</h3>
+          <div class="card-icon evolution-icon">
+            <i class="pi pi-calendar-times"></i>
+          </div>
+        </div>
+        <div class="chart-container">
+          <p-chart type="doughnut" [data]="absenceStatusChartData"></p-chart>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-col-6 chart-card">
+      <div class="modern-card">
+        <div class="card-header">
+          <h3 class="card-title">{{ 'INVOICES_STATISTICS' | translate }}</h3>
+          <div class="card-icon evolution-icon">
+            <i class="pi pi-file-excel"></i>
+          </div>
+        </div>
+        <div class="chart-container">
+          <p-chart type="doughnut" [data]="factureByStatusChartData"></p-chart>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-col-6 chart-card">
+      <div class="modern-card">
+        <div class="card-header">
+          <h3 class="card-title">{{ 'USER_STATISTICS' | translate }}</h3>
+          <div class="card-icon evolution-icon">
+            <i class="pi pi-users"></i>
+          </div>
+        </div>
+        <div class="chart-container">
+          <p-chart type="bar" [data]="userStatusChartData" [options]="userStatusChartOptions"></p-chart>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-col-6 chart-card">
+      <div class="modern-card ">
+        <div class="card-header">
+          <h3 class="card-title">{{ 'evolution_factures_absences_cras' | translate }}</h3>
+          <div class="card-icon evolution-icon">
+            <i class="pi pi-chart-line"></i>
+          </div>
+        </div>
+        <div class=" line-chart-container">
+          <p-chart type="line" [data]="lineChartData" [options]="lineChartOptions"></p-chart>
+        </div>
+      </div>
     </div>
   </div>
+</div>

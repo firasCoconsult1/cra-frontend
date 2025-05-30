@@ -30,7 +30,7 @@ export class ForgotPasswordComponent {
             this.translate.instant('forgot.success'),
             this.translate.instant('forgot.successTitle')
           );
-          this.router.navigate(['/auth/reset-password']);
+        //  this.router.navigate(['/auth/reset-password']);
         },
         error: (error) => {
           this.toastr.error(

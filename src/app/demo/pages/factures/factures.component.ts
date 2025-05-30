@@ -16,18 +16,19 @@ import { DropdownModule } from 'primeng/dropdown';
 
 import { TagModule } from 'primeng/tag';
 import { PaginatorModule } from 'primeng/paginator';
-
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { TranslateService } from '@ngx-translate/core';
 import { FactureService } from '../facture-management/Facture-service/facture.service';
 import { Facture, FactureStatus } from '../facture-management/model/facture';
 import { User } from '../profile/model/user';
 import { ProfileService } from '../profile/profile/profile.service';
 import { forkJoin } from 'rxjs';
+import { reference } from '@popperjs/core';
 
 
 @Component({
   selector: 'app-factures',
-  imports: [DropdownModule, TabsModule, TooltipModule, TranslateModule, ButtonModule, ToolbarModule, ToastModule, DatePickerModule, FormsModule, TableModule, TagModule, PaginatorModule, CommonModule, InputTextModule],
+  imports: [ConfirmDialogModule,DropdownModule, TabsModule, TooltipModule, TranslateModule, ButtonModule, ToolbarModule, ToastModule, DatePickerModule, FormsModule, TableModule, TagModule, PaginatorModule, CommonModule, InputTextModule],
   providers: [MessageService, ConfirmationService, TranslateService],
   templateUrl: './factures.component.html',
   styleUrl: './factures.component.scss'
@@ -45,7 +46,7 @@ export class FacturesComponent implements OnInit {
 
 
   userMap: { [userId: number]: User } = {};
-  constructor(private messageService: MessageService, private router: Router, private factureService: FactureService, private translate: TranslateService, private profileService: ProfileService) { }
+  constructor(private messageService: MessageService, private router: Router, private factureService: FactureService, private translate: TranslateService, private profileService: ProfileService, private confirmationService: ConfirmationService) { }
   ngOnInit(): void {
     this.getFactures();
  
@@ -216,6 +217,8 @@ export class FacturesComponent implements OnInit {
 
     window.open(url, '_blank');
   }
+
+
 
 
 }

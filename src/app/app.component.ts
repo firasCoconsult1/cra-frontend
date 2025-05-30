@@ -47,4 +47,6 @@ export class AppComponent implements OnInit {
   private checkRoute(url: string) {
     this.isAuthRoute = url.includes('/auth');
   }
+
+  
 }

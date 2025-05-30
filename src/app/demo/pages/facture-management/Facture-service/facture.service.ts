@@ -33,9 +33,7 @@ export class FactureService {
     return this.http.put<Facture>(`${this.apiUrl}/${id}`, facture);
   }
 
-  deleteFacture(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
-  }
+  
 
 
   downloadFacture(id: number): Observable<Blob> {
@@ -65,6 +63,9 @@ export class FactureService {
 
   searchFacturesInDrive(query: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/drive/search?q=${encodeURIComponent(query)}`);
+  }
+  deleteFacture(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/delete/${id}`);
   }
 
 }

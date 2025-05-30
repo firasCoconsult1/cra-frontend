@@ -318,7 +318,8 @@
         "PAID_SUCCESS": "Facture payée avec succès !",
         "PAYMENT_FAILED": "Le paiement de la facture a échoué !",
         "UPLOADED_SUCCESS": "Facture téléchargée avec succès !",
-        "ALREADY_UPLOADED": "Une facture a déjà été téléchargée ."
+        "ALREADY_UPLOADED": "Une facture a déjà été téléchargée .",
+        "ALREADY_EXISTS": "La facture existe déjà pour ce CRA."
     },
     "CRA_STATISTICS": "Cras par statut",
     "ABSENCES_STATISTICS": "Absences par statut",
@@ -330,5 +331,6 @@
     "search.drive": "Recherche dans le drive...",
     "search.user": "Recherche par utilisateur...",
     "No results found in Drive.": "Aucun résultat trouvé dans le Drive.",
-     "DOWNLOAD_UPLOAD": "Télécharger / Télécharger sur Drive"
+    "DOWNLOAD_UPLOAD": "Télécharger / Télécharger sur Drive"
+    
 }

@@ -1,7 +1,6 @@
 // angular import
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Card } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 // project import
 import { SharedModule } from 'src/app/theme/shared/shared.module';
@@ -13,12 +12,11 @@ import { ChartModule } from 'primeng/chart';
 import { CrasService } from '../pages/cra/cra-service/cras.service';
 import { AbsenceService } from '../pages/absences-management/services/absence-service.service';
 import { FactureService } from '../pages/facture-management/Facture-service/facture.service';
-import { ProfileService } from '../pages/profile/profile/profile.service';
 import { ResourceManagementService } from '../pages/resource-management/service/resource-management.service';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [ChartModule, CommonModule, SharedModule, Card, ButtonModule, RouterModule, TranslateModule],
+  imports: [ChartModule, CommonModule, SharedModule, ButtonModule, RouterModule, TranslateModule],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })

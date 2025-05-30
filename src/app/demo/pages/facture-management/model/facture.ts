@@ -8,6 +8,7 @@ export interface Facture {
     reference: string;
     userId: number;
     craId: number;
+    isSave: boolean;
 }
 
 export enum FactureStatus {
